@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
@@ -56,34 +56,38 @@ position: absolute;
 
 
 const formSchema = yup.object().shape({
-    usertype: yup.string().required('Type of user is required'),
-    username: yup.string().required('User name is required').min(3, 'Requires 3 letters minimum'),
-    email: yup.string().email('Must be a valid email address').required('Must include email address'),
+    usertype: yup.string().required('Type of user is required.'),
+    username: yup.string().required('User name is required.').min(3, 'Requires 3 letters minimum.'),
+    email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
-        .required('Password is required')
-        .min(8, 'Password must be at least 8 characters, contain Uppercase and special character')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/,
-            'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
-    confirmpassword: yup.string().required('Must match password'),
-    terms: yup.boolean().oneOf([true], 'Please agree to terms of use'),
+        .required('Password is required.')
+        .min(8, 'Password must be at least 8 characters, contain Uppercase and special character.')
+        .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+            'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.'),
+    // confirmpassword: yup.string().oneOf([yup.ref('password'), null], 'Your passwords do not match.'),
+    terms: yup.boolean().oneOf([true], 'Please agree to terms of use.'),
 });
 
 
+
+
+
 const NewAccountForm = () => {
-    // const history = useHistory();
+    const navigate = useNavigate();
 
     const [newAccount, setNewAccount] = useState({
         usertype: "",
         username: "",
         email: "",
         password: "",
-        confirmpassword: "",
+        // confirmpassword: "",
         terms: false,
     });
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
     useEffect(() => {
+        console.log(newAccount)
         formSchema.isValid(newAccount).then((valid) => {
             setButtonDisabled(!valid);
         });
@@ -94,26 +98,30 @@ const NewAccountForm = () => {
         username: "",
         email: "",
         password: "",
-        confirmpassword: "",
+        // confirmpassword: "",
         terms: "",
     });
+
     const [showPassword, setShowPassword] = useState(false);
 
-    const toggleShowPassword = () => {
+
+    const toggleShowPassword = (e) => {
+        e.preventDefault();
         setShowPassword(!showPassword);
     }
 
     const validate = (e) => {
         let value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        yup.reach(formSchema, e.target.name).validate(e.target.value)
+        yup.reach(formSchema, e.target.name).validate(value)
             .then(valid => {
+                console.log("validate::valid", valid)
                 setErrorsState({
                     ...errorsState,
                     [e.target.name]: ""
                 });
             })
             .catch(err => {
-                console.log(err.errors)
+                console.log("validate::err", err.errors)
                 setErrorsState({
                     ...errorsState,
                     [e.target.name]: err.errors[0]
@@ -122,7 +130,7 @@ const NewAccountForm = () => {
     };
 
     const changeHandler = (e) => {
-        console.log("new account input changed", e.target.value, e.target.checked)
+        console.log("new account input changed", e.target.value, e.target.type)
         e.persist();
         validate(e);
         let value = e.target.type === "checkbox" ? e.target.checked : e.target.value
@@ -194,7 +202,7 @@ const NewAccountForm = () => {
                         name="password"
                         value={newAccount.password}
                         onChange={changeHandler}
-                        placeholder="Password"
+                        placeholder="Create Password"
                     />
                     <ToggleButton onClick={toggleShowPassword}>
                         {showPassword ? 'Hide' : "Show"}
@@ -204,21 +212,18 @@ const NewAccountForm = () => {
                         : null}
                 </PasswordContainer>
 
-                <PasswordContainer>
+                {/* <PasswordContainer>
                     <AccountInput
                         type={showPassword ? "text" : "password"}
                         name="confirmpassword"
                         value={newAccount.confirmpassword}
                         onChange={changeHandler}
                         placeholder="Confrim Password"
-                    />
-                    <ToggleButton onClick={toggleShowPassword}>
-                        {showPassword ? 'Hide' : "Show"}
-                    </ToggleButton>
+                    />             
                     {errorsState.confirmpassword.length > 0 ?
                         (<ErrorStatement>{errorsState.confirmpassword}</ErrorStatement>)
                         : null}
-                </PasswordContainer>
+                </PasswordContainer> */}
 
                 <label htmlFor="terms">
                     <input type="checkbox"
@@ -234,7 +239,7 @@ const NewAccountForm = () => {
 
                 </label>
 
-                <AccountButton Link to="/SignInForm" disabled={buttonDisabled} >Create Account</AccountButton>
+                <AccountButton disabled={buttonDisabled} >Create Account</AccountButton>
             </AccountForm>
         </AccountCard>
     )
