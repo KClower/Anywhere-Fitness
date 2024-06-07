@@ -57,7 +57,7 @@ const formSchema = yup.object().shape({
     password: yup.string()
         .required('Password is required')
         .min(8, 'Password must be at least 8 characters, contain uppercase, lowercase number and special character')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$/, 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
+        .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character'),
 });
 
 function SignInForm() {
