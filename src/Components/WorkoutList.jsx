@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import workouts from "../dummydata";
+import SearchForm from "./SearchForm";
 import styled from "styled-components";
 
-const WorkoutHeader = styled.h2`
+
+
+const WorkoutHeader = styled.div`
+display: flex;
+justify-content: space-around;
+align-items: center;
 background-color: lightblue;
-padding: 20px 0;
-margin: 0;
-text-align: center;
+padding: 10px 0px;
 `
 
 const WorkoutWrapper = styled.div`
@@ -30,7 +34,10 @@ const WorkoutList = () => {
     // const history = useHistory();
     return (
         <>
-            <WorkoutHeader>Here are the classes available</WorkoutHeader>
+            <WorkoutHeader>
+                <h2>Available Classes</h2>
+                <SearchForm />
+            </WorkoutHeader>
 
             <WorkoutWrapper>
                 {workouts.map(workout => {
