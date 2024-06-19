@@ -4,7 +4,7 @@ export default function JoinClassForm() {
 
 
     return (
-        <h1>Hello World</h1>
+        <h2>Great Choice, you've choosen </h2>
     )
 }
 

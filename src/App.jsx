@@ -29,7 +29,7 @@ function App() {
         <Route path="/NewAccountForm" Component={NewAccountForm} />
         <Route path="/WorkoutList" Component={WorkoutList} />
         <Route path="/WorkoutCard/:id" Component={WorkoutCard} />
-        <Route path="/JoinClassForm/:id" Component={JoinClassForm} />
+        <Route path="/JoinClassForm/" Component={JoinClassForm} />
       </Routes>
 
 

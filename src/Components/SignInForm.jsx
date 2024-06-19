@@ -70,6 +70,7 @@ function SignInForm() {
     });
     const [buttonDisabled, setButtonDisabled] = useState(true);
     useEffect(() => {
+        console.log(credentials)
         formSchema.isValid(credentials).then((valid) => {
             setButtonDisabled(!valid);
         });
@@ -82,7 +83,8 @@ function SignInForm() {
     });
     const [showPassword, setShowPassword] = useState(false);
 
-    const toggleShowPassword = () => {
+    const toggleShowPassword = (e) => {
+        e.preventDefault();
         setShowPassword(!showPassword);
     }
 
@@ -90,13 +92,15 @@ function SignInForm() {
     const validate = (e) => {
         yup.reach(formSchema, e.target.name).validate(e.target.value)
             .then(valid => {
+                console.log("validate::valid", valid)
                 setErrorsState({
                     ...errorsState,
                     [e.target.name]: ""
                 })
             })
             .catch(err => {
-                console.log(err.errors)
+
+                console.log("validate::err", err.errors)
                 setErrorsState({
                     ...errorsState,
                     [e.target.name]: err.errors[0]
@@ -107,7 +111,7 @@ function SignInForm() {
     const changeHandler = (e) => {
 
         console.log(" sign in input changed", e.target.value);
-        // e.presist()
+        e.persist()
         validate(e)
         setCredentials({
             ...credentials,
