@@ -64,6 +64,19 @@ const workouts = [
         maxsize: "20",
         price: "15.00"
     },
+    {
+        id: 6,
+        instructor: "Beth",
+        classname: "Indoor Yoga",
+        classtime: "10am",
+        classdate: "6-22-2024",
+        classtype: "Yoga",
+        duration: "1 hour",
+        intensity: "medium",
+        location: "Planet Fitness",
+        maxsize: "20",
+        price: "15.00"
+    },
 ]
 export default workouts;
 

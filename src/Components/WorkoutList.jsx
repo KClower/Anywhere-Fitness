@@ -32,28 +32,40 @@ cursor: pointer;
 
 
 const WorkoutList = () => {
-    // const history = useHistory();
-    // const [classes, setClasses] = useState(workouts);
-    // const [filteredClasses, setFilteredClasses] = useState()
 
-    // const searchClasses = (searchTerm) => {
-    //     classes.filter(class => {
-    //         return (
+    const [classes, setClasses] = useState(workouts);
+    const [appliedFilters, setAppliedFilters] = useState({
+        classtype: "",
+        instructor: "",
+        intensity: "",
+    })
 
-    //         )
-    //     })
-    // }
+    const noFilterApplied = appliedFilters.classtype === "" && appliedFilters.instructor === "" && appliedFilters.intensity === ""
 
+    const filteredWorkouts = classes.filter((workout) => {
+        // Filter based on search criteria
+        const matchClassType = appliedFilters.classtype === '' || workout.classtype === appliedFilters.classtype;
+        const matchInstructor = appliedFilters.instructor === '' || workout.instructor === appliedFilters.instructor;
+        const matchIntensity = appliedFilters.intensity === '' || workout.intensity === appliedFilters.intensity;
+
+        return matchClassType && matchInstructor && matchIntensity;
+    });
+
+    const searchFilter = (filter) => {
+        setAppliedFilters({ ...appliedFilters, [filter.field]: filter.value })
+    }
+
+    const dataSource = noFilterApplied ? classes : filteredWorkouts
 
     return (
         <>
             <WorkoutHeader>
                 <h2>Available Classes</h2>
-                <SearchForm />
+                <SearchForm searchFilter={searchFilter} />
             </WorkoutHeader>
 
             <WorkoutWrapper>
-                {workouts.map(workout => {
+                {dataSource.map(workout => {
                     return (
                         <WorkoutCard key={workout.id}>
 

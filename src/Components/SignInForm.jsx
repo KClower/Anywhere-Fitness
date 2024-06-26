@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import * as yup from "yup";
 import axios from "axios";
 import { Link } from 'react-router-dom';
-// import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 
 
@@ -61,7 +61,7 @@ const formSchema = yup.object().shape({
 });
 
 function SignInForm() {
-    // const history = useHistory();
+    const navigate = useNavigate();
 
     const [credentials, setCredentials] = useState({
         usertype: "",
@@ -124,10 +124,16 @@ function SignInForm() {
         console.log("sign in form submitted")
         axios
             .post('https://reqres.in/api/users', credentials)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res.data)
+                navigate("/WorkoutList")
+            })
             .catch(err => console.log(err))
     };
 
+    const clickHandler = (e) => {
+
+    }
 
 
 
@@ -179,7 +185,7 @@ function SignInForm() {
                         : null}
                 </PasswordContainer>
 
-                <SignInButton Link to="/WorkoutList" disabled={buttonDisabled}>Sign In</SignInButton>
+                <SignInButton disabled={buttonDisabled}>Sign In</SignInButton>
                 <p>Don't have an Account ? / Create Account <Link to='/NewAccountForm'>Here</Link></p>
             </SigninForm>
         </SignInCard>
