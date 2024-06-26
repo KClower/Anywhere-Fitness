@@ -1,5 +1,5 @@
 import { useState } from "react";
-import workouts from "../dummydata";
+
 import styled from "styled-components";
 
 const SearchLabel = styled.label`
@@ -8,36 +8,51 @@ padding-right: 5px;
 `
 
 export default function SearchForm(props) {
-    const { searchClasses } = props
 
-    const [searchTerm, setSearchTerm] = useState(workouts)
-    const { instructor, classname, intensity } = workouts;
+    const [classType, setClassType] = useState()
+    const [instructor, setInstructor] = useState()
+    const [intensity, setIntensity] = useState()
+    const { searchFilter } = props
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        searchClasses(searchTerm)
-        setSearchTerm("")
-    }
+
+
+
 
     const changeHandler = (e) => {
-        setSearchTerm(e.target.value)
+
+        if (e.target.name === "classType") {
+            setClassType(e.target.value)
+        } else if (e.target.name === "instructor") {
+            setInstructor(e.target.value)
+        } else if (e.target.name === "intensity") {
+            setIntensity(e.target.value)
+        }
+
+        const filter = {
+            field: e.target.name,
+            value: e.target.value,
+        }
+        searchFilter(filter)
     }
+
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+
+            <form>
                 <SearchLabel>Class:</SearchLabel>
+
                 <select
-                    value={classname}
-                    name="classname"
-                    id="classname"
+                    value={classType}
+                    name="classtype"
+                    id="classtype"
                     onChange={changeHandler}
                 >
                     <option value="">--Choose an option--</option>
-                    <option value="classname">Yoga</option>
-                    <option value="classname">Crossfit</option>
-                    <option value="classname">Pilates</option>
-                    <option value="classname">Weight Training</option>
+                    <option value="Yoga">Yoga</option>
+                    <option value="Crossfit">Crossfit</option>
+                    <option value="Pilates">Pilates</option>
+                    <option value="Weight Training">Weight Training</option>
 
                 </select>
                 <SearchLabel>Instructor:</SearchLabel>
@@ -48,11 +63,11 @@ export default function SearchForm(props) {
                     onChange={changeHandler}
                 >
                     <option value="">--Choose an option--</option>
-                    <option value="instructor">Seth</option>
-                    <option value="instructor">Blaze</option>
-                    <option value="instructor">Susan</option>
-                    <option value="instructor">Jason</option>
-                    <option value="instructor">Beth</option>
+                    <option value="Seth">Seth</option>
+                    <option value="Blaze">Blaze</option>
+                    <option value="Susan">Susan</option>
+                    <option value="Jason">Jason</option>
+                    <option value="Beth">Beth</option>
                 </select>
                 <SearchLabel>Intensity:</SearchLabel>
                 <select
@@ -62,9 +77,9 @@ export default function SearchForm(props) {
                     onChange={changeHandler}
                 >
                     <option value="">--Choose an option--</option>
-                    <option value="intensity">Low</option>
-                    <option value="intensity">Medium</option>
-                    <option value="intensity">High</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
 
                 </select>
             </form>

@@ -146,7 +146,7 @@ const NewAccountForm = () => {
         console.log("new account form submitted")
         axios
             .post('https://reqres.in/api/users', newAccount)
-            .then(res => console.log(res))
+            .then(res => console.log(res.data))
             .catch(err => console.log(err))
     };
 
