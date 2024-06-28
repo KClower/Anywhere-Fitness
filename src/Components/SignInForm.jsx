@@ -25,13 +25,15 @@ margin-bottom: 10px;
 `
 
 const SignInInput = styled.input`
+position: relative;
 padding: 10px 5px;
 margin-bottom: 10px;
-width: 98%
+width: 100%;
 `
 const SignInButton = styled.button`
 padding: 10px 0; 
 cursor: pointer;
+
 `
 const ErrorStatement = styled.p`
 margin-top: 0;

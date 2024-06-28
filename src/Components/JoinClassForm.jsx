@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import styled from "styled-components";
 
-const JoinForm = styled.div`
+const JoinForm = styled.form`
 display: flex;
 justify-content: center;
 flex-direction: column;
