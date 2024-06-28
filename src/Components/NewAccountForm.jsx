@@ -29,7 +29,7 @@ margin-bottom: 10px;
 const AccountInput = styled.input`
 padding: 10px 5px;
 margin-bottom: 10px;
-width: 96.5%
+width: 98%
 `
 const AccountButton = styled.button`
 margin-top: 20px;
@@ -48,7 +48,7 @@ position: relative;
 const ToggleButton = styled.button`
 position: absolute;
   right: 5px;
-  transform: translateY(-220%);
+  transform: translateY(80%);
   background: none;
   border: none;
   cursor: pointer;
@@ -148,6 +148,7 @@ const NewAccountForm = () => {
             .post('https://reqres.in/api/users', newAccount)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
+        navigate("/WorkoutList")
     };
 
 

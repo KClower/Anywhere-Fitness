@@ -6,6 +6,7 @@ import NewAccountForm from "./Components/NewAccountForm";
 import WorkoutList from './Components/WorkoutList';
 import WorkoutCard from './Components/WorkoutCard';
 import JoinClassForm from './Components/JoinClassForm';
+import ThankYou from './Components/ThankYouPage';
 
 
 
@@ -29,7 +30,8 @@ function App() {
         <Route path="/NewAccountForm" Component={NewAccountForm} />
         <Route path="/WorkoutList" Component={WorkoutList} />
         <Route path="/WorkoutCard/:id" Component={WorkoutCard} />
-        <Route path="/JoinClassForm/" Component={JoinClassForm} />
+        <Route path="/JoinClassForm" Component={JoinClassForm} />
+        <Route path="/ThankYouPage" Component={ThankYou} />
       </Routes>
 
 
