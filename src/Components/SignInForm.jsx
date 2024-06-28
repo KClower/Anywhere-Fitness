@@ -27,7 +27,7 @@ margin-bottom: 10px;
 const SignInInput = styled.input`
 padding: 10px 5px;
 margin-bottom: 10px;
-width: 96.5%
+width: 98%
 `
 const SignInButton = styled.button`
 padding: 10px 0; 
@@ -45,7 +45,7 @@ position: relative;
 const ToggleButton = styled.button`
 position: absolute;
   right: 5px;
-  transform: translateY(-220%);
+  transform: translateY(80%);
   background: none;
   border: none;
   cursor: pointer;
