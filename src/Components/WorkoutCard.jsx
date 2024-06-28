@@ -20,6 +20,10 @@ export default function WorkoutCard() {
     const workout = workouts.find(thing => `${thing.id}` === params.id);
     console.log(workout)
 
+
+
+
+
     return (
         <>
             <SelectedCard className="animate__animated animate__backInLeft">
@@ -34,7 +38,6 @@ export default function WorkoutCard() {
                     <p>Location: {workout.location}</p>
                     <p>Max # of attendies: {workout.maxsize}</p>
                     <JoinClassForm />
-                    <button>Submit Payment</button>
 
                 </div>
 

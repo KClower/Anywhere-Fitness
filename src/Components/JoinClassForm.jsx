@@ -1,6 +1,6 @@
 import { useState } from "react";
-import workouts from "../dummydata";
-import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import styled from "styled-components";
 
 const JoinForm = styled.div`
@@ -15,7 +15,15 @@ const JoinInput = styled.input`
 margin-bottom: 10px;
 `
 
+const JoinButton = styled.button`
+padding: 5px 0; 
+cursor: pointer;
+`
+
+
 export default function JoinClassForm() {
+    const navigate = useNavigate();
+
     const [paymentInfo, setPaymentInfo] = useState({
         name: "",
         cardnumber: "",
@@ -27,17 +35,30 @@ export default function JoinClassForm() {
     const changeHandler = (e) => {
         console.log(" Join Class input changed", e.target.value);
         e.persist()
-        // validate(e)
         setPaymentInfo({
             ...paymentInfo,
             [e.target.name]: e.target.value
         });
     };
 
+
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        console.log("payment form submitted")
+        // axios
+        //     .post('https://reqres.in/api/users', paymentInfo)
+        //     .then(res => {
+        //         console.log(res.data)
+        //         navigate("/ThankYouPage")
+        //     })
+        //     .catch(err => console.log(err))
+    };
+
     return (
         <>
 
-            <JoinForm>
+            <JoinForm onSubmit={submitHandler}>
                 <JoinInput
                     type="text"
                     name="name"
@@ -59,13 +80,16 @@ export default function JoinClassForm() {
                     onChange={changeHandler}
                     placeholder="Expiration Date"
                 />
-                <input
+                <JoinInput
                     type="number"
                     name="code"
                     value={paymentInfo.code}
                     onChange={changeHandler}
                     placeholder="Security Code"
                 />
+
+                <JoinButton>Submit Payment</JoinButton>
+
             </JoinForm>
         </>
     )
