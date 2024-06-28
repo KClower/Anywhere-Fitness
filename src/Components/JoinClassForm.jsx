@@ -46,13 +46,13 @@ export default function JoinClassForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("payment form submitted")
-        // axios
-        //     .post('https://reqres.in/api/users', paymentInfo)
-        //     .then(res => {
-        //         console.log(res.data)
-        //         navigate("/ThankYouPage")
-        //     })
-        //     .catch(err => console.log(err))
+        axios
+            .post('https://reqres.in/api/users', paymentInfo)
+            .then(res => {
+                console.log(res.data)
+                navigate("/ThankYouPage")
+            })
+            .catch(err => console.log(err))
     };
 
     return (
