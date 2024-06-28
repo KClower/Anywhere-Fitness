@@ -131,9 +131,7 @@ function SignInForm() {
             .catch(err => console.log(err))
     };
 
-    const clickHandler = (e) => {
 
-    }
 
 
 
