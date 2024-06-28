@@ -77,6 +77,32 @@ const workouts = [
         maxsize: "20",
         price: "15.00"
     },
+    {
+        id: 7,
+        instructor: "Blaze",
+        classname: "Outdoor Crossfit",
+        classtime: "9am",
+        classdate: "6-21-2024",
+        classtype: "Crossfit",
+        duration: "1 hour",
+        intensity: "medium",
+        location: "Old Settlers Park",
+        maxsize: "10",
+        price: "25.00"
+    },
+    {
+        id: 8,
+        instructor: "Susan",
+        classname: "Pilates",
+        classtime: "8am",
+        classdate: "6-20-2024",
+        classtype: "Pilates",
+        duration: "1 hour",
+        intensity: "high",
+        location: "Anytime Fitness",
+        maxsize: "15",
+        price: "20.00"
+    },
 ]
 export default workouts;
 
