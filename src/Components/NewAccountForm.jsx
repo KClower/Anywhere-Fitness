@@ -24,12 +24,13 @@ flex-direction: column;
 const AccountSelect = styled.select`
 padding: 10px 5px;
 margin-bottom: 10px;
+
 `
 
 const AccountInput = styled.input`
 padding: 10px 5px;
 margin-bottom: 10px;
-width: 96.5%
+width: 100%;
 `
 const AccountButton = styled.button`
 margin-top: 20px;
@@ -43,12 +44,11 @@ color: red;
 `
 const PasswordContainer = styled.div`
 position: relative;
-
 `
 const ToggleButton = styled.button`
 position: absolute;
   right: 5px;
-  transform: translateY(-220%);
+ top: 10px;
   background: none;
   border: none;
   cursor: pointer;
@@ -148,6 +148,7 @@ const NewAccountForm = () => {
             .post('https://reqres.in/api/users', newAccount)
             .then(res => console.log(res.data))
             .catch(err => console.log(err))
+        navigate("/WorkoutList")
     };
 
 
@@ -207,6 +208,8 @@ const NewAccountForm = () => {
                     <ToggleButton onClick={toggleShowPassword}>
                         {showPassword ? 'Hide' : "Show"}
                     </ToggleButton>
+
+
                     {errorsState.password.length > 0 ?
                         (<ErrorStatement>{errorsState.password}</ErrorStatement>)
                         : null}
