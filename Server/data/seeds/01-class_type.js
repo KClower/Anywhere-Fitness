@@ -13,5 +13,6 @@ exports.seed = async function (knex) {
     { name: 'Indoor Pilates' },
     { name: 'Outdoor Pilates' },
     { name: 'Power Lifting' },
+    { name: 'Weight Training' },
   ]);
 };
