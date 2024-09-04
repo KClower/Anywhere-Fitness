@@ -2,9 +2,23 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function (knex) {
+exports.up = async function (knex) {
+    // Check if the extension is already installed
+    const extensionExists = await knex.schema.raw(`
+    SELECT EXISTS(
+      SELECT 1 
+      FROM pg_extension 
+      WHERE extname = 'uuid-ossp'
+    )
+  `);
+
+    // If not installed, install the extension
+    if (!extensionExists.rows[0].exists) {
+        await knex.schema.raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
+    }
     return knex.schema
         .createTable('users', tbl => {
+
             tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
             tbl.string('email')
                 .unique()
@@ -26,18 +40,15 @@ exports.up = function (knex) {
         })
         .createTable('instructor_classes', tbl => {
             tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
-            tbl.integer('instructor_id')
-                .uuid()
+            tbl.uuid('instructor_id')
                 .notNullable()
                 .references('id')
                 .inTable('users');
-            tbl.integer('class_type_id')
-                .uuid()
+            tbl.uuid('class_type_id')
                 .notNullable()
                 .references('id')
                 .inTable('rf_class_type');
-            tbl.integer('intensity_id')
-                .uuid()
+            tbl.uuid('intensity_id')
                 .notNullable()
                 .references('id')
                 .inTable('rf_class_intensity');
@@ -56,13 +67,11 @@ exports.up = function (knex) {
         })
         .createTable('client_classes', tbl => {
             tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
-            tbl.integer('client_id')
-                .uuid()
+            tbl.uuid('client_id')
                 .notNullable()
                 .references('id')
                 .inTable('users');
-            tbl.integer('class_id')
-                .uuid()
+            tbl.uuid('class_id')
                 .notNullable()
                 .references('id')
                 .inTable('instructor_classes');

@@ -4,15 +4,15 @@
  */
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
-  await knex('class_type').truncate()
-  await knex('class_type').insert([
-    { name: 'Indoor Yoga' },
-    { name: 'Outdoor Yoga' },
-    { name: 'Indoor Crossfit' },
-    { name: 'Outdoor Crossfit' },
-    { name: 'Indoor Pilates' },
-    { name: 'Outdoor Pilates' },
-    { name: 'Power Lifting' },
-    { name: 'Weight Training' },
+  await knex('rf_class_type').delete()
+  await knex('rf_class_type').insert([
+    { class_type: 'Indoor Yoga' },
+    { class_type: 'Outdoor Yoga' },
+    { class_type: 'Indoor Crossfit' },
+    { class_type: 'Outdoor Crossfit' },
+    { class_type: 'Indoor Pilates' },
+    { class_type: 'Outdoor Pilates' },
+    { class_type: 'Power Lifting' },
+    { class_type: 'Weight Training' },
   ]);
 };
