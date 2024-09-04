@@ -1,0 +1,49 @@
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// View db diagram: https://dbdiagram.io/d
+
+
+Table users {
+  id uuid [primary key]
+  email varchar
+  password varchar [note: "hashed password"]
+  isInstructor bool
+}
+
+Table rf_class_type {
+  id uuid [primary key]
+  class_type varchar
+}
+
+Table rf_class_intensity {
+  id uuid [primary key]
+  intensity varchar
+}
+
+Table instructor_classes {
+  id uuid
+  instructor_id uuid
+  class_type_id uuid 
+  intensity_id uuid
+
+  class_name varchar
+  start_time timestamp
+  duration bigint
+  location varchar
+  class_size bigint
+  class_capacity bigint
+}
+
+ref: instructor_classes.instructor_id > users.id
+ref: instructor_classes.class_type_id > rf_class_type.id
+ref: instructor_classes.instructor_id > rf_class_intensity.id
+
+Table client_classes {
+  id uuid [primary key]
+  client_id uuid
+  class_id uuid
+}
+
+ref: client_classes.client_id > users.id
+ref: client_classes.class_id > instructor_classes.id

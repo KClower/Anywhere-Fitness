@@ -6,7 +6,7 @@
 module.exports = {
 
   development: {
-    client: 'postgresql',
+    client: 'pg',
     useNullAsDefault: true,
     connection: {
       filename: './data/classes.db3'
