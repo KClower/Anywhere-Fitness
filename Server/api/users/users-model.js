@@ -1,4 +1,4 @@
-const { query } = require('express');
+
 const db = require('../../data/db-config.js');
 
 
