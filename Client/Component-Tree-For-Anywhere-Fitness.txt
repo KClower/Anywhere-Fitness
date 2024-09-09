@@ -1,0 +1,42 @@
+                                                                                                   
+														App
+										(welcome page with pitch and the option to sign in as instructor or client)
+													       /   \
+													      /     \
+												     Instructor     Client 
+												      Sign-in        Sign-in
+										    (username, email, password)    (username, email, password)
+												     /                     \ 
+                             								    Authorization                   \ 
+												    /                        \
+										    CLASS LIST w ability to:           CLASS LIST with ability to:
+				        						  create new class                  Browse Classes
+											   update classes                   choose a class 
+										see names of clients attending                           \ 
+											  /         \                                     \ 
+										         /           \                                     \ 
+							                 UPDATE CLASS FORM          CREATE CLASS FORM                      CLASS CARD
+								     (date, time, duration,           (date, time, duration,                (date, time, duration,
+								   type, intensity, location        type, intensity, location)             type, intensity, location
+									set max class size		set max class size)	               number of attendants)
+									    Delete)             					   Sign-up, Reschedule, Cancel)
+						                               /                                                             /                    \
+									      /							            /		           \
+							     Send Alert Email to clients if Canceled			               PAY FORM               Send email to instructor if canceled
+
+
+
+
+  											   
+				
+
+				Libraries needed:                                             Class List needs to be arranged by date and time
+                                                                                              Type of class can be (yoga, insanity, RIPPED, HIGH, pilates, etc.)
+				* React                                                       Payment due at sign-up  
+				* React-dom
+				* React-Router-dom                                               
+				* Axios
+				* YUP	
+				* Testing (React or Cypress)
+				* Styled components
+				* Context API				     
