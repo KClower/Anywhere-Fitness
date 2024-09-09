@@ -27,7 +27,7 @@ function getInstructorClassById(instructorClassId) {
 
 function create({
     instructor_id,
-    class_type,
+    class_type_id,
     intensity_id,
     class_name,
     start_time,
@@ -36,9 +36,9 @@ function create({
     class_size,
     class_capacity
 }) {
-    db.insert({
+    return db.insert({
         instructor_id,
-        class_type,
+        class_type_id,
         intensity_id,
         class_name,
         start_time,

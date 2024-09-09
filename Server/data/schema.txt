@@ -47,3 +47,5 @@ Table client_classes {
 
 ref: client_classes.client_id > users.id
 ref: client_classes.class_id > instructor_classes.id
+
+

@@ -14,7 +14,7 @@ server.use('/api/intensity', classIntensityRouter);
 server.use('/api/instructor', instructorClasses);
 
 server.get('/', (req, res) => {
-    res.send(`<h2>Welcome to the Anytime Fitness API</h2>`)
+    res.status(200).json(`<h2>Welcome to the Anytime Fitness API</h2>`)
 })
 
 module.exports = server;
