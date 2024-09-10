@@ -9,6 +9,7 @@
     "seed": "knex seed:run",
     "test": "cross-env NODE_ENV=testing jest --watch",
     "test:migrate": "cross-env NODE_ENV=testing knex migrate:latest",
+    "test:migrate-rollback": "cross-env NODE_ENV=testing knex migrate:rollback --all",
     "test:seed": "cross-env NODE_ENV=testing knex seed:run"
   },
   "keywords": [],
