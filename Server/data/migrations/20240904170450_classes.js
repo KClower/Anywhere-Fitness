@@ -29,12 +29,12 @@ exports.up = async function (knex) {
                 .notNullable();
         })
         .createTable('rf_class_type', tbl => {
-            tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
+            tbl.increments("id");
             tbl.string('class_type')
                 .notNullable();
         })
         .createTable('rf_class_intensity', tbl => {
-            tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
+            tbl.increments("id");
             tbl.string('intensity')
                 .notNullable();
         })
@@ -44,11 +44,11 @@ exports.up = async function (knex) {
                 .notNullable()
                 .references('id')
                 .inTable('users');
-            tbl.uuid('class_type_id')
+            tbl.integer('class_type_id')
                 .notNullable()
                 .references('id')
                 .inTable('rf_class_type');
-            tbl.uuid('intensity_id')
+            tbl.integer('intensity_id')
                 .notNullable()
                 .references('id')
                 .inTable('rf_class_intensity');
@@ -56,13 +56,13 @@ exports.up = async function (knex) {
                 .notNullable();
             tbl.timestamp('start_time')
                 .notNullable();
-            tbl.bigint('duration')
+            tbl.integer('duration')
                 .notNullable();
             tbl.string('location')
                 .notNullable();
-            tbl.bigint('class_size')
+            tbl.integer('class_size')
                 .notNullable();
-            tbl.bigint('class_capacity')
+            tbl.integer('class_capacity')
                 .notNullable();
         })
         .createTable('client_classes', tbl => {

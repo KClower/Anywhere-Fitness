@@ -2,7 +2,7 @@
 const db = require('../../data/db-config.js');
 
 module.exports = {
-    find,
+    findAll,
     getAllClassesByInstructorId,
     getInstructorClassById,
     create,
@@ -10,7 +10,7 @@ module.exports = {
     remove
 }
 
-function find() {
+function findAll() {
     return db('instructor_classes')
 }
 
@@ -54,9 +54,10 @@ function create({
         })
 }
 
-function update(instructorClassId, {
+async function update({
+    id,
     instructor_id,
-    class_type,
+    class_type_id,
     intensity_id,
     class_name,
     start_time,
@@ -65,11 +66,11 @@ function update(instructorClassId, {
     class_size,
     class_capacity
 }) {
-    return db('instructor_classes')
-        .where({ id: instructorClassId })
+    const result = await db('instructor_classes')
+        .where({ id })
         .update({
             instructor_id,
-            class_type,
+            class_type_id,
             intensity_id,
             class_name,
             start_time,
@@ -77,10 +78,21 @@ function update(instructorClassId, {
             location,
             class_size,
             class_capacity
-        })
-        .then(() => {
-            return getInstructorClassById(instructorClassId)
-        })
+        }, ["id",
+            "instructor_id",
+            "class_type_id",
+            "intensity_id",
+            "class_name",
+            "start_time",
+            "duration",
+            "location",
+            "class_size",
+            "class_capacity"
+        ])
+
+    console.log("Update result:", result);
+
+    return result[0]
 }
 
 function remove(instructorClassId) {
