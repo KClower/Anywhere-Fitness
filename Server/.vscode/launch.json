@@ -11,10 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\api\\instructorClasses\\scratch.js",
-            "env": {
-                "NODE_ENV": "testing"
-            }
+            "program": "${workspaceFolder}\\index.js",
         },
         {
             "type": "node",

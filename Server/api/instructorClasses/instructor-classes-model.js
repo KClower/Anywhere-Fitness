@@ -10,6 +10,20 @@ module.exports = {
     remove
 }
 
+const instructorClassColumns = [
+    "id",
+    "instructor_id",
+    "class_type_id",
+    "intensity_id",
+    "class_name",
+    "start_time",
+    "duration",
+    "location",
+    "class_size",
+    "class_capacity"
+]
+
+
 function findAll() {
     return db('instructor_classes')
 }
@@ -78,25 +92,16 @@ async function update({
             location,
             class_size,
             class_capacity
-        }, ["id",
-            "instructor_id",
-            "class_type_id",
-            "intensity_id",
-            "class_name",
-            "start_time",
-            "duration",
-            "location",
-            "class_size",
-            "class_capacity"
-        ])
+        }, [...instructorClassColumns])
 
     console.log("Update result:", result);
 
     return result[0]
 }
 
-function remove(instructorClassId) {
-    return db('instructor_classes')
+async function remove(instructorClassId) {
+    const result = await db('instructor_classes')
         .where({ id: instructorClassId })
-        .del()
+        .del([...instructorClassColumns])
+    return result[0]
 }
