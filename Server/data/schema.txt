@@ -49,12 +49,3 @@ ref: client_classes.client_id > users.id
 ref: client_classes.class_id > instructor_classes.id
 
 
-  // if ((!newInstructorClass.class_name && !newInstructorClass.class_name.length),
-    //     !newInstructorClass.class_type_id &&
-    //     !newInstructorClass.intensity_id &&
-    //     !newInstructorClass.start_time &&
-    //     !newInstructorClass.duration &&
-    //     !newInstructorClass.location &&
-    //     !newInstructorClass.class_capacity) {
-    //     return res.status(404).json({ Message: "Please provide all necessary fields." });
-    // }
