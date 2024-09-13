@@ -38,19 +38,18 @@ router.post('/', async (req, res, next) => {
         start_time: Joi.date().iso().required(),
         duration: Joi.number().required().multiple(30).max(120),
         location: Joi.string().required(),
-        class_size: Joi.number().min(1).max(20),
         class_capacity: Joi.number().required().min(1).max(20),
     })
 
     const validationResult = instructorClassSchema.validate(req.body);
     if (validationResult.error) {
-        res.status(422).json({ Message: validationResult.error })
+        return res.status(422).json({ Message: validationResult.error })
     }
-    InstructorClasses.create(validationResult.value)
+    InstructorClasses.create({ ...validationResult.value, class_size: 0 })
         .then(result => {
-            InstructorClasses.getInstructorClassById(result.id)
+            InstructorClasses.getInstructorClassById(result.newInstructorClassId)
                 .then(createdClass => {
-                    res.status(201).json({ Message: "Created new class in database.", createdClass });
+                    return res.status(201).json({ Message: "Created new class in database.", createdClass });
                 });
         })
         .catch(error => {
