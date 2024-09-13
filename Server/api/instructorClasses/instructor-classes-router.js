@@ -7,26 +7,37 @@ const ClassIntensity = require('../classIntensity/rf-class-intensity-model.js');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/classes', (req, res, next) => {
     InstructorClasses.findAll(req.query)
         .then(classes => {
             return res.status(200).json(classes);
         });
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/classes/:id', (req, res, next) => {
     InstructorClasses.getAllClassesByInstructorId(req.params.id)
+        .then(instructorClasses => {
+            res.json(instructorClasses)
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ Message: "Could not find classes with that instructor id" })
+        })
+})
+
+router.get('/class/:id', (req, res, next) => {
+    InstructorClasses.getInstructorClassById(req.params.id)
         .then(instructorClass => {
             res.json(instructorClass)
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "Could not find class with id" })
+            res.status(500).json({ Message: "Could not find class with that id." })
         })
 })
 
 
-router.post('/', async (req, res, next) => {
+router.post('/class', async (req, res, next) => {
     const classtype = await ClassTypes.getLast();
     const classintensity = await ClassIntensity.getLast();
 
@@ -60,9 +71,47 @@ router.post('/', async (req, res, next) => {
 
 
 
+router.put('/class/:id', async (req, res, next) => {
+
+    const classtype = await ClassTypes.getLast();
+    const classintensity = await ClassIntensity.getLast();
+
+    const instructorClassUpdateSchema = Joi.object({
+        instructor_id: Joi.string(),
+        class_name: Joi.string(),
+        class_type_id: Joi.number().min(1).max(classtype.id),
+        intensity_id: Joi.number().min(1).max(classintensity.id),
+        start_time: Joi.date().iso(),
+        duration: Joi.number().multiple(30).max(120),
+        location: Joi.string(),
+        class_capacity: Joi.number().min(1).max(20),
+    })
+
+    const updateValidationResult = instructorClassUpdateSchema.validate(req.body);
+    if (updateValidationResult.error) {
+        return res.status(422).json({ Message: updateValidationResult.error })
+    }
+
+    const id = req.params.id;
+    const foundClass = await InstructorClasses.getInstructorClassById(id);
+    const changes = { ...foundClass, ...updateValidationResult.value };
+
+    InstructorClasses.update(changes)
+        .then(updatedClass => {
+
+            return res.status(200).json(updatedClass);
+
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ Message: "There was an error while updating the class." });
+        })
+
+})
 
 
-router.delete('/:id', (req, res, next) => {
+
+router.delete('/class/:id', (req, res, next) => {
     InstructorClasses.remove(req.params.id)
         .then(count => {
             res.json({ Revmoved: count })
