@@ -31,7 +31,7 @@ router.get('/:id', (req, res, next) => {
         });
 });
 
-router.post('/', (req, res, next) => {
+router.post('/register', (req, res, next) => {
     const newUser = req.body;
     if (!newUser.email || !newUser.password || !newUser.isInstructor) {
         return res.status(404).json({ Message: "Please provide the necessary information." });
