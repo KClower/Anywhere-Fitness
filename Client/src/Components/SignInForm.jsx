@@ -4,54 +4,13 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { AccountFormContainer } from "./AccountFormContainer";
 
 
 
 
-const SignInCard = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-width: 40%;
-margin: 30px auto;
-`
-const SigninForm = styled.form`
-display: flex;
-flex-direction: column;
-`
-const SignInSelect = styled.select`
-padding: 10px 5px;
-margin-bottom: 10px;
-`
 
-const SignInInput = styled.input`
-position: relative;
-padding: 10px 5px;
-margin-bottom: 10px;
-width: 100%;
-`
-const SignInButton = styled.button`
-padding: 10px 0; 
-cursor: pointer;
 
-`
-const ErrorStatement = styled.p`
-margin-top: 0;
-font-size: 1rem;
-color: red;
-`
-const PasswordContainer = styled.div`
-position: relative;
-
-`
-const ToggleButton = styled.button`
-position: absolute;
-  right: 5px;
-  transform: translateY(80%);
-  background: none;
-  border: none;
-  cursor: pointer;
-`
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required'),
@@ -138,7 +97,7 @@ function SignInForm() {
 
 
     return (
-        <SignInCard>
+        <AccountFormContainer>
 
             <SigninForm onSubmit={submitHandler}>
 
@@ -186,13 +145,51 @@ function SignInForm() {
                 </PasswordContainer>
 
                 <SignInButton disabled={buttonDisabled}>Sign In</SignInButton>
-                <p>Don't have an Account ? / Create Account <Link to='/NewAccountForm'>Here</Link></p>
+                <p>Don't have an Account ? / Create Account <Link to='/Register'>Here</Link></p>
             </SigninForm>
-        </SignInCard>
+        </AccountFormContainer>
 
 
     )
 }
+
+const SigninForm = styled.form`
+display: flex;
+flex-direction: column;
+`
+const SignInSelect = styled.select`
+padding: 10px 5px;
+margin-bottom: 10px;
+`
+
+const SignInInput = styled.input`
+position: relative;
+padding: 10px 5px;
+margin-bottom: 10px;
+width: 100%;
+`
+const SignInButton = styled.button`
+padding: 10px 0; 
+cursor: pointer;
+
+`
+const ErrorStatement = styled.p`
+margin-top: 0;
+font-size: 1rem;
+color: red;
+`
+const PasswordContainer = styled.div`
+position: relative;
+
+`
+const ToggleButton = styled.button`
+position: absolute;
+  right: 5px;
+  transform: translateY(80%);
+  background: none;
+  border: none;
+  cursor: pointer;
+`
 
 
 
