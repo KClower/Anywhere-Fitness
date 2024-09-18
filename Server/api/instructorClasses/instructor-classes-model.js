@@ -25,17 +25,53 @@ const instructorClassColumns = [
 
 
 function findAll() {
-    return db('instructor_classes')
+    return db.from({ ic: 'instructor_classes' })
+        .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .select(
+            'i.instructor_name',
+            'ic.instructor_id',
+            'ic.class_type_id',
+            'ic.intensity_id',
+            'ic.class_name',
+            'ic.start_time',
+            'ic.duration',
+            'ic.location',
+            'ic.class_size',
+            'ic.class_capacity')
 }
 
 function getAllClassesByInstructorId(instructor_id) {
-    return db('instructor_classes')
+    return db.from({ ic: 'instructor_classes' })
+        .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .select(
+            'i.instructor_name',
+            'ic.instructor_id',
+            'ic.class_type_id',
+            'ic.intensity_id',
+            'ic.class_name',
+            'ic.start_time',
+            'ic.duration',
+            'ic.location',
+            'ic.class_size',
+            'ic.class_capacity')
         .where({ instructor_id: instructor_id })
 }
 
 function getInstructorClassById(instructorClassId) {
-    return db('instructor_classes')
-        .where({ id: instructorClassId })
+    return db.from({ ic: 'instructor_classes' })
+        .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .select(
+            'i.instructor_name',
+            'ic.instructor_id',
+            'ic.class_type_id',
+            'ic.intensity_id',
+            'ic.class_name',
+            'ic.start_time',
+            'ic.duration',
+            'ic.location',
+            'ic.class_size',
+            'ic.class_capacity')
+        .where("ic.id", instructorClassId)
         .first()
 }
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const usersRouter = require('./users/users-router.js');
 const classTypeRouter = require('./classType/rf-class-type-router.js');
 const classIntensityRouter = require('./classIntensity/rf-class-intensity-router.js');
@@ -7,6 +8,11 @@ const clientClasses = require('./clientClasses/client-classes-router.js');
 
 const server = express();
 
+server.use(cors({
+    origin: [
+        "http://localhost:5173"
+    ]
+}))
 server.use(express.json());
 
 server.use('/api/users', usersRouter);

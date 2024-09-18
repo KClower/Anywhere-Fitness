@@ -18,7 +18,6 @@ exports.up = async function (knex) {
     }
     return knex.schema
         .createTable('users', tbl => {
-
             tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
             tbl.string('email')
                 .unique()
@@ -26,6 +25,16 @@ exports.up = async function (knex) {
             tbl.string('password')
                 .notNullable();
             tbl.boolean('isInstructor')
+                .notNullable();
+        })
+        .createTable('instructors', tbl => {
+            tbl.increments('id');
+            tbl.uuid("instructor_id")
+                .unique()
+                .notNullable()
+                .references('id')
+                .inTable('users');
+            tbl.string('instructor_name')
                 .notNullable();
         })
         .createTable('rf_class_type', tbl => {
@@ -42,8 +51,8 @@ exports.up = async function (knex) {
             tbl.uuid("id", { primaryKey: true }).defaultTo(knex.raw("uuid_generate_v4()"));
             tbl.uuid('instructor_id')
                 .notNullable()
-                .references('id')
-                .inTable('users');
+                .references('instructor_id')
+                .inTable('instructors');
             tbl.integer('class_type_id')
                 .notNullable()
                 .references('id')
