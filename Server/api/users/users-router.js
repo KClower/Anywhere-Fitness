@@ -32,8 +32,8 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/register', (req, res, next) => {
-    const newUser = req.body;
-    if (!newUser.email || !newUser.password || !newUser.isInstructor) {
+    let newUser = req.body;
+    if (!newUser.email || !newUser.password || newUser.isInstructor === undefined || newUser.instructorName === undefined) {
         return res.status(404).json({ Message: "Please provide the necessary information." });
     }
 
@@ -48,8 +48,8 @@ router.post('/register', (req, res, next) => {
                 })
         })
         .catch((error) => {
-            console.log(error);
-            res.status(500).json({ Message: "There was an error saving new user to database." });
+            console.log("/api/users/register::err: ", error);
+            return res.status(500).json({ Message: "There was an error saving new user to database." });
         });
 });
 

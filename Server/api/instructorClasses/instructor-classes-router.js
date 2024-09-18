@@ -42,6 +42,7 @@ router.post('/class', async (req, res, next) => {
     const classintensity = await ClassIntensity.getLast();
 
     const instructorClassSchema = Joi.object({
+
         instructor_id: Joi.string().required(),
         class_name: Joi.string().required(),
         class_type_id: Joi.number().required().min(1).max(classtype.id),
