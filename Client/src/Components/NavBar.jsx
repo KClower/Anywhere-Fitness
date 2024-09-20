@@ -15,6 +15,7 @@ export function NavBar() {
                     <Nav className="me-auto">
                         <Nav.Link as={NavLink} to='/'>Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/SignIn">Sign In</Nav.Link>
+                        <Nav.Link as={NavLink} to="/">Log Out</Nav.Link>
                     </Nav>
                 </BsNavbar.Collapse>
             </Container>

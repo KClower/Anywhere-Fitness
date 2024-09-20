@@ -11,15 +11,14 @@ import { AccountFormContainer } from "../Components/AccountFormContainer";
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
-
+    instructorName: yup.string().required().min(3),
     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required.')
         .min(8, 'Password must be at least 8 characters, contain Uppercase and special character.')
         .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.'),
-    // confirmpassword: yup.string().oneOf([yup.ref('password'), null], 'Your passwords do not match.'),
-    terms: yup.boolean().oneOf([true], 'Please agree to terms of use.'),
+
 });
 
 
@@ -33,7 +32,7 @@ const Register = () => {
         usertype: "",
         email: "",
         password: "",
-        // confirmpassword: "",
+        instructorName: "",
 
     });
 
@@ -50,7 +49,7 @@ const Register = () => {
         usertype: "",
         email: "",
         password: "",
-        // confirmpassword: "",
+        instructorName: "",
 
     });
 
@@ -95,8 +94,15 @@ const Register = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("new account form submitted")
+
+        const payload = {
+            email: newAccount.email,
+            password: newAccount.password,
+            instructorName: newAccount.instructorName,
+            isInstructor: newAccount.usertype === "instructor" ? true : false
+        }
         axios
-            .post('http://localhost:9000/api/users/register', newAccount)
+            .post('http://localhost:9000/api/users/register', payload)
             .then(res => {
                 console.log(res.data);
                 navigate("/WorkoutList")
@@ -128,6 +134,23 @@ const Register = () => {
                     (<ErrorStatement>{errorsState.usertype}</ErrorStatement>)
                     : null}
 
+                {newAccount.usertype === "instructor"
+                    ? (<>
+                        <AccountInput
+                            type="text"
+                            name="instructorName"
+                            value={newAccount.instructorName}
+                            onChange={changeHandler}
+                            placeholder="Name"
+                        />
+                        {errorsState.email.length > 0 ?
+                            (<ErrorStatement>{errorsState.instructorName}</ErrorStatement>)
+                            : null}
+                    </>
+                    )
+
+                    : null
+                }
 
 
                 <AccountInput
@@ -159,32 +182,7 @@ const Register = () => {
                         : null}
                 </PasswordContainer>
 
-                {/* <PasswordContainer>
-                    <AccountInput
-                        type={showPassword ? "text" : "password"}
-                        name="confirmpassword"
-                        value={newAccount.confirmpassword}
-                        onChange={changeHandler}
-                        placeholder="Confrim Password"
-                    />             
-                    {errorsState.confirmpassword.length > 0 ?
-                        (<ErrorStatement>{errorsState.confirmpassword}</ErrorStatement>)
-                        : null}
-                </PasswordContainer> */}
 
-                {/* <label htmlFor="terms">
-                    <input type="checkbox"
-                        id="terms"
-                        name="terms"
-                        checked={newAccount.terms}
-                        onChange={changeHandler}
-                    />
-                    Terms & Conditions
-                    {errorsState.terms.length > 0 ?
-                        (<ErrorStatement>{errorsState.terms}</ErrorStatement>)
-                        : null}
-
-                </label> */}
 
                 <AccountButton disabled={buttonDisabled} >Create Account</AccountButton>
             </AccountForm>
