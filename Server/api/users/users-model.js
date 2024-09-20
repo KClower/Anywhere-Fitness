@@ -4,12 +4,19 @@ const db = require('../../data/db-config.js');
 
 module.exports = {
     find,
+    findBy,
     findById,
     create
 }
 
 function find() {
     return db('users')
+}
+
+function findBy(filter) {
+    return db('users')
+        .where(filter)
+        .orderBy('id')
 }
 
 function findById(id) {

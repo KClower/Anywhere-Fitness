@@ -49,3 +49,48 @@ ref: client_classes.client_id > users.id
 ref: client_classes.class_id > instructor_classes.id
 
 
+async function update({
+    id,
+    instructor_id,
+    class_name,
+    class_type_id,
+    intensity_id,
+    start_time,
+    duration,
+    location,
+    class_size,
+    class_capacity
+}) {
+    const instructorClassColumns = [
+        'id',
+        'instructor_id',
+        'class_name',
+        'class_type_id',
+        'intensity_id',
+        'start_time',
+        'duration',
+        'location',
+        'class_size',
+        'class_capacity'
+    ];
+
+    const updatedClass = await db('instructor_classes')
+        .where({ id })
+        .update({
+            instructor_id,
+            class_name,
+            class_type_id,
+            intensity_id,
+            start_time,
+            duration,
+            location,
+            class_size,
+            class_capacity
+        })
+        .returning(instructorClassColumns)
+
+    console.log("Update result:", updatedClass);
+
+    return updatedClass[0]
+
+}

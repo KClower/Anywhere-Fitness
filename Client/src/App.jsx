@@ -1,12 +1,13 @@
 
 import { Routes, Route, NavLink } from 'react-router-dom';
-import Home from './Components/Home';
-import SignInForm from './Components/SignInForm';
-import NewAccountForm from "./Components/NewAccountForm";
+import { NavBar } from './Components/NavBar';
+import { Home } from './pages/Home';
+import SignIn from './pages/SignIn';
+import Register from "./pages/Register";
 import WorkoutList from './Components/WorkoutList';
 import WorkoutCard from './Components/WorkoutCard';
 import JoinClassForm from './Components/JoinClassForm';
-import ThankYou from './Components/ThankYouPage';
+import ThankYou from './pages/ThankYouPage';
 
 
 
@@ -20,14 +21,12 @@ function App() {
   return (
     <>
 
-      <NavLink to='/'>
-        HOME
-      </NavLink>
+      <NavBar />
 
       <Routes>
         <Route exact path="/" Component={Home} />
-        <Route path="/SignInForm" Component={SignInForm} />
-        <Route path="/NewAccountForm" Component={NewAccountForm} />
+        <Route path="/SignIn" Component={SignIn} />
+        <Route path="/Register" Component={Register} />
         <Route path="/WorkoutList" Component={WorkoutList} />
         <Route path="/WorkoutCard/:id" Component={WorkoutCard} />
         <Route path="/JoinClassForm" Component={JoinClassForm} />

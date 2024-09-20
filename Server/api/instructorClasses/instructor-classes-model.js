@@ -30,9 +30,10 @@ function findAll() {
         .select(
             'i.instructor_name',
             'ic.instructor_id',
+            'ic.class_name',
+            'ic.id',
             'ic.class_type_id',
             'ic.intensity_id',
-            'ic.class_name',
             'ic.start_time',
             'ic.duration',
             'ic.location',
@@ -46,15 +47,16 @@ function getAllClassesByInstructorId(instructor_id) {
         .select(
             'i.instructor_name',
             'ic.instructor_id',
+            'ic.class_name',
+            'ic.id',
             'ic.class_type_id',
             'ic.intensity_id',
-            'ic.class_name',
             'ic.start_time',
             'ic.duration',
             'ic.location',
             'ic.class_size',
             'ic.class_capacity')
-        .where({ instructor_id: instructor_id })
+        .where({ 'ic.instructor_id': instructor_id })
 }
 
 function getInstructorClassById(instructorClassId) {
@@ -63,9 +65,10 @@ function getInstructorClassById(instructorClassId) {
         .select(
             'i.instructor_name',
             'ic.instructor_id',
+            'ic.class_name',
+            'ic.id',
             'ic.class_type_id',
             'ic.intensity_id',
-            'ic.class_name',
             'ic.start_time',
             'ic.duration',
             'ic.location',

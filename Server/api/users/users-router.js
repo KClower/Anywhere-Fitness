@@ -34,7 +34,7 @@ router.get('/:id', (req, res, next) => {
 router.post('/register', (req, res, next) => {
     let newUser = req.body;
     if (!newUser.email || !newUser.password || newUser.isInstructor === undefined || newUser.instructorName === undefined) {
-        return res.status(404).json({ Message: "Please provide the necessary information." });
+        return res.status(422).json({ Message: "Please provide the necessary information." });
     }
 
     const hash = bcrypt.hashSync(newUser.password, 12);
@@ -53,7 +53,40 @@ router.post('/register', (req, res, next) => {
         });
 });
 
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
 
+    Users.findBy({ email })
+        .then(users => {
+            const user = users[0];
+
+            if (user && bcrypt.compareSync(password, user.password)) {
+                req.session.loggedIn = true;
+                req.session.userId = user.id;
+
+                res.status(200).json({ Message: "Welcome", session: req.session });
+            } else {
+                res.status(401).json({ Message: "Invalid credentials" })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ Message: "There was an issue logging in" })
+        })
+})
+
+router.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                res.status(500).json({ Message: "Error logging out." })
+            } else {
+                res.status(204).end()
+            }
+        })
+    } else {
+        res.status(200).json({ Message: "Already logged out" })
+    }
+})
 
 
 module.exports = router;

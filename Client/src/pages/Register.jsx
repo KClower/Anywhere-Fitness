@@ -4,60 +4,14 @@ import * as yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
 import 'animate.css';
+import { AccountFormContainer } from "../Components/AccountFormContainer";
 
 
-const AccountH2 = styled.h1`
-text-align: center;
-`
-
-const AccountCard = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-width: 40%;
-margin: 30px auto;
-`
-const AccountForm = styled.form`
-display: flex;
-flex-direction: column;
-`
-const AccountSelect = styled.select`
-padding: 10px 5px;
-margin-bottom: 10px;
-
-`
-
-const AccountInput = styled.input`
-padding: 10px 5px;
-margin-bottom: 10px;
-width: 100%;
-`
-const AccountButton = styled.button`
-margin-top: 20px;
-padding: 10px 0; 
-cursor: pointer;
-`
-const ErrorStatement = styled.p`
-margin-top: 0;
-font-size: 1rem;
-color: red;
-`
-const PasswordContainer = styled.div`
-position: relative;
-`
-const ToggleButton = styled.button`
-position: absolute;
-  right: 5px;
- top: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-`
 
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
-    username: yup.string().required('User name is required.').min(3, 'Requires 3 letters minimum.'),
+
     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required.')
@@ -72,16 +26,15 @@ const formSchema = yup.object().shape({
 
 
 
-const NewAccountForm = () => {
+const Register = () => {
     const navigate = useNavigate();
 
     const [newAccount, setNewAccount] = useState({
         usertype: "",
-        username: "",
         email: "",
         password: "",
         // confirmpassword: "",
-        terms: false,
+
     });
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -95,11 +48,10 @@ const NewAccountForm = () => {
 
     const [errorsState, setErrorsState] = useState({
         usertype: "",
-        username: "",
         email: "",
         password: "",
         // confirmpassword: "",
-        terms: "",
+
     });
 
     const [showPassword, setShowPassword] = useState(false);
@@ -111,8 +63,8 @@ const NewAccountForm = () => {
     }
 
     const validate = (e) => {
-        let value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
-        yup.reach(formSchema, e.target.name).validate(value)
+
+        yup.reach(formSchema, e.target.name).validate(e.target.value)
             .then(valid => {
                 console.log("validate::valid", valid)
                 setErrorsState({
@@ -133,10 +85,9 @@ const NewAccountForm = () => {
         console.log("new account input changed", e.target.value, e.target.type)
         e.persist();
         validate(e);
-        let value = e.target.type === "checkbox" ? e.target.checked : e.target.value
         setNewAccount({
             ...newAccount,
-            [e.target.name]: value
+            [e.target.name]: e.target.value
         });
     };
 
@@ -145,16 +96,18 @@ const NewAccountForm = () => {
         e.preventDefault();
         console.log("new account form submitted")
         axios
-            .post('https://reqres.in/api/users', newAccount)
-            .then(res => console.log(res.data))
+            .post('http://localhost:9000/api/users/register', newAccount)
+            .then(res => {
+                console.log(res.data);
+                navigate("/WorkoutList")
+            })
             .catch(err => console.log(err))
-        navigate("/WorkoutList")
     };
 
 
 
     return (
-        <AccountCard>
+        <AccountFormContainer>
             <AccountH2 className="animate__animated animate__bounce animate__slow animate__repeat-3">Join the Experience</AccountH2>
             <AccountForm onSubmit={submitHandler}>
 
@@ -175,16 +128,7 @@ const NewAccountForm = () => {
                     (<ErrorStatement>{errorsState.usertype}</ErrorStatement>)
                     : null}
 
-                <AccountInput
-                    type="text"
-                    name="username"
-                    value={newAccount.username}
-                    onChange={changeHandler}
-                    placeholder="Username"
-                />
-                {errorsState.username.length > 0 ?
-                    (<ErrorStatement>{errorsState.username}</ErrorStatement>)
-                    : null}
+
 
                 <AccountInput
                     type="email"
@@ -228,7 +172,7 @@ const NewAccountForm = () => {
                         : null}
                 </PasswordContainer> */}
 
-                <label htmlFor="terms">
+                {/* <label htmlFor="terms">
                     <input type="checkbox"
                         id="terms"
                         name="terms"
@@ -240,13 +184,58 @@ const NewAccountForm = () => {
                         (<ErrorStatement>{errorsState.terms}</ErrorStatement>)
                         : null}
 
-                </label>
+                </label> */}
 
                 <AccountButton disabled={buttonDisabled} >Create Account</AccountButton>
             </AccountForm>
-        </AccountCard>
+        </AccountFormContainer>
     )
 }
 
-export default NewAccountForm;
+
+
+const AccountH2 = styled.h1`
+text-align: center;
+`
+
+
+const AccountForm = styled.form`
+display: flex;
+flex-direction: column;
+`
+const AccountSelect = styled.select`
+padding: 10px 5px;
+margin-bottom: 10px;
+
+`
+
+const AccountInput = styled.input`
+padding: 10px 5px;
+margin-bottom: 10px;
+width: 100%;
+`
+const AccountButton = styled.button`
+margin-top: 20px;
+padding: 10px 0; 
+cursor: pointer;
+`
+const ErrorStatement = styled.p`
+margin-top: 0;
+font-size: 1rem;
+color: red;
+`
+const PasswordContainer = styled.div`
+position: relative;
+`
+const ToggleButton = styled.button`
+position: absolute;
+  right: 5px;
+ top: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+`
+
+
+export default Register;
 
