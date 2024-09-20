@@ -14,7 +14,7 @@ import { AccountFormContainer } from "./AccountFormContainer";
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required'),
-    username: yup.string().required('User name is required').min(3, "Requires 3 letters minimum"),
+    email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required')
         .min(8, 'Password must be at least 8 characters, contain uppercase, lowercase number and special character')
@@ -39,7 +39,7 @@ function SignInForm() {
 
     const [errorsState, setErrorsState] = useState({
         usertype: "",
-        username: "",
+        email: "",
         password: "",
     });
     const [showPassword, setShowPassword] = useState(false);
@@ -84,7 +84,7 @@ function SignInForm() {
         e.preventDefault();
         console.log("sign in form submitted")
         axios
-            .post('https://reqres.in/api/users', credentials)
+            .post('http://localhost:9000/api/users/login', credentials)
             .then(res => {
                 console.log(res.data)
                 navigate("/WorkoutList")
@@ -118,14 +118,14 @@ function SignInForm() {
                     : null}
 
                 <SignInInput
-                    type="text"
-                    name="username"
-                    value={credentials.username}
+                    type="email"
+                    name="email"
+                    value={credentials.email}
                     onChange={changeHandler}
-                    placeholder="Username"
+                    placeholder="Email"
                 />
-                {errorsState.username.length > 0 ?
-                    (<ErrorStatement>{errorsState.username}</ErrorStatement>)
+                {errorsState.email.length > 0 ?
+                    (<ErrorStatement>{errorsState.email}</ErrorStatement>)
                     : null}
 
                 <PasswordContainer>
@@ -190,7 +190,6 @@ position: absolute;
   border: none;
   cursor: pointer;
 `
-
 
 
 export default SignInForm;
