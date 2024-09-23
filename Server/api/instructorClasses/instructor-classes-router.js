@@ -50,6 +50,7 @@ router.post('/class', async (req, res, next) => {
         start_time: Joi.date().iso().required(),
         duration: Joi.number().required().multiple(30).max(120),
         location: Joi.string().required(),
+        price: Joi.number().precision(2).positive().min(10.00).max(40.00).required(),
         class_capacity: Joi.number().required().min(1).max(20),
     })
 
@@ -85,6 +86,7 @@ router.put('/class/:id', async (req, res, next) => {
         start_time: Joi.date().iso(),
         duration: Joi.number().multiple(30).max(120),
         location: Joi.string(),
+        price: Joi.number().precision(2).positive().min(10.00).max(40.00),
         class_capacity: Joi.number().min(1).max(20),
     })
 

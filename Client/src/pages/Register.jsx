@@ -7,19 +7,44 @@ import 'animate.css';
 import { AccountFormContainer } from "../Components/AccountFormContainer";
 
 
-
-
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
-    instructorName: yup.string().required().min(3),
+    instructorName: yup.string().when('usertype', {
+        is: 'instructor', // When usertype is 'instructor'
+        then: () => {
+            yup.string()
+                .required('Instructor name is required.')
+                .min(3, 'Instructor name must be at least 3 characters')
+        }, // Apply validation
+        otherwise: () => {
+            yup.string().notRequired()
+        }, // No validation if usertype is not 'instructor'
+    }),
     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required.')
         .min(8, 'Password must be at least 8 characters, contain Uppercase and special character.')
         .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
             'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.'),
-
 });
+
+
+// const formSchema = yup.object().shape({
+//     usertype: yup.string().required('Type of user is required.'),
+//     // instructorName: yup.string().min(3),
+//     instructorName: yup.string().when('isInstructor', {
+//         is: true, // When isInstructor is true (instructor selected)
+//         then: yup.string().required('Instructor name is required').min(3, 'Instructor name must be at least 2 characters'), // Apply validation
+//         otherwise: yup.string().notRequired(), // No validation if isInstructor is false
+//     }),
+//     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
+//     password: yup.string()
+//         .required('Password is required.')
+//         .min(8, 'Password must be at least 8 characters, contain Uppercase and special character.')
+//         .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+//             'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.'),
+
+// });
 
 
 
@@ -61,24 +86,56 @@ const Register = () => {
         setShowPassword(!showPassword);
     }
 
-    const validate = (e) => {
+    const validate = async (e) => {
+        // Validate the specific field that changed
+        try {
+            const { name, value } = e.target;
 
-        yup.reach(formSchema, e.target.name).validate(e.target.value)
-            .then(valid => {
-                console.log("validate::valid", valid)
+            // Validate the changed field
+            await yup.reach(formSchema, name).validate(value);
+
+            // If usertype changes, validate instructorName if necessary
+            if (name === 'usertype') {
+                const instructorNameValidation = await yup.reach(formSchema, 'instructorName').validate(newAccount.instructorName);
                 setErrorsState({
                     ...errorsState,
-                    [e.target.name]: ""
+                    instructorName: "", // Clear any previous error for instructorName
                 });
-            })
-            .catch(err => {
-                console.log("validate::err", err.errors)
-                setErrorsState({
-                    ...errorsState,
-                    [e.target.name]: err.errors[0]
-                });
+            }
+
+            // Clear the error for the changed field
+            setErrorsState({
+                ...errorsState,
+                [name]: "",
             });
+        } catch (err) {
+            // Set the error for the specific field
+            setErrorsState({
+                ...errorsState,
+                [e.target.name]: err.errors[0]
+            });
+        }
     };
+
+
+    // const validate = (e) => {
+
+    //     yup.reach(formSchema, e.target.name).validate(e.target.value)
+    //         .then(valid => {
+    //             console.log("validate::valid", valid)
+    //             setErrorsState({
+    //                 ...errorsState,
+    //                 [e.target.name]: ""
+    //             });
+    //         })
+    //         .catch(err => {
+    //             console.log("validate::err", err.errors)
+    //             setErrorsState({
+    //                 ...errorsState,
+    //                 [e.target.name]: err.errors[0]
+    //             });
+    //         });
+    // };
 
     const changeHandler = (e) => {
         console.log("new account input changed", e.target.value, e.target.type)
@@ -102,7 +159,7 @@ const Register = () => {
             isInstructor: newAccount.usertype === "instructor" ? true : false
         }
         axios
-            .post('http://localhost:9000/api/users/register', payload)
+            .post('http://localhost:9000/api/auth/register', payload, { withCredentials: true })
             .then(res => {
                 console.log(res.data);
                 navigate("/WorkoutList")
@@ -143,7 +200,7 @@ const Register = () => {
                             onChange={changeHandler}
                             placeholder="Name"
                         />
-                        {errorsState.email.length > 0 ?
+                        {errorsState.instructorName.length > 0 ?
                             (<ErrorStatement>{errorsState.instructorName}</ErrorStatement>)
                             : null}
                     </>
