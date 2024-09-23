@@ -16,7 +16,10 @@ router.post('/register', (req, res, next) => {
 
     Users.create(newUser)
         .then(result => {
-            Users.findById(result.id)
+            req.session.loggedIn = true;
+            req.session.userId = result.id;
+
+            return Users.findById(result.id)
                 .then(createdUser => {
                     res.status(201).json({ Message: "Created new user in database.", createdUser });
                 })

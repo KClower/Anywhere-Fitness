@@ -37,15 +37,7 @@ const sessionConfiguration = {
     resave: false,
     saveUninitialized: true, // read docs, it's related to GDPR compliance
     store: knexStore,
-    // unset: "destroy"
-    // store: new ConnectSessionKnexStore({
-    //     knex: dbConnection,
-    //     tablename: 'sessions',
-    //     sidfieldname: 'sid',
-    //     createtable: true,
-    //     clearInterval: 1000 * 60 * 30 // time to check and remove expired sessions from database
 
-    // }),
 };
 
 server.use(session(sessionConfiguration)); // enables session support
