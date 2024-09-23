@@ -11,6 +11,14 @@ Table users {
   isInstructor bool
 }
 
+Table instructors {
+  id integer
+  instructor_id uuid
+  instructor_name varcar
+}
+
+ref: instructors.instructor_id > users.id
+
 Table rf_class_type {
   id uuid [primary key]
   class_type varchar
@@ -26,11 +34,11 @@ Table instructor_classes {
   instructor_id uuid
   class_type_id uuid 
   intensity_id uuid
-
   class_name varchar
   start_time timestamp
   duration bigint
   location varchar
+  price numeric
   class_size bigint
   class_capacity bigint
 }
@@ -49,48 +57,3 @@ ref: client_classes.client_id > users.id
 ref: client_classes.class_id > instructor_classes.id
 
 
-async function update({
-    id,
-    instructor_id,
-    class_name,
-    class_type_id,
-    intensity_id,
-    start_time,
-    duration,
-    location,
-    class_size,
-    class_capacity
-}) {
-    const instructorClassColumns = [
-        'id',
-        'instructor_id',
-        'class_name',
-        'class_type_id',
-        'intensity_id',
-        'start_time',
-        'duration',
-        'location',
-        'class_size',
-        'class_capacity'
-    ];
-
-    const updatedClass = await db('instructor_classes')
-        .where({ id })
-        .update({
-            instructor_id,
-            class_name,
-            class_type_id,
-            intensity_id,
-            start_time,
-            duration,
-            location,
-            class_size,
-            class_capacity
-        })
-        .returning(instructorClassColumns)
-
-    console.log("Update result:", updatedClass);
-
-    return updatedClass[0]
-
-}

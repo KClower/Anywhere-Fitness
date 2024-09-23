@@ -11,7 +11,12 @@ import { AccountFormContainer } from "../Components/AccountFormContainer";
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
-    instructorName: yup.string().required().min(3),
+    instructorName: yup.string().min(3),
+    // instructorName: yup.string().when('isInstructor', {
+    //     is: true, // When isInstructor is true (instructor selected)
+    //     then: yup.string().required('Instructor name is required').min(3, 'Instructor name must be at least 2 characters'), // Apply validation
+    //     otherwise: yup.string().notRequired(), // No validation if isInstructor is false
+    // }),
     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required.')
@@ -102,7 +107,7 @@ const Register = () => {
             isInstructor: newAccount.usertype === "instructor" ? true : false
         }
         axios
-            .post('http://localhost:9000/api/users/register', payload)
+            .post('http://localhost:9000/api/auth/register', payload)
             .then(res => {
                 console.log(res.data);
                 navigate("/WorkoutList")
@@ -143,7 +148,7 @@ const Register = () => {
                             onChange={changeHandler}
                             placeholder="Name"
                         />
-                        {errorsState.email.length > 0 ?
+                        {errorsState.instructorName.length > 0 ?
                             (<ErrorStatement>{errorsState.instructorName}</ErrorStatement>)
                             : null}
                     </>

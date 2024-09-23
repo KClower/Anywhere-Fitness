@@ -19,6 +19,7 @@ const instructorClassColumns = [
     "start_time",
     "duration",
     "location",
+    "price",
     "class_size",
     "class_capacity"
 ]
@@ -37,6 +38,7 @@ function findAll() {
             'ic.start_time',
             'ic.duration',
             'ic.location',
+            'ic.price',
             'ic.class_size',
             'ic.class_capacity')
 }
@@ -54,6 +56,7 @@ function getAllClassesByInstructorId(instructor_id) {
             'ic.start_time',
             'ic.duration',
             'ic.location',
+            'ic.price',
             'ic.class_size',
             'ic.class_capacity')
         .where({ 'ic.instructor_id': instructor_id })
@@ -72,6 +75,7 @@ function getInstructorClassById(instructorClassId) {
             'ic.start_time',
             'ic.duration',
             'ic.location',
+            'ic.price',
             'ic.class_size',
             'ic.class_capacity')
         .where("ic.id", instructorClassId)
@@ -86,6 +90,7 @@ function create({
     start_time,
     duration,
     location,
+    price,
     class_size,
     class_capacity
 }) {
@@ -97,6 +102,7 @@ function create({
         start_time,
         duration,
         location,
+        price,
         class_size,
         class_capacity
     }, ["id"])
@@ -116,6 +122,7 @@ async function update({
     start_time,
     duration,
     location,
+    price,
     class_size,
     class_capacity
 }) {
@@ -129,6 +136,7 @@ async function update({
             start_time,
             duration,
             location,
+            price,
             class_size,
             class_capacity
         }, [...instructorClassColumns])

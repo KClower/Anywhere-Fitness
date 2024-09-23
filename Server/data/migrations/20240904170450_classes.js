@@ -69,6 +69,9 @@ exports.up = async function (knex) {
                 .notNullable();
             tbl.string('location')
                 .notNullable();
+            tbl.decimal('price', 10, 2)
+                .notNullable()
+                .defaultTo(0.00);
             tbl.integer('class_size')
                 .notNullable();
             tbl.integer('class_capacity')
@@ -97,5 +100,6 @@ exports.down = function (knex) {
         .dropTableIfExists('instructor_classes')
         .dropTableIfExists('rf_class_intensity')
         .dropTableIfExists('rf_class_type')
+        .dropTableIfExists('instructors')
         .dropTableIfExists('users');
 };

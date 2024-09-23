@@ -1,11 +1,30 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import BsNavbar from 'react-bootstrap/Navbar';
+import axios from 'axios';
+
+
+
 
 
 
 export function NavBar() {
+
+    const navigate = useNavigate()
+
+    function handleLogOut(e) {
+        e.preventDefault()
+        console.log("calling logout")
+        axios
+            .post('http://localhost:9000/api/auth/logout', {}, { withCredentials: true })
+            .then(res => {
+                console.log(res.data)
+                navigate("/")
+            })
+            .catch(err => console.log(err))
+    }
+
     return (
         <BsNavbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -15,7 +34,7 @@ export function NavBar() {
                     <Nav className="me-auto">
                         <Nav.Link as={NavLink} to='/'>Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/SignIn">Sign In</Nav.Link>
-                        <Nav.Link as={NavLink} to="/">Log Out</Nav.Link>
+                        <Nav.Link as={"a"} href="#" onClick={handleLogOut}>Log Out</Nav.Link>
                     </Nav>
                 </BsNavbar.Collapse>
             </Container>

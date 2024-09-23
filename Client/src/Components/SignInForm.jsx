@@ -13,7 +13,7 @@ import { AccountFormContainer } from "./AccountFormContainer";
 
 
 const formSchema = yup.object().shape({
-    usertype: yup.string().required('Type of user is required'),
+    // usertype: yup.string().required('Type of user is required'),
     email: yup.string().email('Must be a valid email address.').required('Must include email address.'),
     password: yup.string()
         .required('Password is required')
@@ -25,7 +25,7 @@ function SignInForm() {
     const navigate = useNavigate();
 
     const [credentials, setCredentials] = useState({
-        usertype: "",
+        // usertype: "",
         username: "",
         password: "",
     });
@@ -38,7 +38,7 @@ function SignInForm() {
     }, [credentials])
 
     const [errorsState, setErrorsState] = useState({
-        usertype: "",
+        // usertype: "",
         email: "",
         password: "",
     });
@@ -84,7 +84,7 @@ function SignInForm() {
         e.preventDefault();
         console.log("sign in form submitted")
         axios
-            .post('http://localhost:9000/api/users/login', credentials)
+            .post('http://localhost:9000/api/auth/login', credentials, { withCredentials: true })
             .then(res => {
                 console.log(res.data)
                 navigate("/WorkoutList")
@@ -101,7 +101,7 @@ function SignInForm() {
 
             <SigninForm onSubmit={submitHandler}>
 
-                <label htmlFor="usertype">How you would like to sign in ?</label>
+                {/* <label htmlFor="usertype">How you would like to sign in ?</label>
 
                 <SignInSelect
                     value={credentials.usertype}
@@ -115,7 +115,7 @@ function SignInForm() {
                 </SignInSelect>
                 {errorsState.usertype.length > 0 ?
                     (<ErrorStatement>{errorsState.usertype}</ErrorStatement>)
-                    : null}
+                    : null} */}
 
                 <SignInInput
                     type="email"
