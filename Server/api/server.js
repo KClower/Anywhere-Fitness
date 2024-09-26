@@ -14,7 +14,7 @@ const classIntensityRouter = require('./classIntensity/rf-class-intensity-router
 const instructorClasses = require('./instructorClasses/instructor-classes-router.js');
 const clientClasses = require('./clientClasses/client-classes-router.js');
 
-const dbConnection = require('../data/db-config.js'); // this must route to the config.js
+
 const auth = require('./auth/auth-middleware.js');
 
 const server = express();

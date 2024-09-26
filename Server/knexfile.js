@@ -14,7 +14,7 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'anytime-fitness',
+      database: 'anywhere-fitness',
       user: 'kclower',
       password: 'password'
     },
