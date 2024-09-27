@@ -3,6 +3,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from "../stores/useAuthStore";
 import styled from "styled-components";
 import { AccountFormContainer } from "./AccountFormContainer";
 
@@ -23,6 +24,8 @@ const formSchema = yup.object().shape({
 
 function SignInForm() {
     const navigate = useNavigate();
+
+    // const logIn = useAuthStore((state) => state.logIn);
 
     const [credentials, setCredentials] = useState({
         // usertype: "",
@@ -87,6 +90,8 @@ function SignInForm() {
             .post('http://localhost:9000/api/auth/login', credentials, { withCredentials: true })
             .then(res => {
                 console.log(res.data)
+                // logIn(res.data.userInfo.userId)
+                sessionStorage.setItem("user", res.data.userInfo.userId)
                 navigate("/WorkoutList")
             })
             .catch(err => console.log(err))
@@ -101,21 +106,7 @@ function SignInForm() {
 
             <SigninForm onSubmit={submitHandler}>
 
-                {/* <label htmlFor="usertype">How you would like to sign in ?</label>
 
-                <SignInSelect
-                    value={credentials.usertype}
-                    name="usertype"
-                    id="usertype"
-                    onChange={changeHandler}
-                >
-                    <option value="">--Choose an option--</option>
-                    <option value="client">Client</option>
-                    <option value="instructor">Instructor</option>
-                </SignInSelect>
-                {errorsState.usertype.length > 0 ?
-                    (<ErrorStatement>{errorsState.usertype}</ErrorStatement>)
-                    : null} */}
 
                 <SignInInput
                     type="email"

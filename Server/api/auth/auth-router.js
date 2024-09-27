@@ -16,12 +16,14 @@ router.post('/register', (req, res, next) => {
 
     Users.create(newUser)
         .then(result => {
-            req.session.loggedIn = true;
-            req.session.userId = result.id;
-
             return Users.findById(result.id)
                 .then(createdUser => {
-                    res.status(201).json({ Message: "Created new user in database.", createdUser });
+                    req.session.loggedIn = true;
+                    req.session.userId = result.id;
+                    const createdUserInfo = {
+                        userId: createdUser.id
+                    }
+                    res.status(201).json({ Message: "Created new user in database.", createdUser: createdUserInfo });
                 })
         })
         .catch((error) => {
@@ -40,8 +42,10 @@ router.post('/login', (req, res) => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 req.session.loggedIn = true;
                 req.session.userId = user.id;
-
-                res.status(200).json({ Message: "Welcome" });
+                const userInfo = {
+                    userId: user.id
+                }
+                res.status(200).json({ Message: "Welcome", userInfo });
             } else {
                 res.status(401).json({ Message: "Invalid credentials" })
             }

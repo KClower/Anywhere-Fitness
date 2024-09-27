@@ -43,22 +43,22 @@ router.post('/class', async (req, res, next) => {
 
     const instructorClassSchema = Joi.object({
 
-        instructor_id: Joi.string().required(),
-        class_name: Joi.string().required(),
-        class_type_id: Joi.number().required().min(1).max(classtype.id),
-        intensity_id: Joi.number().required().min(1).max(classintensity.id),
-        start_time: Joi.date().iso().required(),
+        instructorId: Joi.string().required(),
+        className: Joi.string().required(),
+        classType: Joi.number().required().min(1).max(classtype.id),
+        intensity: Joi.number().required().min(1).max(classintensity.id),
+        startTime: Joi.date().iso().required(),
         duration: Joi.number().required().multiple(30).max(120),
         location: Joi.string().required(),
         price: Joi.number().precision(2).positive().min(10.00).max(40.00).required(),
-        class_capacity: Joi.number().required().min(1).max(20),
+        classCapacity: Joi.number().required().min(1).max(20),
     })
 
     const validationResult = instructorClassSchema.validate(req.body);
     if (validationResult.error) {
         return res.status(422).json({ Message: validationResult.error })
     }
-    InstructorClasses.create({ ...validationResult.value, class_size: 0 })
+    InstructorClasses.create({ ...validationResult.value, classSize: 0 })
         .then(result => {
             InstructorClasses.getInstructorClassById(result.newInstructorClassId)
                 .then(createdClass => {
@@ -79,15 +79,15 @@ router.put('/class/:id', async (req, res, next) => {
     const classintensity = await ClassIntensity.getLast();
 
     const instructorClassUpdateSchema = Joi.object({
-        instructor_id: Joi.string(),
-        class_name: Joi.string(),
-        class_type_id: Joi.number().min(1).max(classtype.id),
-        intensity_id: Joi.number().min(1).max(classintensity.id),
-        start_time: Joi.date().iso(),
+        instructorId: Joi.string(),
+        className: Joi.string(),
+        classType: Joi.number().min(1).max(classtype.id),
+        intensity: Joi.number().min(1).max(classintensity.id),
+        startTime: Joi.date().iso(),
         duration: Joi.number().multiple(30).max(120),
         location: Joi.string(),
         price: Joi.number().precision(2).positive().min(10.00).max(40.00),
-        class_capacity: Joi.number().min(1).max(20),
+        classCapacity: Joi.number().min(1).max(20),
     })
 
     const updateValidationResult = instructorClassUpdateSchema.validate(req.body);

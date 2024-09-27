@@ -20,7 +20,6 @@ export function Home() {
                     “on-location” fitness class needs. AnywhereFitness makes it painless
                     for Instructors and Clients alike to hold and attend Fitness classes
                     wherever they might be held.</p>
-
             </WelcomeCard>
 
 
