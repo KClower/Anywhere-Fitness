@@ -62,13 +62,13 @@ const WorkoutList = () => {
                     return (
                         <Card style={{ width: '18rem' }}>
                             <Card.Body>
-                                <Card.Title>{classes.class_type_id}</Card.Title>
+                                <Card.Title>{classes.class_type}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">{classes.class_name}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Instructor: {classes.instructor_name}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Price: ${classes.price}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Date & Time: {classes.start_time}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Duration: {classes.duration}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Intensity Level: {classes.intensity_id}</Card.Subtitle>
+                                <Card.Subtitle className="mb-2 text-muted">Intensity Level: {classes.intensity}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Location: {classes.location}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {classes.class_capacity}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Current # of attendies: {classes.class_size}</Card.Subtitle>

@@ -18,7 +18,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
     "styled-components": "^6.1.11",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zustand": "^5.0.0-rc.2",
+    "zustymiddleware": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

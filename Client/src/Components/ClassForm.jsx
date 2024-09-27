@@ -4,6 +4,7 @@ import axios from "axios";
 import * as yup from "yup";
 import styled from "styled-components";
 import { AccountFormContainer } from './AccountFormContainer';
+import { useAuthStore } from '../stores/useAuthStore';
 
 
 
@@ -11,6 +12,10 @@ const formSchema = yup.object().shape({
     classType: yup.string().required("Class type is required"),
     className: yup.string().required("Class name is required").min(3),
     intensity: yup.string().required("Intensity level is required"),
+    startTime: yup.date()
+        .required("Start time is required")
+        .typeError("Start time must be a valid date"),
+
     duration: yup.number().required("Duration is required")
         .positive("Duration must be a positive amount")
         .test(
@@ -36,8 +41,9 @@ const formSchema = yup.object().shape({
 
 export default function ClassForm() {
     const navigate = useNavigate();
-
+    // const user = useAuthStore((state) => state.user);
     const [classValues, setClassValues] = useState({
+
         classType: '',
         className: '',
         intensity: '',
@@ -60,6 +66,15 @@ export default function ClassForm() {
     })
 
     const validate = (e) => {
+        let value = e.target.value;
+
+        // If the field is 'startTime', convert the value to ISO format
+        if (e.target.name === 'startTime') {
+            const date = new Date(value);
+            if (!isNaN(date)) {  // Ensure the date is valid
+                value = date.toISOString(); // Convert to ISO format
+            }
+        }
         yup.reach(formSchema, e.target.name).validate(e.target.value)
             .then(valid => {
                 setErrorsState({
@@ -79,17 +94,34 @@ export default function ClassForm() {
         console.log("input change", e.target.value)
         e.persist()
         validate(e)
+        let value = e.target.value;
+        const numericField = [
+            "classType",
+            "intensity"
+
+        ]
+        if (e.target.name === "startTime") {
+            value = new Date(e.target.value).toISOString()
+        }
+        if (numericField.includes(e.target.name)) {
+            value = new Number(e.target.value)
+        }
         setClassValues({
             ...classValues,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         });
     };
 
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("form submitted")
+        const user = sessionStorage.getItem("user")
+        const requestData = {
+            ...classValues, instructorId: user
+        }
+        console.log(requestData)
         axios
-            .post('http://localhost:9000/api/instructor/class', classValues)
+            .post('http://localhost:9000/api/instructor/class', requestData)
             .then(res => {
                 console.log(res)
             })
@@ -100,24 +132,24 @@ export default function ClassForm() {
 
     return (
         <AccountFormContainer>
-            <form onSubmit={submitHandler}>
+            <ClassFormStyle onSubmit={submitHandler}>
                 <div>
                     <label htmlFor="classType">Type of Class:</label>
-                    <select
+                    <ClassSelect
                         id="classType"
                         name="classType"
                         onChange={handleChange}
                     >
                         <option value="">-- Select Class Type --</option>
-                        <option value="indoor yoga">Indoor Yoga</option>
-                        <option value="outdoor yoga">Outdoor Yoga</option>
-                        <option value="indoor crossfit">Indoor Crossfit</option>
-                        <option value="outdoor crossfit">Outdoor Crossfit</option>
-                        <option value="indoor pilates">Indoor Pilates</option>
-                        <option value="outdoor pilates">Outdoor Pilates</option>
-                        <option value="power lifting">Power Lifting</option>
-                        <option value="weight training">Weight Training</option>
-                    </select>
+                        <option value="1">Indoor Yoga</option>
+                        <option value="2">Outdoor Yoga</option>
+                        <option value="3">Indoor Crossfit</option>
+                        <option value="4">Outdoor Crossfit</option>
+                        <option value="5">Indoor Pilates</option>
+                        <option value="6">Outdoor Pilates</option>
+                        <option value="7">Power Lifting</option>
+                        <option value="8">Weight Training</option>
+                    </ClassSelect>
                     {errorsState.classType.length > 0 ?
                         (<ErrorStatement>{errorsState.classType}</ErrorStatement>)
                         : null}
@@ -125,7 +157,7 @@ export default function ClassForm() {
 
                 <div>
                     <label>Class Name:</label>
-                    <input
+                    <ClassInput
                         type="text"
                         name="className"
                         value={classValues.className}
@@ -137,25 +169,39 @@ export default function ClassForm() {
                 </div>
 
                 <div>
-                    <label htmlFor='"intensity'>Intensity Level</label>
-                    <select
+                    <label htmlFor='intensity'>Intensity Level</label>
+                    <ClassSelect
                         id="intensity"
                         name="intensity"
                         onChange={handleChange}
                     >
                         <option value="">-- Choose Intensity Level --</option>
-                        <option value="high">High</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
+                        <option value="1">High</option>
+                        <option value="2">Medium</option>
+                        <option value="3">Low</option>
+                    </ClassSelect>
                     {errorsState.intensity.length > 0 ?
                         (<ErrorStatement>{errorsState.intensity}</ErrorStatement>)
                         : null}
                 </div>
 
                 <div>
+                    <label htmlFor='startTime'>Start Time:</label>
+                    <ClassInput
+                        type='datetime-local'
+                        id='startTime'
+                        name='startTime'
+                        onChange={handleChange}
+                        placeholder='YYYY-MM-DD HH:MM'
+                    />
+                    {errorsState.startTime.length > 0 ?
+                        (<ErrorStatement>{errorsState.startTime}</ErrorStatement>)
+                        : null}
+                </div>
+
+                <div>
                     <label>Duration (minutes):</label>
-                    <input
+                    <ClassInput
                         type='number'
                         name='duration'
                         value={classValues.duration}
@@ -168,7 +214,7 @@ export default function ClassForm() {
 
                 <div>
                     <label>Location:</label>
-                    <input
+                    <ClassInput
                         type='text'
                         name='location'
                         value={classValues.location}
@@ -180,21 +226,23 @@ export default function ClassForm() {
                 </div>
 
                 <div>
-                    <label>Price: $</label>
-                    <input
+                    <label>Price: (USD)</label>
+                    <ClassInput
                         type='number'
                         name='price'
                         value={classValues.price}
                         onChange={handleChange}
+                        placeholder='$00.00'
                     />
                     {errorsState.price.length > 0 ?
                         (<ErrorStatement>{errorsState.price}</ErrorStatement>)
                         : null}
                 </div>
 
+
                 <div>
                     <label>Class Capacity</label>
-                    <input
+                    <ClassInput
                         type='number'
                         name='classCapacity'
                         value={classValues.classCapacity}
@@ -205,7 +253,7 @@ export default function ClassForm() {
                         : null}
                 </div>
                 <button type='submit'>Submit</button>
-            </form>
+            </ClassFormStyle>
 
         </AccountFormContainer>
     )
@@ -216,6 +264,22 @@ margin-top: 0;
 font-size: 1rem;
 color: red;
 `
+const ClassInput = styled.input`
+position: relative;
+padding: 10px 5px;
+margin-bottom: 10px;
+width: 100%;
+`
+const ClassFormStyle = styled.form`
+display: flex;
+flex-direction: column;
+`
+const ClassSelect = styled.select`
+padding: 10px 5px;
+margin-bottom: 10px;
+width: 100%
+`
+
 
 // classType: '',
 // className: '',

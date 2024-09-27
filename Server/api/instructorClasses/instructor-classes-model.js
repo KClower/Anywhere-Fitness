@@ -24,24 +24,43 @@ const instructorClassColumns = [
     "class_capacity"
 ]
 
-
 function findAll() {
     return db.from({ ic: 'instructor_classes' })
         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .join({ ct: 'rf_class_type' }, 'ic.class_type_id', 'ct.id')
+        .join({ ci: 'rf_class_intensity' }, 'ic.intensity_id', 'ci.id')
         .select(
             'i.instructor_name',
             'ic.instructor_id',
             'ic.class_name',
             'ic.id',
-            'ic.class_type_id',
-            'ic.intensity_id',
+            'ct.class_type',  // Get the class type string
+            'ci.intensity',   // Get the class intensity string
             'ic.start_time',
             'ic.duration',
             'ic.location',
             'ic.price',
             'ic.class_size',
-            'ic.class_capacity')
+            'ic.class_capacity'
+        );
 }
+// function findAll() {
+//     return db.from({ ic: 'instructor_classes' })
+//         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+//         .select(
+//             'i.instructor_name',
+//             'ic.instructor_id',
+//             'ic.class_name',
+//             'ic.id',
+//             'ic.class_type_id',
+//             'ic.intensity_id',
+//             'ic.start_time',
+//             'ic.duration',
+//             'ic.location',
+//             'ic.price',
+//             'ic.class_size',
+//             'ic.class_capacity')
+// }
 
 function getAllClassesByInstructorId(instructor_id) {
     return db.from({ ic: 'instructor_classes' })
@@ -83,28 +102,28 @@ function getInstructorClassById(instructorClassId) {
 }
 
 function create({
-    instructor_id,
-    class_type_id,
-    intensity_id,
-    class_name,
-    start_time,
+    instructorId,
+    classType,
+    intensity,
+    className,
+    startTime,
     duration,
     location,
     price,
-    class_size,
-    class_capacity
+    classSize,
+    classCapacity
 }) {
     return db.insert({
-        instructor_id,
-        class_type_id,
-        intensity_id,
-        class_name,
-        start_time,
-        duration,
-        location,
-        price,
-        class_size,
-        class_capacity
+        instructor_id: instructorId,
+        class_type_id: classType,
+        intensity_id: intensity,
+        class_name: className,
+        start_time: startTime,
+        duration: duration,
+        location: location,
+        price: price,
+        class_size: classSize,
+        class_capacity: classCapacity
     }, ["id"])
         .into('instructor_classes')
         .then(queryResult => {
@@ -115,30 +134,30 @@ function create({
 
 async function update({
     id,
-    instructor_id,
-    class_type_id,
-    intensity_id,
-    class_name,
-    start_time,
+    instructorId,
+    classType,
+    intensity,
+    className,
+    startTime,
     duration,
     location,
     price,
-    class_size,
-    class_capacity
+    classSize,
+    classCapacity
 }) {
     const result = await db('instructor_classes')
         .where({ id })
         .update({
-            instructor_id,
-            class_type_id,
-            intensity_id,
-            class_name,
-            start_time,
-            duration,
-            location,
-            price,
-            class_size,
-            class_capacity
+            instructor_id: instructorId,
+            class_type_id: classType,
+            intensity_id: intensity,
+            class_name: className,
+            start_time: startTime,
+            duration: duration,
+            location: location,
+            price: price,
+            class_size: classSize,
+            class_capacity: classCapacity
         }, [...instructorClassColumns])
 
     console.log("Update result:", result);

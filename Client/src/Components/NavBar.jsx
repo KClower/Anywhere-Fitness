@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import BsNavbar from 'react-bootstrap/Navbar';
 import axios from 'axios';
+import { useAuthStore } from '../stores/useAuthStore';
 
 
 
@@ -13,6 +14,8 @@ export function NavBar() {
 
     const navigate = useNavigate()
 
+    // const logOut = useAuthStore((state) => state.logOut);
+
     function handleLogOut(e) {
         e.preventDefault()
         console.log("calling logout")
@@ -20,10 +23,13 @@ export function NavBar() {
             .post('http://localhost:9000/api/auth/logout', {}, { withCredentials: true })
             .then(res => {
                 console.log(res.data)
+                sessionStorage.removeItem('user')
+                // logOut()
                 navigate("/")
             })
             .catch(err => console.log(err))
     }
+
 
     return (
         <BsNavbar expand="lg" className="bg-body-tertiary">
