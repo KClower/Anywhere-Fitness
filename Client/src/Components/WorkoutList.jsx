@@ -28,7 +28,7 @@ const WorkoutList = () => {
                 setClasses(res.data)
             })
             .catch(error => {
-                console.log("the data was not returned", error)
+                console.log("The data was not returned", error)
             })
     }, [])
 
@@ -36,15 +36,23 @@ const WorkoutList = () => {
 
     const filteredWorkouts = classes.filter((workout) => {
         // Filter based on search criteria
-        const matchClassType = appliedFilters.classtype === '' || workout.classtype === appliedFilters.classtype;
-        const matchInstructor = appliedFilters.instructor === '' || workout.instructor === appliedFilters.instructor;
+        const matchClassType = appliedFilters.classtype === '' || workout.class_type === appliedFilters.classtype;
+        const matchInstructor = appliedFilters.instructor === '' || workout.instructor_name === appliedFilters.instructor;
         const matchIntensity = appliedFilters.intensity === '' || workout.intensity === appliedFilters.intensity;
 
         return matchClassType && matchInstructor && matchIntensity;
     });
 
     const searchFilter = (filter) => {
-        setAppliedFilters({ ...appliedFilters, [filter.field]: filter.value })
+        setAppliedFilters((prevFilters) => ({ ...prevFilters, [filter.field]: filter.value }))
+    }
+
+    const resetSearch = () => {
+        setAppliedFilters({
+            classtype: "",
+            instructor: "",
+            intensity: "",
+        })
     }
 
     const dataSource = noFilterApplied ? classes : filteredWorkouts
@@ -53,13 +61,15 @@ const WorkoutList = () => {
         <>
             <WorkoutHeader>
                 <h2>Available Classes</h2>
-                <SearchForm searchFilter={searchFilter} />
+                <SearchForm searchFilter={searchFilter} resetSearch={resetSearch} />
             </WorkoutHeader>
 
             <WorkoutWrapper>
-                {dataSource.map(classes => {
+                {dataSource.length > 0 ? (
 
-                    return (
+                    dataSource.map(classes => (
+
+
                         <Card style={{ width: '18rem' }}>
                             <Card.Body>
                                 <Card.Title>{classes.class_type}</Card.Title>
@@ -77,27 +87,11 @@ const WorkoutList = () => {
 
                             </Card.Body>
                         </Card>
-                    );
+                    ))
 
-
-                    // return (
-                    //     <WorkoutCardStyle class={classes.id}>
-                    //         <p>{classes.class_type_id}</p>
-                    //         <p>{classes.class_name}</p>
-                    //         <p>Instructor: {classes.instructor_name}</p>
-                    //         <p>Price: ${classes.price}</p>
-                    //         <p>Date & Time: {classes.start_time}</p>
-                    //         <p>Duration: {classes.duration}</p>
-                    //         <p>Intensity Level: {classes.intensity_id}</p>
-                    //         <p>Location: {classes.location}</p>
-                    //         <p>Max # of attendies: {classes.class_capacity}</p>
-                    //         <p>Current # of attendies: {classes.class_size}</p>
-                    //         <Link to={`/WorkoutCard/${classes.id}`}>
-                    //             <ChooseBtn>Choose Class</ChooseBtn>
-                    //         </Link>
-                    //     </WorkoutCardStyle>
-                    // )
-                })}
+                ) : (
+                    <p>NO RESULTS</p>
+                )}
             </WorkoutWrapper>
         </>
     )

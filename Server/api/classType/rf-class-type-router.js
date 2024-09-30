@@ -3,7 +3,7 @@ const ClassType = require('./rf-class-type-model.js');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/class', (req, res, next) => {
     ClassType.find(req.query)
         .then(classType => {
             res.status(200).json(classType)

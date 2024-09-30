@@ -2,6 +2,7 @@
 const db = require('../../data/db-config.js');
 
 module.exports = {
+
     findAll,
     getAllClassesByInstructorId,
     getInstructorClassById,
@@ -23,6 +24,7 @@ const instructorClassColumns = [
     "class_size",
     "class_capacity"
 ]
+
 
 function findAll() {
     return db.from({ ic: 'instructor_classes' })
