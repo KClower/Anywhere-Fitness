@@ -33,10 +33,10 @@ const sessionConfiguration = {
     cookie: {
         maxAge: 1000 * 60 * 10,
         secure: process.env.USE_SECURE_COOKIES || false, // send the cookie only over https (secure connection)
-        httpOnly: false,  // prevent JS code on client from accessing THIS cookie  
+        httpOnly: true,  // prevent JS code on client from accessing THIS cookie  
     },
     resave: false,
-    saveUninitialized: false, // read docs, it's related to GDPR compliance
+    saveUninitialized: true, // read docs, it's related to GDPR compliance
     store: knexStore,
 
 };

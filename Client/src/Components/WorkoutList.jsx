@@ -4,9 +4,8 @@ import { NavLink } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import styled from "styled-components";
 import Card from 'react-bootstrap/Card';
-
-
-
+import Nav from 'react-bootstrap/Nav';
+import { formatDate } from "../utils";
 
 
 
@@ -14,6 +13,7 @@ import Card from 'react-bootstrap/Card';
 const WorkoutList = () => {
 
     const [classes, setClasses] = useState([]);
+
     const [appliedFilters, setAppliedFilters] = useState({
         classtype: "",
         instructor: "",
@@ -76,14 +76,33 @@ const WorkoutList = () => {
                                 <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Instructor: {workout.instructor_name}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Price: ${workout.price}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Date & Time: {workout.start_time}</Card.Subtitle>
+                                <Card.Subtitle className="mb-2 text-muted">Date & Time: {formatDate(workout.start_time)}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Duration: {workout.duration}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Intensity Level: {workout.intensity}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Location: {workout.location}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
                                 <Card.Subtitle className="mb-2 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
 
-                                <Card.Link as={NavLink} to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>Join Class</Card.Link>
+                                {true
+                                    ? (
+                                        <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
+                                            <JoinButton>
+                                                Join Class
+                                            </JoinButton>
+                                        </NavLink>
+
+                                    )
+                                    : (
+                                        <Nav.Link as={NavLink} to="/SignIn">
+                                            <JoinButton>
+                                                Sign In to join class
+                                            </JoinButton>
+                                        </Nav.Link>
+                                    )
+                                }
+
+                                {/* <Card.Link as={NavLink} to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>Join Class</Card.Link> */}
+
 
                             </Card.Body>
                         </Card>
@@ -108,6 +127,18 @@ const WorkoutWrapper = styled.div`
 background-color: pink;
 display: flex;
 flex-wrap: wrap;
+`
+const JoinButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  padding: 5px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `
 
 // const WorkoutCardStyle = styled.div`

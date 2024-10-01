@@ -1,10 +1,10 @@
 
-import { useState, useEffect } from "react";
+
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import 'animate.css';
-import axios from "axios";
+import axios from "axios"
+import { formatDate } from "../utils";
 
 
 
@@ -51,7 +51,7 @@ export default function WorkoutSignup() {
 
                     <p>Instructor: {workout.instructor_name}</p>
                     <p>Location: {workout.location}</p>
-                    <p>Date & Time: {workout.start_time}</p>
+                    <p>Date & Time: {formatDate(workout.start_time)}</p>
                     <p>Intensity Level: {workout.intensity}</p>
                     <p>Duration: {workout.duration}</p>
                     <p>Price: ${workout.price}</p>
