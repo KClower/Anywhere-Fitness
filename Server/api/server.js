@@ -33,17 +33,20 @@ const sessionConfiguration = {
     cookie: {
         maxAge: 1000 * 60 * 10,
         secure: process.env.USE_SECURE_COOKIES || false, // send the cookie only over https (secure connection)
-        httpOnly: true,  // prevent JS code on client from accessing THIS cookie  
+        httpOnly: false,  // prevent JS code on client from accessing THIS cookie  
     },
     resave: false,
-    saveUninitialized: true, // read docs, it's related to GDPR compliance
+    saveUninitialized: false, // read docs, it's related to GDPR compliance
     store: knexStore,
 
 };
 
 server.use(session(sessionConfiguration)); // enables session support
 server.use(express.json());
-
+server.use((req, res, next) => {
+    console.log(req.session)
+    next()
+})
 server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/type', classTypeRouter);

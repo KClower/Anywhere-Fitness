@@ -26,9 +26,13 @@ router.get('/class/:classId', (req, res) => {
         });
 })
 
-router.post('/signup', async (req, res) => {
-    const { clientId, classId } = req.body;
+router.put('/signup/:classId', async (req, res) => {
+    const { classId } = req.params;
 
+    const clientId = req.body.userId
+    if (!classId || !clientId) {
+        return res.status(422).json({ message: "Unable to proccess request." })
+    }
     try {
         // First, check if the class exists and if there's room
         const classInfo = await ClientClasses.findClassById(classId);

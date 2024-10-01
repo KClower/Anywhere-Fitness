@@ -42,6 +42,7 @@ router.post('/login', (req, res) => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 req.session.loggedIn = true;
                 req.session.userId = user.id;
+                req.session.save()
                 const userInfo = {
                     userId: user.id
                 }

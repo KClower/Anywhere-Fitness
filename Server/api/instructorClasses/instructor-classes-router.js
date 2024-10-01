@@ -72,6 +72,9 @@ router.post('/class', async (req, res, next) => {
         });
 });
 
+// router.put('/class/:id/join', (req, res, next) => {
+
+// })
 
 
 router.put('/class/:id', async (req, res, next) => {
