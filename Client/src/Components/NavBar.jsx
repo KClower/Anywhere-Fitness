@@ -2,8 +2,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import BsNavbar from 'react-bootstrap/Navbar';
+import Image from 'react-bootstrap/Image';
 import axios from 'axios';
-import { useAuthStore } from '../stores/useAuthStore';
+
 
 
 
@@ -12,7 +13,8 @@ import { useAuthStore } from '../stores/useAuthStore';
 
 export function NavBar() {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const avatarUrl = "https://via.placeholder.com/40";
 
     // const logOut = useAuthStore((state) => state.logOut);
 
@@ -41,6 +43,14 @@ export function NavBar() {
                         <Nav.Link as={NavLink} to='/'>Home</Nav.Link>
                         <Nav.Link as={NavLink} to="/SignIn">Sign In</Nav.Link>
                         <Nav.Link as={"a"} href="#" onClick={handleLogOut}>Log Out</Nav.Link>
+                    </Nav>
+                    <Nav className="ms-auto">
+                        <Image
+                            src={avatarUrl}  // Replace with the user's avatar URL
+                            roundedCircle
+                            style={{ width: '50px', height: '50px', marginRight: '10px' }}
+                            alt="Profile"
+                        />
                     </Nav>
                 </BsNavbar.Collapse>
             </Container>

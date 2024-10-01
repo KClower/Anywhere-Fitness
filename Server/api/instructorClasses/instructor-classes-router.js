@@ -7,6 +7,7 @@ const ClassIntensity = require('../classIntensity/rf-class-intensity-model.js');
 
 const router = express.Router();
 
+
 router.get('/classes', (req, res, next) => {
     InstructorClasses.findAll(req.query)
         .then(classes => {
@@ -71,6 +72,9 @@ router.post('/class', async (req, res, next) => {
         });
 });
 
+// router.put('/class/:id/join', (req, res, next) => {
+
+// })
 
 
 router.put('/class/:id', async (req, res, next) => {

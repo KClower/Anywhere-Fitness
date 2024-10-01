@@ -3,7 +3,7 @@ const ClassIntensity = require('./rf-class-intensity-model');
 
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
+router.get('/type', (req, res, next) => {
     ClassIntensity.find(req.query)
         .then(classIntensity => {
             res.status(200).json(classIntensity)

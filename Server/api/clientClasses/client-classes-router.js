@@ -26,9 +26,13 @@ router.get('/class/:classId', (req, res) => {
         });
 })
 
-router.post('/signup', async (req, res) => {
-    const { clientId, classId } = req.body;
+router.put('/signup/:classId', async (req, res) => {
+    const { classId } = req.params;
 
+    const clientId = req.body.userId
+    if (!classId || !clientId) {
+        return res.status(422).json({ message: "Unable to proccess request." })
+    }
     try {
         // First, check if the class exists and if there's room
         const classInfo = await ClientClasses.findClassById(classId);
@@ -58,42 +62,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// router.post('/signup', (req, res) => {
-//     const { clientId, classId } = req.body;
-
-//     // First, check if the class exists and if there's room
-//     ClientClasses.findClassById(classId)
-//         .then(classInfo => {
-//             if (!classInfo) {
-//                 return res.status(404).json({ success: false, message: 'Class not found' });
-//             }
-
-//             if (classInfo.class_size >= classInfo.class_capacity) {
-//                 return res.status(400).json({ success: false, message: 'Class is full' });
-//             }
-
-//             // Check if the client is already signed up
-//             return ClientClasses.isClientSignedUp(clientId, classId)
-//                 .then(clientSignedUp => {
-//                     if (clientSignedUp) {
-//                         return res.status(400).json({ success: false, message: 'Client already signed up' });
-//                     }
-
-//                     // Sign up the client
-//                     return ClientClasses.signUpClientForClass(clientId, classId)
-
-//                         .then(() => {
-//                             res.status(200).json({ success: true, message: 'Client successfully signed up for the class' });
-//                         })
-//                         .catch(error => {
-//                             res.status(500).json({ success: false, message: error.message });
-//                         });
-//                 });
-//         })
-//         .catch(error => {
-//             res.status(500).json({ success: false, message: error.message });
-//         });
-// });
 
 router.get('/classes/:clientId', (req, res) => {
     const { clientId } = req.params;

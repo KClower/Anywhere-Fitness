@@ -11,6 +11,7 @@ const usersRouter = require('./users/users-router.js');
 const authRouter = require('./auth/auth-router.js');
 const classTypeRouter = require('./classType/rf-class-type-router.js');
 const classIntensityRouter = require('./classIntensity/rf-class-intensity-router.js');
+const instructorsRouter = require('./instructors/instructors-router.js');
 const instructorClasses = require('./instructorClasses/instructor-classes-router.js');
 const clientClasses = require('./clientClasses/client-classes-router.js');
 
@@ -42,11 +43,15 @@ const sessionConfiguration = {
 
 server.use(session(sessionConfiguration)); // enables session support
 server.use(express.json());
-
+server.use((req, res, next) => {
+    console.log(req.session)
+    next()
+})
 server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/type', classTypeRouter);
 server.use('/api/intensity', classIntensityRouter);
+server.use('/api/instructors', instructorsRouter);
 server.use('/api/instructor', instructorClasses);
 server.use('/api/client', clientClasses);
 

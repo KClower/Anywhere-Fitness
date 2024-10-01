@@ -2,10 +2,12 @@
 const db = require('../../data/db-config.js');
 
 module.exports = {
+
     findAll,
     getAllClassesByInstructorId,
     getInstructorClassById,
     create,
+    //joinClass,
     update,
     remove
 }
@@ -24,6 +26,7 @@ const instructorClassColumns = [
     "class_capacity"
 ]
 
+
 function findAll() {
     return db.from({ ic: 'instructor_classes' })
         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
@@ -34,8 +37,8 @@ function findAll() {
             'ic.instructor_id',
             'ic.class_name',
             'ic.id',
-            'ct.class_type',  // Get the class type string
-            'ci.intensity',   // Get the class intensity string
+            'ct.class_type',
+            'ci.intensity',
             'ic.start_time',
             'ic.duration',
             'ic.location',
@@ -44,23 +47,7 @@ function findAll() {
             'ic.class_capacity'
         );
 }
-// function findAll() {
-//     return db.from({ ic: 'instructor_classes' })
-//         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
-//         .select(
-//             'i.instructor_name',
-//             'ic.instructor_id',
-//             'ic.class_name',
-//             'ic.id',
-//             'ic.class_type_id',
-//             'ic.intensity_id',
-//             'ic.start_time',
-//             'ic.duration',
-//             'ic.location',
-//             'ic.price',
-//             'ic.class_size',
-//             'ic.class_capacity')
-// }
+
 
 function getAllClassesByInstructorId(instructor_id) {
     return db.from({ ic: 'instructor_classes' })
@@ -132,6 +119,23 @@ function create({
         })
 }
 
+// async function joinClass(clientId, classId) {
+//     await db.transaction(async trx => {
+//         const classUpdate = await trx('instructor_classes')
+//         .where({id: classId})
+//         .increment('class_size', 1)
+//         .returning('*');
+
+//         if(!classUpdate.length) {
+//             throw new Error('Class not found');
+//         }
+//         await trx('client_classes').insert({
+//             client_id: clientId,
+//             class_id: classId,
+//         })
+//     })
+// }
+
 async function update({
     id,
     instructorId,
@@ -164,6 +168,8 @@ async function update({
 
     return result[0]
 }
+
+
 
 async function remove(instructorClassId) {
     const result = await db('instructor_classes')

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import styled from "styled-components";
 
@@ -6,21 +7,54 @@ const SearchLabel = styled.label`
 padding-left: 50px;
 padding-right: 5px;
 `
+const ResetButton = styled.button`
+padding: 0 5px;
+margin-left: 50px`;
 
-export default function SearchForm(props) {
-
-    const [classType, setClassType] = useState()
-    const [instructor, setInstructor] = useState()
-    const [intensity, setIntensity] = useState()
-    const { searchFilter } = props
+export default function SearchForm({ searchFilter }) {
 
 
+    const [classType, setClassType] = useState("");
+    const [instructor, setInstructor] = useState("");
+    const [intensity, setIntensity] = useState("");
+
+    const [classTypes, setClassTypes] = useState([]);
+    const [instructors, setInstructors] = useState([]);
+    const [intensities, setIntensities] = useState([]);
+
+
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:9000/api/type/class')
+            .then(res => {
+                console.log(res.data)
+                setClassTypes(res.data)
+            })
+            .catch(err => console.log(err));
+
+        axios
+            .get('http://localhost:9000/api/instructors/names')
+            .then(res => {
+                console.log(res.data)
+                setInstructors(res.data)
+            })
+            .catch(err => console.log(err));
+
+        axios
+            .get('http://localhost:9000/api/intensity/type')
+            .then(res => {
+                console.log(res.data)
+                setIntensities(res.data)
+            })
+            .catch(err => console.log(err));
+    }, [])
 
 
 
     const changeHandler = (e) => {
 
-        if (e.target.name === "classType") {
+        if (e.target.name === "classtype") {
             setClassType(e.target.value)
         } else if (e.target.name === "instructor") {
             setInstructor(e.target.value)
@@ -35,53 +69,69 @@ export default function SearchForm(props) {
         searchFilter(filter)
     }
 
+    const resetFilters = () => {
+        setClassType("");
+        setInstructor("");
+        setIntensity("");
+
+        searchFilter({ field: 'classtype', value: "" });
+        searchFilter({ field: 'instructor', value: "" });
+        searchFilter({ field: 'intensity', value: "" });
+    };
 
     return (
         <div>
 
             <form>
-                <SearchLabel>Class:</SearchLabel>
-
+                <SearchLabel>Search:</SearchLabel>
                 <select
                     value={classType}
                     name="classtype"
                     id="classtype"
                     onChange={changeHandler}
                 >
-                    <option value="">--Choose an option--</option>
-                    <option value="Yoga">Yoga</option>
-                    <option value="Crossfit">Crossfit</option>
-                    <option value="Pilates">Pilates</option>
-                    <option value="Weight Training">Weight Training</option>
-
+                    <option value="">--Class Types--</option>
+                    {classTypes.map(type => (
+                        <option key={type.id} value={type.class_type}>
+                            {type.class_type}
+                        </option>
+                    ))}
                 </select>
-                <SearchLabel>Instructor:</SearchLabel>
+
+                <SearchLabel>Search:</SearchLabel>
                 <select
                     value={instructor}
                     name="instructor"
                     id="instructor"
                     onChange={changeHandler}
                 >
-                    <option value="">--Choose an option--</option>
-                    <option value="Seth">Seth</option>
-                    <option value="Blaze">Blaze</option>
-                    <option value="Susan">Susan</option>
-                    <option value="Jason">Jason</option>
-                    <option value="Beth">Beth</option>
+                    <option value="">--Instructors--</option>
+                    {instructors.map(name => (
+                        <option key={name.id} value={name.instructor_name}>
+                            {name.instructor_name}
+                        </option>
+                    ))}
                 </select>
-                <SearchLabel>Intensity:</SearchLabel>
+
+                <SearchLabel>Search:</SearchLabel>
                 <select
                     value={intensity}
                     name="intensity"
                     id="intensity"
                     onChange={changeHandler}
                 >
-                    <option value="">--Choose an option--</option>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="">--Intensity Levels--</option>
+                    {intensities.map(levels => (
+                        <option key={levels.id} value={levels.intensity}>
+                            {levels.intensity}
+                        </option>
+                    ))}
 
                 </select>
+
+                <ResetButton type="button" onClick={resetFilters}>
+                    Clear Searches
+                </ResetButton>
             </form>
         </div>
     )

@@ -3,7 +3,6 @@ import * as yup from "yup";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from "../stores/useAuthStore";
 import styled from "styled-components";
 import { AccountFormContainer } from "./AccountFormContainer";
 

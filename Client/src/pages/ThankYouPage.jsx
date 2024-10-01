@@ -9,7 +9,7 @@ export default function ThankYou() {
 
 
     return (
-        <ThankYouStatement className="animate__animated animate__backInDown">THANK YOU FOR YOUR PAYMENT</ThankYouStatement>
+        <ThankYouStatement className="animate__animated animate__backInDown">CONFIRMED, SEE YOU IN CLASS.</ThankYouStatement>
     )
 
 }
