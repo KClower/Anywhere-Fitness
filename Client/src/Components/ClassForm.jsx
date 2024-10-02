@@ -115,7 +115,6 @@ export default function ClassForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("form submitted")
-        const user = sessionStorage.getItem("user")
         const requestData = {
             ...classValues, instructorId: user
         }

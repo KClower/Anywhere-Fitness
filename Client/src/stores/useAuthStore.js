@@ -1,21 +1,25 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware';
 import zustymiddleware from 'zustymiddleware';
 
 
-export const useAuthStore = create(zustymiddleware((set) => {
+export const useAuthStore = create(persist((set) => {
     return {
         user: null,
         isAuthenticated: false,
-        logIn: (userId) => {
+        isInstructor: null,
+        logIn: (userId, isInstructor) => {
             set(() => ({
                 user: userId,
-                isAuthenticated: true
+                isAuthenticated: true,
+                isInstructor,
             }))
         },
         logOut: () => {
             set(() => ({
                 user: null,
-                isAuthenticated: false
+                isAuthenticated: false,
+                isInstructor: null,
             }))
         }
     }

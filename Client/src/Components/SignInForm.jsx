@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { AccountFormContainer } from "./AccountFormContainer";
-
+import { useAuthStore } from "../stores/useAuthStore";
 
 
 
@@ -23,6 +23,7 @@ const formSchema = yup.object().shape({
 
 function SignInForm() {
     const navigate = useNavigate();
+    const { logIn } = useAuthStore();
 
     // const logIn = useAuthStore((state) => state.logIn);
 
@@ -88,9 +89,8 @@ function SignInForm() {
         axios
             .post('http://localhost:9000/api/auth/login', credentials, { withCredentials: true })
             .then(res => {
-                console.log(res.data)
-                // logIn(res.data.userInfo.userId)
-                sessionStorage.setItem("user", res.data.userInfo.userId)
+                console.log("login result", res.data)
+                logIn(res.data.userInfo.userId, res.data.userInfo.isInstructor)
                 navigate("/WorkoutList")
             })
             .catch(err => console.log(err))

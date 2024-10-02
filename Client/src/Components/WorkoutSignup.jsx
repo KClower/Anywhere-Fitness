@@ -29,7 +29,6 @@ export default function WorkoutSignup() {
 
 
     const joinClass = async () => {
-        const userId = sessionStorage.getItem("user")
         console.log("workout signup:: join class: ", userId)
         await axios
             .put(`http://localhost:9000/api/client/signup/${id}`, { userId })

@@ -21,7 +21,8 @@ router.post('/register', (req, res, next) => {
                     req.session.loggedIn = true;
                     req.session.userId = result.id;
                     const createdUserInfo = {
-                        userId: createdUser.id
+                        userId: createdUser.id,
+                        isInstructor: createdUser.isInstructor,
                     }
                     res.status(201).json({ Message: "Created new user in database.", createdUser: createdUserInfo });
                 })
@@ -44,7 +45,8 @@ router.post('/login', (req, res) => {
                 req.session.userId = user.id;
                 req.session.save()
                 const userInfo = {
-                    userId: user.id
+                    userId: user.id,
+                    isInstructor: user.isInstructor,
                 }
                 res.status(200).json({ Message: "Welcome", userInfo });
             } else {

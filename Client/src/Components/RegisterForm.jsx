@@ -4,7 +4,7 @@ import * as yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
 import { AccountFormContainer } from "../Components/AccountFormContainer";
-
+import { useAuthStore } from "../stores/useAuthStore";
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
@@ -39,6 +39,9 @@ const RegisterForm = () => {
         instructorName: "",
 
     });
+
+
+    const { logIn } = useAuthStore();
 
     const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -121,7 +124,8 @@ const RegisterForm = () => {
         axios
             .post('http://localhost:9000/api/auth/register', payload, { withCredentials: true })
             .then(res => {
-                console.log(res.data);
+                console.log("register return", res.data);
+                logIn(res.data.createdUser.userId, res.data.createdUser.isInstructor)
                 navigate("/WorkoutList")
             })
             .catch(err => console.log(err))
