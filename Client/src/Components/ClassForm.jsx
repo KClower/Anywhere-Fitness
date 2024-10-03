@@ -65,6 +65,8 @@ export default function ClassForm() {
         classCapacity: ''
     })
 
+    const { user } = useAuthStore()
+
     const validate = (e) => {
         let value = e.target.value;
 
@@ -115,7 +117,6 @@ export default function ClassForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("form submitted")
-        const user = sessionStorage.getItem("user")
         const requestData = {
             ...classValues, instructorId: user
         }
@@ -128,6 +129,7 @@ export default function ClassForm() {
             .catch(error => {
                 console.log(error)
             })
+
     }
 
     return (

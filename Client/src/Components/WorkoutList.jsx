@@ -4,9 +4,11 @@ import { NavLink } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import styled from "styled-components";
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import { formatDate } from "../utils";
-
+import { useAuthStore } from "../stores/useAuthStore";
 
 
 
@@ -19,6 +21,8 @@ const WorkoutList = () => {
         instructor: "",
         intensity: "",
     })
+
+    const { isAuthenticated } = useAuthStore();
 
     useEffect(() => {
         axios
@@ -65,52 +69,55 @@ const WorkoutList = () => {
             </WorkoutHeader>
 
             <WorkoutWrapper>
-                {dataSource.length > 0 ? (
+                <Row>
+                    {dataSource.length > 0 ? (
 
-                    dataSource.map(workout => (
+                        dataSource.map(workout => (
+                            <Col key={workout.id} md={3} className="mb-4, mt-4">
+
+                                <Card style={{ width: '100%' }}>
+                                    <Card.Body className="m-3">
+                                        <Card.Title>{workout.class_type}</Card.Title>
+                                        <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Instructor: {workout.instructor_name}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Price: ${workout.price}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Date & Time: {formatDate(workout.start_time)}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Duration: {workout.duration}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Intensity Level: {workout.intensity}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Location: {workout.location}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
+                                        <Card.Subtitle className="mb-4 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
+
+                                        {isAuthenticated
+                                            ? (
+                                                <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
+                                                    <JoinButton>
+                                                        Join Class
+                                                    </JoinButton>
+                                                </NavLink>
+
+                                            )
+                                            : (
+                                                <Nav.Link as={NavLink} to="/SignIn">
+                                                    <JoinButton>
+                                                        Sign In to join class
+                                                    </JoinButton>
+                                                </Nav.Link>
+                                            )
+                                        }
 
 
-                        <Card style={{ width: '18rem' }}>
-                            <Card.Body>
-                                <Card.Title>{workout.class_type}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Instructor: {workout.instructor_name}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Price: ${workout.price}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Date & Time: {formatDate(workout.start_time)}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Duration: {workout.duration}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Intensity Level: {workout.intensity}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Location: {workout.location}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
-                                <Card.Subtitle className="mb-2 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
-
-                                {true
-                                    ? (
-                                        <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
-                                            <JoinButton>
-                                                Join Class
-                                            </JoinButton>
-                                        </NavLink>
-
-                                    )
-                                    : (
-                                        <Nav.Link as={NavLink} to="/SignIn">
-                                            <JoinButton>
-                                                Sign In to join class
-                                            </JoinButton>
-                                        </Nav.Link>
-                                    )
-                                }
-
-                                {/* <Card.Link as={NavLink} to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>Join Class</Card.Link> */}
 
 
-                            </Card.Body>
-                        </Card>
-                    ))
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))
 
-                ) : (
-                    <p>NO RESULTS</p>
-                )}
+                    ) : (
+                        <p>NO RESULTS</p>
+                    )}
+                </Row>
             </WorkoutWrapper>
         </>
     )

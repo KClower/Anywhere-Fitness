@@ -5,7 +5,7 @@ import styled from "styled-components";
 import 'animate.css';
 import axios from "axios"
 import { formatDate } from "../utils";
-
+import { useAuthStore } from "../stores/useAuthStore";
 
 
 const SelectedCard = styled.div`
@@ -26,10 +26,9 @@ export default function WorkoutSignup() {
     const { workout } = location.state || {}; // Destructure the passed class data
     const navigate = useNavigate();
 
-
+    const { user: userId } = useAuthStore();
 
     const joinClass = async () => {
-        const userId = sessionStorage.getItem("user")
         console.log("workout signup:: join class: ", userId)
         await axios
             .put(`http://localhost:9000/api/client/signup/${id}`, { userId })
