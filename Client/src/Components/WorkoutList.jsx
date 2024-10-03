@@ -106,7 +106,7 @@ const WorkoutList = () => {
                                             )
                                         }
 
-                                        {/* <Card.Link as={NavLink} to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>Join Class</Card.Link> */}
+
 
 
                                     </Card.Body>

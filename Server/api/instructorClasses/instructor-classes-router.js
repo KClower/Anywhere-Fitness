@@ -15,8 +15,8 @@ router.get('/classes', (req, res, next) => {
         });
 });
 
-router.get('/classes/:id', (req, res, next) => {
-    InstructorClasses.getAllClassesByInstructorId(req.params.id)
+router.get('/classes/:instructorId', (req, res, next) => {
+    InstructorClasses.getAllClassesByInstructorId(req.params.instructorId)
         .then(instructorClasses => {
             res.json(instructorClasses)
         })
@@ -122,6 +122,10 @@ router.delete('/class/:id', (req, res, next) => {
     InstructorClasses.remove(req.params.id)
         .then(count => {
             res.json({ Revmoved: count })
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ message: "Could not remove class" })
         })
 })
 

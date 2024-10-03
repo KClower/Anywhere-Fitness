@@ -65,6 +65,8 @@ export default function ClassForm() {
         classCapacity: ''
     })
 
+    const { user } = useAuthStore()
+
     const validate = (e) => {
         let value = e.target.value;
 
@@ -127,6 +129,7 @@ export default function ClassForm() {
             .catch(error => {
                 console.log(error)
             })
+
     }
 
     return (

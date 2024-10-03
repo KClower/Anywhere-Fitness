@@ -27,7 +27,7 @@ export function NavBar() {
     const navigate = useNavigate();
     const dashboardLink = getDashboardLink(isAuthenticated, isInstructor);
 
-    // const logOut = useAuthStore((state) => state.logOut);
+
 
     function handleLogOut(e) {
         e.preventDefault()

@@ -45,9 +45,12 @@ function getClientClasses(clientId) {
         .join('instructor_classes as ic', 'cc.class_id', 'ic.id')
         .join('rf_class_type as ct', 'ic.class_type_id', 'ct.id')
         .join('rf_class_intensity as ci', 'ic.intensity_id', 'ci.id')
+        .join('instructors as ins', 'ic.instructor_id', 'ins.instructor_id')
         .select(
             'ic.id as class_id',
             'ic.class_name',
+            'ins.instructor_name',
+            'ic.price',
             'ic.start_time',
             'ic.duration',
             'ic.location',
@@ -62,6 +65,7 @@ function getClientClasses(clientId) {
 async function removeClientClass(clientId, classId) {
     const result = await isClientSignedUp(clientId, classId)
     if (result === undefined) {
+
         throw new Error('Client is not signed up for this class');
     }
     return db.transaction(async trx => {

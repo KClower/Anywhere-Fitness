@@ -49,23 +49,25 @@ function findAll() {
 }
 
 
-function getAllClassesByInstructorId(instructor_id) {
+function getAllClassesByInstructorId(instructorId) {
     return db.from({ ic: 'instructor_classes' })
         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .join({ ct: 'rf_class_type' }, 'ic.class_type_id', 'ct.id')
+        .join({ ci: 'rf_class_intensity' }, 'ic.intensity_id', 'ci.id')
         .select(
             'i.instructor_name',
             'ic.instructor_id',
             'ic.class_name',
-            'ic.id',
-            'ic.class_type_id',
-            'ic.intensity_id',
+            'ic.id as class_id',
+            'ct.class_type',
+            'ci.intensity',
             'ic.start_time',
             'ic.duration',
             'ic.location',
             'ic.price',
             'ic.class_size',
             'ic.class_capacity')
-        .where({ 'ic.instructor_id': instructor_id })
+        .where({ 'ic.instructor_id': instructorId })
 }
 
 function getInstructorClassById(instructorClassId) {
@@ -169,7 +171,12 @@ async function update({
     return result[0]
 }
 
-
+// async function remove(instructorClassId) {
+//     const result = await db('instructor_classes')
+//         .where({ id: instructorClassId })
+//         .del();
+//     return result; // return the count of deleted rows
+// }
 
 async function remove(instructorClassId) {
     const result = await db('instructor_classes')
