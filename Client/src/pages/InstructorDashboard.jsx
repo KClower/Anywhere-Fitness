@@ -1,13 +1,25 @@
 import InstructorClasses from "../Components/InstructorClasses";
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+
+
+
+
 
 
 export function InstructorDashboard() {
+
+    const navigate = useNavigate();
+
+    const handleCreateClass = () => {
+        navigate('/ClassForm');
+    }
+
     return (
         <>
             <DashboardHeader>
                 <h2>Dashboard</h2>
-                <CreateClassButton>Create Class</CreateClassButton>
+                <CreateClassButton onClick={handleCreateClass}>Create Class</CreateClassButton>
             </DashboardHeader>
 
             < InstructorClasses />

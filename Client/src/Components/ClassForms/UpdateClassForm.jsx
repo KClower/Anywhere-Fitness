@@ -1,57 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from "axios";
-import * as yup from "yup";
 import styled from "styled-components";
-import { AccountFormContainer } from './AccountFormContainer';
-import { useAuthStore } from '../stores/useAuthStore';
+import { AccountFormContainer } from '../AccountFormContainer';
+import { useAuthStore } from '../../stores/useAuthStore';
+import { handleInputChange, validateForm } from './utils';
 
+const formatDateForInput = (isoDate) => {
+    // Create a Date object from the ISO string
+    const date = new Date(isoDate);
 
+    // Extract components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
 
-const formSchema = yup.object().shape({
-    classType: yup.string().required("Class type is required"),
-    className: yup.string().required("Class name is required").min(3),
-    intensity: yup.string().required("Intensity level is required"),
-    startTime: yup.date()
-        .required("Start time is required")
-        .typeError("Start time must be a valid date"),
+    // Return formatted string "yyyy-MM-ddThh:mm"
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
 
-    duration: yup.number().required("Duration is required")
-        .positive("Duration must be a positive amount")
-        .test(
-            'is-multiple-of-30',
-            'Duration must be a multiple of 30',
-            value => value % 30 === 0)
-        .max(120),
-    location: yup.string().required("Location is required"),
-    price: yup.number().required("Price is required")
-        .positive("Price must be a positive amount").test(
-            'is-decimal',
-            'Price must have at most 2 decimal places',
-            value => value && /^\d+(\.\d{1,2})?$/.test(value)
-        )
-        .min(10)
-        .max(40),
-    classCapacity: yup.number()
-        .required("Class capacity is required")
-        .positive()
-        .min(1)
-        .max(20)
-})
-
-export default function ClassForm() {
+export default function UpdateClassForm() {
     const navigate = useNavigate();
-    // const user = useAuthStore((state) => state.user);
-    const [classValues, setClassValues] = useState({
+    const location = useLocation();
+    const { user } = useAuthStore();
 
-        classType: '',
-        className: '',
-        intensity: '',
-        startTime: '',
-        duration: '',
-        location: '',
-        price: '',
-        classCapacity: ''
+
+
+    const [classValues, setClassValues] = useState(() => {
+        const { classData } = location.state
+
+        return {
+            classId: classData.class_id,
+            classType: classData.class_type_id,
+            className: classData.class_name,
+            intensity: classData.intensity_id,
+            startTime: formatDateForInput(classData.start_time),
+            duration: classData.duration,
+            location: classData.location,
+            price: classData.price,
+            classCapacity: classData.class_capacity,
+        }
     });
 
     const [errorsState, setErrorsState] = useState({
@@ -65,19 +55,10 @@ export default function ClassForm() {
         classCapacity: ''
     })
 
-    const { user } = useAuthStore()
+
 
     const validate = (e) => {
-        let value = e.target.value;
-
-        // If the field is 'startTime', convert the value to ISO format
-        if (e.target.name === 'startTime') {
-            const date = new Date(value);
-            if (!isNaN(date)) {  // Ensure the date is valid
-                value = date.toISOString(); // Convert to ISO format
-            }
-        }
-        yup.reach(formSchema, e.target.name).validate(e.target.value)
+        validateForm(e)
             .then(valid => {
                 setErrorsState({
                     ...errorsState,
@@ -93,21 +74,9 @@ export default function ClassForm() {
     };
 
     const handleChange = (e) => {
-        console.log("input change", e.target.value)
         e.persist()
         validate(e)
-        let value = e.target.value;
-        const numericField = [
-            "classType",
-            "intensity"
-
-        ]
-        if (e.target.name === "startTime") {
-            value = new Date(e.target.value).toISOString()
-        }
-        if (numericField.includes(e.target.name)) {
-            value = new Number(e.target.value)
-        }
+        const value = handleInputChange(e)
         setClassValues({
             ...classValues,
             [e.target.name]: value
@@ -120,11 +89,13 @@ export default function ClassForm() {
         const requestData = {
             ...classValues, instructorId: user
         }
-        console.log(requestData)
+
         axios
-            .post('http://localhost:9000/api/instructor/class', requestData)
+            .put(`http://localhost:9000/api/instructor/class/${classValues.classId}`, requestData)
+
             .then(res => {
                 console.log(res)
+                navigate("/Instructor/dashboard")
             })
             .catch(error => {
                 console.log(error)
@@ -140,6 +111,7 @@ export default function ClassForm() {
                     <ClassSelect
                         id="classType"
                         name="classType"
+                        value={classValues.classType}
                         onChange={handleChange}
                     >
                         <option value="">-- Select Class Type --</option>
@@ -175,6 +147,7 @@ export default function ClassForm() {
                     <ClassSelect
                         id="intensity"
                         name="intensity"
+                        value={classValues.intensity}
                         onChange={handleChange}
                     >
                         <option value="">-- Choose Intensity Level --</option>
@@ -193,6 +166,7 @@ export default function ClassForm() {
                         type='datetime-local'
                         id='startTime'
                         name='startTime'
+                        value={classValues.startTime}
                         onChange={handleChange}
                         placeholder='YYYY-MM-DD HH:MM'
                     />
@@ -254,7 +228,7 @@ export default function ClassForm() {
                         (<ErrorStatement>{errorsState.classCapacity}</ErrorStatement>)
                         : null}
                 </div>
-                <button type='submit'>Submit</button>
+                <button type='submit'>Update</button>
             </ClassFormStyle>
 
         </AccountFormContainer>
@@ -280,14 +254,4 @@ const ClassSelect = styled.select`
 padding: 10px 5px;
 margin-bottom: 10px;
 width: 100%
-`
-
-
-// classType: '',
-// className: '',
-// intensity: '',
-// startTime: '',
-// duration: '',
-// location: '',
-// price: '',
-// classCapacity: ''
+`    
