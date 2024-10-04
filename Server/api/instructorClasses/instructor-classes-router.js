@@ -72,9 +72,7 @@ router.post('/class', async (req, res, next) => {
         });
 });
 
-// router.put('/class/:id/join', (req, res, next) => {
 
-// })
 
 
 router.put('/class/:id', async (req, res, next) => {
@@ -121,7 +119,7 @@ router.put('/class/:id', async (req, res, next) => {
 router.delete('/class/:id', (req, res, next) => {
     InstructorClasses.remove(req.params.id)
         .then(count => {
-            res.json({ Revmoved: count })
+            res.json({ Removed: count })
         })
         .catch(error => {
             console.error(error);

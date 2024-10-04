@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
@@ -10,7 +11,7 @@ import { useAuthStore } from "../stores/useAuthStore";
 
 const InstructorClasses = () => {
     const [createdClasses, setCreatedClasses] = useState([]);
-
+    const navigate = useNavigate();
     const { user } = useAuthStore()
 
     useEffect(() => {
@@ -29,13 +30,19 @@ const InstructorClasses = () => {
         try {
             const res = await axios.delete(`http://localhost:9000/api/instructor/class/${classId}`);
             if (res.data.Removed) {
-                setCreatedClasses(createdClasses.filter(workout => workout.id !== classId));
+
+                const filteredClasses = createdClasses.filter(workout => workout.class_id !== classId)
+
+                setCreatedClasses(filteredClasses);
             }
         } catch (error) {
             console.log("Error removing class.", error)
         }
     }
 
+    const updateClass = (classData) => {
+        navigate("/UpdateClassForm", { state: { classData } });
+    }
 
     return (
 
@@ -56,7 +63,7 @@ const InstructorClasses = () => {
                                 <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
                                 <Card.Subtitle className="mb-4 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
 
-                                <UpdateButton onClick={() => updateClass(workout.class_id)}>
+                                <UpdateButton onClick={() => updateClass(workout)}>
                                     Update Class
                                 </UpdateButton>
 

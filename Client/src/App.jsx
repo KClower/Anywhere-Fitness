@@ -8,7 +8,8 @@ import WorkoutList from './Components/WorkoutList';
 import WorkoutSignup from './Components/WorkoutSignup';
 import { InstructorDashboard } from './pages/InstructorDashboard';
 import { ClientDashboard } from './pages/ClientDashboard';
-import ClassForm from './Components/ClassForm';
+import CreateClassForm from './Components/ClassForms/CreateClassForm';
+import UpdateClassForm from './Components/ClassForms/UpdateClassForm';
 import JoinClassForm from './Components/JoinClassForm';
 import ThankYou from './pages/ThankYouPage';
 
@@ -34,7 +35,8 @@ function App() {
         <Route path="/WorkoutSignup/:id" Component={WorkoutSignup} />
         <Route path="/Instructor/dashboard" Component={InstructorDashboard} />
         <Route path="/Client/dashboard" Component={ClientDashboard} />
-        <Route path="/ClassForm" Component={ClassForm} />
+        <Route path="/CreateClassForm" Component={CreateClassForm} />
+        <Route path="/UpdateClassForm" Component={UpdateClassForm} />
         <Route path="/JoinClassForm" Component={JoinClassForm} />
         <Route path="/ThankYouPage" Component={ThankYou} />
       </Routes>
