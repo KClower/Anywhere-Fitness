@@ -7,11 +7,13 @@ import Register from "./pages/Register";
 import WorkoutList from './Components/WorkoutList';
 import WorkoutSignup from './Components/WorkoutSignup';
 import { InstructorDashboard } from './pages/InstructorDashboard';
+import { InstructorJoinedClasses } from './Components/Classes/InstructorJoinedClasses';
 import { ClientDashboard } from './pages/ClientDashboard';
 import CreateClassForm from './Components/ClassForms/CreateClassForm';
 import UpdateClassForm from './Components/ClassForms/UpdateClassForm';
-import JoinClassForm from './Components/JoinClassForm';
+import JoinClassForm from './Components/ClassForms/JoinClassForm';
 import ThankYou from './pages/ThankYouPage';
+import { Tabs } from './Components/Tabs';
 
 
 
@@ -30,6 +32,7 @@ function App() {
       <Routes>
         <Route exact path="/" Component={Home} />
         <Route path="/SignIn" Component={SignIn} />
+        <Route path="/test" Component={Tabs} />
         <Route path="/Register" Component={Register} />
         <Route path="/WorkoutList" Component={WorkoutList} />
         <Route path="/WorkoutSignup/:id" Component={WorkoutSignup} />

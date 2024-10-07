@@ -25,14 +25,14 @@ export default function UpdateClassForm() {
     const navigate = useNavigate();
     const location = useLocation();
     const { user } = useAuthStore();
-
+    const { classData } = location.state
 
 
     const [classValues, setClassValues] = useState(() => {
-        const { classData } = location.state
+
 
         return {
-            classId: classData.class_id,
+
             classType: classData.class_type_id,
             className: classData.class_name,
             intensity: classData.intensity_id,
@@ -91,7 +91,7 @@ export default function UpdateClassForm() {
         }
 
         axios
-            .put(`http://localhost:9000/api/instructor/class/${classValues.classId}`, requestData)
+            .put(`http://localhost:9000/api/instructor/class/${classData.class_id}`, requestData)
 
             .then(res => {
                 console.log(res)
