@@ -49,8 +49,9 @@ router.put('/signup/:classId', async (req, res) => {
         const clientSignedUp = await ClientClasses.isClientSignedUp(clientId, classId);
 
         if (clientSignedUp) {
-            return res.status(400).json({ success: false, message: 'Client already signed up' });
+            return res.status(400).json({ success: false, message: 'You are already signed up for this class.' });
         }
+
 
         // Sign up the client
         await ClientClasses.signUpClientForClass(clientId, classId);

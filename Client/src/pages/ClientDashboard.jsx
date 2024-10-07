@@ -1,4 +1,4 @@
-import ClientClasses from '../Components/ClientClasses';
+import ClientClasses from '../Components/Classes/ClientClasses';
 
 
 

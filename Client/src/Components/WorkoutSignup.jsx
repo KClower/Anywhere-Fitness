@@ -1,11 +1,14 @@
 
-
+import { useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import 'animate.css';
 import axios from "axios"
 import { formatDate } from "../utils";
 import { useAuthStore } from "../stores/useAuthStore";
+import Toast from 'react-bootstrap/Toast';
+import { ToastContainer } from "react-bootstrap";
+
 
 
 const SelectedCard = styled.div`
@@ -20,7 +23,8 @@ cursor: pointer;
 
 
 export default function WorkoutSignup() {
-
+    const [showToast, setShowToast] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const { id } = useParams(); // Gets the class ID from the URL
     const location = useLocation(); // Access passed state
     const { workout } = location.state || {}; // Destructure the passed class data
@@ -30,8 +34,17 @@ export default function WorkoutSignup() {
 
     const joinClass = async () => {
         console.log("workout signup:: join class: ", userId)
-        await axios
-            .put(`http://localhost:9000/api/client/signup/${id}`, { userId })
+        try {
+            await axios
+                .put(`http://localhost:9000/api/client/signup/${id}`, { userId })
+        }
+        catch (error) {
+            console.log(error.response.data.message)
+            setErrorMessage(error.response.data.message)
+            setShowToast(true)
+            return
+        }
+
 
         navigate('/ThankYouPage')
     }
@@ -63,6 +76,17 @@ export default function WorkoutSignup() {
                 </div>
 
             </SelectedCard>
+            <ToastContainer position="top-end" className="p-3">
+
+                <Toast bg="danger" show={showToast} onClose={() => setShowToast(false)}>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Error</strong>
+                    </Toast.Header>
+                    <Toast.Body>{errorMessage}</Toast.Body>
+                </Toast>
+
+            </ToastContainer>
         </>
     )
 }
