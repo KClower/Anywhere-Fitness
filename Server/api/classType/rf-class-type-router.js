@@ -10,7 +10,7 @@ router.get('/class', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "The class types could not be retrieved." });
+            res.status(500).json({ message: "The class types could not be retrieved." });
         });
 });
 

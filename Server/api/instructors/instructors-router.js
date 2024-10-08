@@ -10,7 +10,7 @@ router.get('/names', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "The instructor names could not be retrieved." });
+            res.status(500).json({ message: "The instructor names could not be retrieved." });
         });
 });
 

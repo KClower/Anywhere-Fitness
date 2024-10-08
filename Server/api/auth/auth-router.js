@@ -2,14 +2,29 @@ const bcrypt = require('bcryptjs');
 const router = require("express").Router();
 
 const Users = require('../users/users-model.js');
-const { knexStore } = require('../store-config.js');
 
 
-router.post('/register', (req, res, next) => {
+
+router.post('/register', async (req, res, next) => {
     let newUser = req.body;
     if (!newUser.email || !newUser.password || newUser.isInstructor === undefined || newUser.instructorName === undefined) {
-        return res.status(422).json({ Message: "Please provide the necessary information." });
+        return res.status(422).json({ message: "Please provide the necessary information." });
     }
+
+
+    try {
+        const existingUser = await Users.findBy({ email: newUser.email })
+
+        if (existingUser.length > 0) {
+            return res.status(422).json({ message: "This email is already registered. Please sign in." })
+        }
+
+
+    }
+    catch (error) {
+        return res.status(500).json({ message: "Can not find user." })
+    }
+
 
     const hash = bcrypt.hashSync(newUser.password, 12);
     newUser.password = hash;
@@ -24,12 +39,12 @@ router.post('/register', (req, res, next) => {
                         userId: createdUser.id,
                         isInstructor: createdUser.isInstructor,
                     }
-                    res.status(201).json({ Message: "Created new user in database.", createdUser: createdUserInfo });
+                    res.status(201).json({ message: "Created new user in database.", createdUser: createdUserInfo });
                 })
         })
         .catch((error) => {
             console.log("/api/users/register::err: ", error);
-            return res.status(500).json({ Message: "There was an error saving new user to database." });
+            return res.status(500).json({ message: "There was an error saving new user to database." });
         });
 });
 
@@ -48,14 +63,14 @@ router.post('/login', (req, res) => {
                     userId: user.id,
                     isInstructor: user.isInstructor,
                 }
-                res.status(200).json({ Message: "Welcome", userInfo });
+                res.status(200).json({ message: "Welcome", userInfo });
             } else {
-                res.status(401).json({ Message: "Invalid credentials" })
+                res.status(401).json({ message: "Invalid credentials." })
             }
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "There was an issue logging in" })
+            res.status(500).json({ message: "There was an issue logging in" })
         })
 })
 
@@ -64,14 +79,14 @@ router.post('/logout', (req, res) => {
     // knexStore.destroy(req.sessionID)
     req.session.destroy(err => {
         if (err) {
-            res.status(500).json({ Message: "Error logging out." })
+            res.status(500).json({ message: "Error logging out." })
         } else {
             res.clearCookie("monster", { httpOnly: true })
             res.status(204).end()
         }
     })
     // } else {
-    //     res.status(200).json({ Message: "Already logged out" })
+    //     res.status(200).json({ message: "Already logged out" })
     // }
 });
 

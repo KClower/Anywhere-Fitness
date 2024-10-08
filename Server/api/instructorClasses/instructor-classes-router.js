@@ -4,7 +4,7 @@ const Joi = require('joi');
 const InstructorClasses = require('./instructor-classes-model.js');
 const ClassTypes = require('../classType/rf-class-type-model.js');
 const ClassIntensity = require('../classIntensity/rf-class-intensity-model.js');
-
+const { authorize } = require('../auth/auth-middleware.js')
 const router = express.Router();
 
 
@@ -22,7 +22,7 @@ router.get('/classes/:instructorId', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "Could not find classes with that instructor id" })
+            res.status(500).json({ message: "Could not find classes with that instructor id" })
         })
 })
 
@@ -33,12 +33,12 @@ router.get('/class/:id', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "Could not find class with that id." })
+            res.status(500).json({ message: "Could not find class with that id." })
         })
 })
 
 
-router.post('/class', async (req, res, next) => {
+router.post('/class', authorize("instructor"), async (req, res, next) => {
     const classtype = await ClassTypes.getLast();
     const classintensity = await ClassIntensity.getLast();
 
@@ -63,19 +63,19 @@ router.post('/class', async (req, res, next) => {
         .then(result => {
             InstructorClasses.getInstructorClassById(result.newInstructorClassId)
                 .then(createdClass => {
-                    return res.status(201).json({ Message: "Created new class in database.", createdClass });
+                    return res.status(201).json({ message: "Created new class in database.", createdClass });
                 });
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "There was an error saving the new class to the database." });
+            res.status(500).json({ message: "There was an error saving the new class to the database." });
         });
 });
 
 
 
 
-router.put('/class/:id', async (req, res, next) => {
+router.put('/class/:id', authorize("instructor"), async (req, res, next) => {
 
     const classtype = await ClassTypes.getLast();
     const classintensity = await ClassIntensity.getLast();
@@ -94,7 +94,7 @@ router.put('/class/:id', async (req, res, next) => {
 
     const updateValidationResult = instructorClassUpdateSchema.validate(req.body);
     if (updateValidationResult.error) {
-        return res.status(422).json({ Message: updateValidationResult.error })
+        return res.status(422).json({ message: updateValidationResult.error })
     }
 
     const id = req.params.id;
@@ -109,14 +109,14 @@ router.put('/class/:id', async (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "There was an error while updating the class." });
+            res.status(500).json({ message: "There was an error while updating the class." });
         })
 
 })
 
 
 
-router.delete('/class/:id', (req, res, next) => {
+router.delete('/class/:id', authorize("instructor"), (req, res, next) => {
     InstructorClasses.remove(req.params.id)
         .then(count => {
             res.json({ Removed: count })

@@ -5,6 +5,10 @@ import axios from "axios";
 import styled from "styled-components";
 import { AccountFormContainer } from "../Components/AccountFormContainer";
 import { useAuthStore } from "../stores/useAuthStore";
+import Toast from 'react-bootstrap/Toast';
+import { ToastContainer } from "react-bootstrap";
+
+
 
 const formSchema = yup.object().shape({
     usertype: yup.string().required('Type of user is required.'),
@@ -30,6 +34,8 @@ const formSchema = yup.object().shape({
 
 
 const RegisterForm = () => {
+    const [showToast, setShowToast] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
 
     const [newAccount, setNewAccount] = useState({
@@ -128,7 +134,13 @@ const RegisterForm = () => {
                 logIn(res.data.createdUser.userId, res.data.createdUser.isInstructor)
                 navigate("/WorkoutList")
             })
-            .catch(err => console.log(err))
+            // .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err.response.data.message);
+                setErrorMessage(err.response.data.message);
+                setShowToast(true); // Show toast with the error message
+
+            });
     };
 
 
@@ -207,6 +219,18 @@ const RegisterForm = () => {
 
                 <AccountButton disabled={buttonDisabled} >Create Account</AccountButton>
             </AccountForm>
+
+            <ToastContainer position="top-end" className="p-3">
+                <Toast bg="danger" show={showToast} onClose={() => setShowToast(false)}>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Error</strong>
+                    </Toast.Header>
+                    <Toast.Body>{errorMessage}</Toast.Body>
+                </Toast>
+
+            </ToastContainer>
+
         </AccountFormContainer>
     )
 }

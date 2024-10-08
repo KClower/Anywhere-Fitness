@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import { AccountFormContainer } from "./AccountFormContainer";
 import { useAuthStore } from "../stores/useAuthStore";
-
+import Toast from 'react-bootstrap/Toast';
+import { ToastContainer } from "react-bootstrap";
 
 
 
@@ -22,6 +23,8 @@ const formSchema = yup.object().shape({
 });
 
 function SignInForm() {
+    const [showToast, setShowToast] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const navigate = useNavigate();
     const { logIn } = useAuthStore();
 
@@ -93,7 +96,11 @@ function SignInForm() {
                 logIn(res.data.userInfo.userId, res.data.userInfo.isInstructor)
                 navigate("/WorkoutList")
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err.response.data.message)
+                setErrorMessage(err.response.data.message);
+                setShowToast(true);
+            })
     };
 
 
@@ -135,8 +142,20 @@ function SignInForm() {
                 </PasswordContainer>
 
                 <SignInButton disabled={buttonDisabled}>Sign In</SignInButton>
-                <p>Don't have an Account ? / Create Account <Link to='/Register'>Here</Link></p>
+                <p style={{ backgroundColor: 'rgba(211, 211, 211, 0.7)' }}>Don't have an Account ? / Create Account <Link to='/Register'>Here</Link></p>
             </SigninForm>
+
+            <ToastContainer position="top-end" className="p-3">
+                <Toast bg="danger" show={showToast} onClose={() => setShowToast(false)}>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Error</strong>
+                    </Toast.Header>
+                    <Toast.Body>{errorMessage}</Toast.Body>
+                </Toast>
+
+            </ToastContainer>
+
         </AccountFormContainer>
 
 

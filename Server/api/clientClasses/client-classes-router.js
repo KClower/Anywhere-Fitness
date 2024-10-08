@@ -1,6 +1,8 @@
 
 const express = require('express');
 const ClientClasses = require('./client-classes-model.js');
+const InstructorClasses = require('../instructorClasses/instructor-classes-model.js');
+const { authorize } = require('../auth/auth-middleware.js')
 
 
 const router = express.Router();
@@ -26,7 +28,7 @@ router.get('/class/:classId', (req, res) => {
         });
 })
 
-router.put('/signup/:classId', async (req, res) => {
+router.put('/signup/:classId', authorize(["client", "instructor"]), async (req, res) => {
     const { classId } = req.params;
 
     const clientId = req.body.userId
@@ -52,6 +54,13 @@ router.put('/signup/:classId', async (req, res) => {
             return res.status(400).json({ success: false, message: 'You are already signed up for this class.' });
         }
 
+        const instructorInfo = await InstructorClasses.getInstructorClassById(classId);
+
+        if (instructorInfo.instructor_id === clientId) {
+            return res.status(400).json({ success: false, message: "Instructors cannot sign up for their own class." })
+        }
+
+
 
         // Sign up the client
         await ClientClasses.signUpClientForClass(clientId, classId);
@@ -64,7 +73,7 @@ router.put('/signup/:classId', async (req, res) => {
 });
 
 
-router.get('/classes/:clientId', (req, res) => {
+router.get('/classes/:clientId', authorize(["client", "instructor"]), (req, res) => {
     const { clientId } = req.params;
 
     ClientClasses.getClientClasses(clientId)
@@ -80,7 +89,7 @@ router.get('/classes/:clientId', (req, res) => {
         });
 });
 
-router.delete('/class', (req, res) => {
+router.delete('/class', authorize(["client", "instructor"]), (req, res) => {
     const { clientId, classId } = req.body;
     ClientClasses.removeClientClass(clientId, classId)
         .then(() => {

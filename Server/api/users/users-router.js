@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "The users could not be retrieved." });
+            res.status(500).json({ message: "The users could not be retrieved." });
         });
 });
 
@@ -22,12 +22,12 @@ router.get('/:id', (req, res, next) => {
             if (user) {
                 return res.status(200).json(user);
             } else {
-                return res.status(404).json({ Message: "User not found." });
+                return res.status(404).json({ message: "User not found." });
             }
         })
         .catch(error => {
             console.log(error);
-            return res.status(500).json({ Message: "Error finding user from database." });
+            return res.status(500).json({ message: "Error finding user from database." });
         });
 });
 
