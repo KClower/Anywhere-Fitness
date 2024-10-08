@@ -16,7 +16,7 @@ const instructorClasses = require('./instructorClasses/instructor-classes-router
 const clientClasses = require('./clientClasses/client-classes-router.js');
 
 
-const auth = require('./auth/auth-middleware.js');
+const { authenticate } = require('./auth/auth-middleware.js');
 
 const server = express();
 
@@ -47,13 +47,13 @@ server.use((req, res, next) => {
     console.log(req.session)
     next()
 })
-server.use('/api/users', usersRouter);
+server.use('/api/users', authenticate, usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/type', classTypeRouter);
 server.use('/api/intensity', classIntensityRouter);
 server.use('/api/instructors', instructorsRouter);
 server.use('/api/instructor', instructorClasses);
-server.use('/api/client', clientClasses);
+server.use('/api/client', authenticate, clientClasses);
 
 server.get('/', (req, res) => {
     res.status(200).json(`<h2>Welcome to the Anytime Fitness API</h2>`)

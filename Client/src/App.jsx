@@ -7,7 +7,6 @@ import Register from "./pages/Register";
 import WorkoutList from './Components/WorkoutList';
 import WorkoutSignup from './Components/WorkoutSignup';
 import { InstructorDashboard } from './pages/InstructorDashboard';
-import { InstructorJoinedClasses } from './Components/Classes/InstructorJoinedClasses';
 import { ClientDashboard } from './pages/ClientDashboard';
 import CreateClassForm from './Components/ClassForms/CreateClassForm';
 import UpdateClassForm from './Components/ClassForms/UpdateClassForm';

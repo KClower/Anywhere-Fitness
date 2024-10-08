@@ -10,7 +10,7 @@ router.get('/type', (req, res, next) => {
         })
         .catch(error => {
             console.log(error);
-            res.status(500).json({ Message: "The class intensity levels could not be retrieved." });
+            res.status(500).json({ message: "The class intensity levels could not be retrieved." });
         });
 });
 

@@ -64,7 +64,7 @@ const WorkoutList = () => {
     return (
         <>
             <WorkoutHeader>
-                <h2>Available Classes</h2>
+                <h2 style={({ color: "blue" })}>Available Classes</h2>
                 <SearchForm searchFilter={searchFilter} resetSearch={resetSearch} />
             </WorkoutHeader>
 
@@ -75,7 +75,7 @@ const WorkoutList = () => {
                         dataSource.map(workout => (
                             <Col key={workout.id} md={3} className="mb-4, mt-4">
 
-                                <Card style={{ width: '100%' }}>
+                                <Card style={{ width: '100%', background: 'rgba(211, 211, 211, 0.5)' }}>
                                     <Card.Body className="m-3">
                                         <Card.Title>{workout.class_type}</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
@@ -126,12 +126,11 @@ const WorkoutList = () => {
 
 const WorkoutHeader = styled.div`
 text-align: center;
-background-color: lightblue;
 padding: 10px 0px;
 `
 
 const WorkoutWrapper = styled.div`
-background-color: pink;
+
 display: flex;
 flex-wrap: wrap;
 `
