@@ -2,7 +2,7 @@ import InstructedClasses from "../Components/Classes/InstructedClasses";
 import styled from 'styled-components';
 import { useNavigate } from "react-router-dom";
 import React, { useState, Suspense } from 'react';
-import { Tab, Nav, Row, Col, Spinner } from 'react-bootstrap';
+import { Tab, Nav, Row, Col } from 'react-bootstrap';
 
 
 
@@ -36,7 +36,7 @@ export function InstructorDashboard() {
                 <Row className="mb-3">
                     <Col>
                         <Nav variant="underline" className="dashboard-tabs">
-                            <Nav.Item>
+                            <Nav.Item className="ms-5">
                                 <Nav.Link eventKey="first" className="custom-tab">Manage Classes</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
@@ -45,25 +45,23 @@ export function InstructorDashboard() {
                         </Nav>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Tab.Content>
-                            <Tab.Pane eventKey="first">
-                                <InstructedClasses />
-                            </Tab.Pane>
-                            <Tab.Pane eventKey="second">
-                                {Tab2Component
-                                    ? (
-                                        <Suspense fallback={<Spinner animation="border" />}>
-                                            <Tab2Component />
-                                        </Suspense>
-                                    )
-                                    : null
-                                }
-                            </Tab.Pane>
-                        </Tab.Content>
-                    </Col>
-                </Row>
+
+                <Tab.Content className="pe-3">
+                    <Tab.Pane eventKey="first">
+                        <InstructedClasses />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="second">
+                        {Tab2Component
+                            ? (
+                                <Suspense>
+                                    <Tab2Component />
+                                </Suspense>
+                            )
+                            : null
+                        }
+                    </Tab.Pane>
+                </Tab.Content>
+
             </Tab.Container>
         </>
     )

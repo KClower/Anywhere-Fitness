@@ -16,7 +16,7 @@ const SignIn = () => {
         </BackgroundContainer>
     )
 }
-export default SignIn;
+
 
 const BackgroundContainer = styled.div`
   background-image: url('/sign-in-page-image.jpg'); 
@@ -27,3 +27,9 @@ const BackgroundContainer = styled.div`
   flex-direction: column;
   justify-content: center;
 `;
+
+
+
+export default SignIn;
+
+

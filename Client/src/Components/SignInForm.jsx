@@ -94,7 +94,7 @@ function SignInForm() {
             .then(res => {
                 console.log("login result", res.data)
                 logIn(res.data.userInfo.userId, res.data.userInfo.isInstructor)
-                navigate("/WorkoutList")
+                navigate("/")
             })
             .catch(err => {
                 console.log(err.response.data.message)

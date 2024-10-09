@@ -38,7 +38,7 @@ router.get('/class/:id', (req, res, next) => {
 })
 
 
-router.post('/class', authorize("instructor"), async (req, res, next) => {
+router.post('/class', async (req, res, next) => {
     const classtype = await ClassTypes.getLast();
     const classintensity = await ClassIntensity.getLast();
 
@@ -75,7 +75,7 @@ router.post('/class', authorize("instructor"), async (req, res, next) => {
 
 
 
-router.put('/class/:id', authorize("instructor"), async (req, res, next) => {
+router.put('/class/:id', async (req, res, next) => {
 
     const classtype = await ClassTypes.getLast();
     const classintensity = await ClassIntensity.getLast();
@@ -116,7 +116,7 @@ router.put('/class/:id', authorize("instructor"), async (req, res, next) => {
 
 
 
-router.delete('/class/:id', authorize("instructor"), (req, res, next) => {
+router.delete('/class/:id', (req, res, next) => {
     InstructorClasses.remove(req.params.id)
         .then(count => {
             res.json({ Removed: count })

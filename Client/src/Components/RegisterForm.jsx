@@ -132,7 +132,7 @@ const RegisterForm = () => {
             .then(res => {
                 console.log("register return", res.data);
                 logIn(res.data.createdUser.userId, res.data.createdUser.isInstructor)
-                navigate("/WorkoutList")
+                navigate("/")
             })
             // .catch(err => console.log(err))
             .catch(err => {

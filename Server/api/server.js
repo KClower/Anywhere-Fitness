@@ -2,7 +2,6 @@ const express = require('express');
 
 
 const session = require("express-session");
-// const { ConnectSessionKnexStore } = require('connect-session-knex');
 const { knexStore } = require('./store-config.js')
 const cors = require('cors');
 
@@ -47,13 +46,13 @@ server.use((req, res, next) => {
     console.log(req.session)
     next()
 })
-server.use('/api/users', authenticate, usersRouter);
+server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/type', classTypeRouter);
 server.use('/api/intensity', classIntensityRouter);
 server.use('/api/instructors', instructorsRouter);
 server.use('/api/instructor', instructorClasses);
-server.use('/api/client', authenticate, clientClasses);
+server.use('/api/client', clientClasses);
 
 server.get('/', (req, res) => {
     res.status(200).json(`<h2>Welcome to the Anytime Fitness API</h2>`)
