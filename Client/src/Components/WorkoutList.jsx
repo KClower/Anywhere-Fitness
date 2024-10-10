@@ -69,55 +69,51 @@ const WorkoutList = () => {
             </WorkoutHeader>
 
             <WorkoutWrapper>
-                <Row>
-                    {dataSource.length > 0 ? (
 
-                        dataSource.map(workout => (
-                            <Col key={workout.id} md={3} className="mb-4, mt-4">
+                {dataSource.length > 0 ? (
 
-                                <Card style={{ width: '100%', background: 'rgba(211, 211, 211, 0.5)' }}>
-                                    <Card.Body className="m-3">
-                                        <Card.Title>{workout.class_type}</Card.Title>
-                                        <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Instructor: {workout.instructor_name}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Price: ${workout.price}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Date & Time: {formatDate(workout.start_time)}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Duration: {workout.duration}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Intensity Level: {workout.intensity}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Location: {workout.location}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
-                                        <Card.Subtitle className="mb-4 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
+                    dataSource.map(workout => (
+                        <Col key={workout.id} xs={12} sm={6} md={4} lg={3} className=" mt-4">
 
-                                        {isAuthenticated
-                                            ? (
-                                                <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
-                                                    <JoinButton>
-                                                        Join Class
-                                                    </JoinButton>
-                                                </NavLink>
+                            <Card className="ms-3" style={{ background: 'rgba(211, 211, 211, 0.5)' }}>
+                                <Card.Body className="m-1">
+                                    <Card.Title>{workout.class_type}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">{workout.class_name}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Instructor: {workout.instructor_name}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Price: ${workout.price}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Date & Time: {formatDate(workout.start_time)}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Duration: {workout.duration}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Intensity Level: {workout.intensity}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Location: {workout.location}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
+                                    <Card.Subtitle className="mb-4 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
 
-                                            )
-                                            : (
-                                                <Nav.Link as={NavLink} to="/SignIn">
-                                                    <JoinButton>
-                                                        Sign In to join class
-                                                    </JoinButton>
-                                                </Nav.Link>
-                                            )
-                                        }
+                                    {isAuthenticated
+                                        ? (
+                                            <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
+                                                <JoinButton>
+                                                    Join Class
+                                                </JoinButton>
+                                            </NavLink>
 
+                                        )
+                                        : (
+                                            <Nav.Link as={NavLink} to="/SignIn">
+                                                <JoinButton>
+                                                    Sign In to join class
+                                                </JoinButton>
+                                            </Nav.Link>
+                                        )
+                                    }
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))
 
+                ) : (
+                    <p>NO RESULTS</p>
+                )}
 
-
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        ))
-
-                    ) : (
-                        <p>NO RESULTS</p>
-                    )}
-                </Row>
             </WorkoutWrapper>
         </>
     )
@@ -130,7 +126,7 @@ padding: 10px 0px;
 `
 
 const WorkoutWrapper = styled.div`
-
+padding-right: 15px;
 display: flex;
 flex-wrap: wrap;
 `

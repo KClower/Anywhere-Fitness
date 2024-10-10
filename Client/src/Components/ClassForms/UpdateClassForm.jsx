@@ -21,11 +21,11 @@ const formatDateForInput = (isoDate) => {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-export default function UpdateClassForm() {
+export default function UpdateClassForm({ onSuccess, classData, onHide }) {
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
     const { user } = useAuthStore();
-    const { classData } = location.state
+    // const { classData } = location.state
 
 
     const [classValues, setClassValues] = useState(() => {
@@ -95,7 +95,11 @@ export default function UpdateClassForm() {
 
             .then(res => {
                 console.log(res)
-                navigate("/Instructor/dashboard")
+
+                onHide();
+                onSuccess(res.data);
+
+                // navigate("/Instructor/dashboard")
             })
             .catch(error => {
                 console.log(error)

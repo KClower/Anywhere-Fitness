@@ -28,7 +28,7 @@ router.get('/class/:classId', (req, res) => {
         });
 })
 
-router.put('/signup/:classId', authorize(["client", "instructor"]), async (req, res) => {
+router.put('/signup/:classId', async (req, res) => {
     const { classId } = req.params;
 
     const clientId = req.body.userId
@@ -73,7 +73,7 @@ router.put('/signup/:classId', authorize(["client", "instructor"]), async (req, 
 });
 
 
-router.get('/classes/:clientId', authorize(["client", "instructor"]), (req, res) => {
+router.get('/classes/:clientId', (req, res) => {
     const { clientId } = req.params;
 
     ClientClasses.getClientClasses(clientId)
@@ -89,7 +89,7 @@ router.get('/classes/:clientId', authorize(["client", "instructor"]), (req, res)
         });
 });
 
-router.delete('/class', authorize(["client", "instructor"]), (req, res) => {
+router.delete('/class', (req, res) => {
     const { clientId, classId } = req.body;
     ClientClasses.removeClientClass(clientId, classId)
         .then(() => {

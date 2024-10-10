@@ -6,7 +6,7 @@ export function ClientDashboard() {
     return (
         <>
             <div>
-                <h2>Dashboard</h2>
+                <h2 className='ms-5'>Dashboard</h2>
             </div>
 
             < ClientClasses />

@@ -9,7 +9,7 @@ import { handleInputChange, validateForm } from './utils';
 
 
 
-export default function CreateClassForm() {
+export default function CreateClassForm(onSuccess, onHide) {
     const navigate = useNavigate();
     const { user } = useAuthStore()
 
@@ -75,7 +75,10 @@ export default function CreateClassForm() {
             .post('http://localhost:9000/api/instructor/class', requestData)
             .then(res => {
                 console.log(res)
-                navigate("/Instructor/dashboard")
+
+                onHide();
+                onSuccess(res.data);
+                // navigate("/Instructor/dashboard")
             })
             .catch(error => {
                 console.log(error)
