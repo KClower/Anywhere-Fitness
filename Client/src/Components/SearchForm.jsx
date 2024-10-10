@@ -28,7 +28,7 @@ export default function SearchForm({ searchFilter }) {
         axios
             .get('http://localhost:9000/api/type/class')
             .then(res => {
-                console.log(res.data)
+
                 setClassTypes(res.data)
             })
             .catch(err => console.log(err));
@@ -36,7 +36,7 @@ export default function SearchForm({ searchFilter }) {
         axios
             .get('http://localhost:9000/api/instructors/names')
             .then(res => {
-                console.log(res.data)
+
                 setInstructors(res.data)
             })
             .catch(err => console.log(err));
@@ -44,7 +44,7 @@ export default function SearchForm({ searchFilter }) {
         axios
             .get('http://localhost:9000/api/intensity/type')
             .then(res => {
-                console.log(res.data)
+
                 setIntensities(res.data)
             })
             .catch(err => console.log(err));

@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
+import JoinClassModal from "./Modals/JoinClassModal";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import styled from "styled-components";
 import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import { formatDate } from "../utils";
 import { useAuthStore } from "../stores/useAuthStore";
-
+import { Toast, ToastContainer } from "react-bootstrap";
 
 
 const WorkoutList = () => {
-
+    const [showToast, setShowToast] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
     const [classes, setClasses] = useState([]);
-
+    const [showJoinClassModal, setShowJoinClassModal] = useState(false);
+    const [selectedWorkout, setSelectedWorkout] = useState(null);
     const [appliedFilters, setAppliedFilters] = useState({
         classtype: "",
         instructor: "",
@@ -28,7 +30,7 @@ const WorkoutList = () => {
         axios
             .get('http://localhost:9000/api/instructor/classes')
             .then(res => {
-                console.log(res.data)
+
                 setClasses(res.data)
             })
             .catch(error => {
@@ -61,6 +63,42 @@ const WorkoutList = () => {
 
     const dataSource = noFilterApplied ? classes : filteredWorkouts
 
+    const handleJoinClass = (updatedWorkout) => {
+        setSelectedWorkout(workout);
+        setShowJoinClassModal(true);
+
+        const updatedWorkouts = classes.map(workout => {
+            if (workout.class_id !== updatedWorkout.class_id) {
+                return workout
+            }
+
+            return {
+                class_id: updatedWorkout.class_id,
+                class_type: updatedWorkout.class_type,
+                class_name: updatedWorkout.class_name,
+                intensity: updatedWorkout.intensity_id,
+                start_time: updatedWorkout.start_time,
+                duration: updatedWorkout.duration,
+                location: updatedWorkout.location,
+                price: updatedWorkout.price,
+                class_capacity: updatedWorkout.class_capacity,
+            }
+        })
+        setClasses(updatedWorkouts)
+    };
+
+    const handleJoinError = (message) => {
+        console.log(message)
+        setErrorMessage(message)
+        setShowToast(true)
+        setShowJoinClassModal(false)
+    }
+
+    const handleJoinClassBtnClick = (workout) => {
+        setSelectedWorkout(workout)
+        setShowJoinClassModal(true)
+    }
+
     return (
         <>
             <WorkoutHeader>
@@ -90,12 +128,9 @@ const WorkoutList = () => {
 
                                     {isAuthenticated
                                         ? (
-                                            <NavLink to={`/WorkoutSignup/${workout.id}`} state={{ workout }}>
-                                                <JoinButton>
-                                                    Join Class
-                                                </JoinButton>
-                                            </NavLink>
-
+                                            <JoinButton onClick={() => handleJoinClassBtnClick(workout)}>
+                                                Join Class
+                                            </JoinButton>
                                         )
                                         : (
                                             <Nav.Link as={NavLink} to="/SignIn">
@@ -115,6 +150,32 @@ const WorkoutList = () => {
                 )}
 
             </WorkoutWrapper>
+
+            <ToastContainer position="sticky" className="p-3">
+                <Toast bg="danger" show={showToast} onClose={() => setShowToast(false)}>
+                    <Toast.Header>
+                        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+                        <strong className="me-auto">Error</strong>
+                    </Toast.Header>
+                    <Toast.Body>{errorMessage}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+
+            {
+                showJoinClassModal
+                    ? (
+                        <JoinClassModal
+                            onSuccess={handleJoinClass}
+                            onError={handleJoinError}
+                            show={showJoinClassModal}
+                            onHide={() => setShowJoinClassModal(false)}
+                            workout={selectedWorkout} // Pass the selected workout data to the modal
+                        />
+                    )
+                    : null
+            }
+
+
         </>
     )
 }
@@ -143,16 +204,6 @@ const JoinButton = styled.button`
   }
 `
 
-// const WorkoutCardStyle = styled.div`
-// background-color: white;
-// width: 250px;
-// border: 2px solid black;
-// margin: 0 25px 25px 25px;
-
-// `
-// const ChooseBtn = styled.button`
-// cursor: pointer;
-// `
 
 export default WorkoutList;
 

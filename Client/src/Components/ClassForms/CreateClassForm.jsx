@@ -9,7 +9,7 @@ import { handleInputChange, validateForm } from './utils';
 
 
 
-export default function CreateClassForm(onSuccess, onHide) {
+export default function CreateClassForm({ onSuccess, onHide }) {
     const navigate = useNavigate();
     const { user } = useAuthStore()
 
@@ -70,15 +70,15 @@ export default function CreateClassForm(onSuccess, onHide) {
         const requestData = {
             ...classValues, instructorId: user
         }
-        console.log(requestData)
+
         axios
             .post('http://localhost:9000/api/instructor/class', requestData)
             .then(res => {
-                console.log(res)
+                console.log("create class", res.data.createdClass)
 
                 onHide();
-                onSuccess(res.data);
-                // navigate("/Instructor/dashboard")
+                onSuccess(res.data.createdClass);
+
             })
             .catch(error => {
                 console.log(error)

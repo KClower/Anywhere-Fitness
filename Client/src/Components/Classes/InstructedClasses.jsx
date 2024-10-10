@@ -1,3 +1,4 @@
+import CreateClassModal from "../Modals/CreateClassModal";
 import UpdateClassModal from "../Modals/UpdateClassModal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +13,8 @@ import { useAuthStore } from "../../stores/useAuthStore";
 
 
 
-const InstructedClasses = () => {
+const InstructedClasses = (props) => {
+    const { hideCreateClassModal, showCreateClassModal } = props
     const [createdClasses, setCreatedClasses] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [selectedClass, setSelectedClass] = useState(null);
@@ -45,18 +47,32 @@ const InstructedClasses = () => {
         }
     }
 
-    // const updateClass = (classData) => {
-    //     navigate("/UpdateClassForm", { state: { classData } });
-    // }
+
 
     const handleUpdateClick = (classData) => {
         setSelectedClass(classData);
         setModalShow(true);
     };
 
+    const handleClassCreate = (newWorkout) => {
+        console.log(newWorkout)
+        const newClass = {
+
+            class_id: newWorkout.class_id,
+            class_type: newWorkout.class_type,
+            class_name: newWorkout.class_name,
+            intensity: newWorkout.intensity_id,
+            start_time: newWorkout.start_time,
+            duration: newWorkout.duration,
+            location: newWorkout.location,
+            price: newWorkout.price,
+            class_capacity: newWorkout.class_capacity,
+        }
+        setCreatedClasses([...createdClasses, newClass])
+    }
 
     const handleClassUpdate = (updatedWorkout) => {
-        console.log(updatedWorkout)
+
         const updatedClasses = createdClasses.map(workout => {
             if (workout.class_id !== updatedWorkout.class_id) {
                 return workout
@@ -108,6 +124,12 @@ const InstructedClasses = () => {
                     </Card>
                 </Col>
             ))}
+
+            <CreateClassModal
+                onSuccess={handleClassCreate}
+                show={showCreateClassModal}
+                onHide={hideCreateClassModal}
+            />
 
             {modalShow && (
                 <UpdateClassModal

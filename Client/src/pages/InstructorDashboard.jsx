@@ -14,7 +14,7 @@ export function InstructorDashboard() {
 
 
     const [activeKey, setActiveKey] = useState("first")
-    const [modalShow, setModalShow] = useState(false);
+    const [showCreateClassModal, setShowCreateClassModal] = useState(false);
     const [Tab2Component, setTab2Component] = useState(null);
     if (activeKey === "second" && !Tab2Component) {
         import("../Components/Classes/InstructorJoinedClasses").then(module => {
@@ -23,15 +23,13 @@ export function InstructorDashboard() {
     }
 
 
-    const handleCreateClass = (classValues) => {
-        console.log(classValues)
-    }
+    const hideCreateClassModal = () => setShowCreateClassModal(false)
 
     return (
         <>
             <DashboardHeader>
                 <h2>Dashboard</h2>
-                <CreateClassButton onClick={() => setModalShow(true)}>Create Class</CreateClassButton>
+                <CreateClassButton onClick={() => setShowCreateClassModal(true)}>Create Class</CreateClassButton>
             </DashboardHeader>
 
             <Tab.Container activeKey={activeKey} onSelect={(eventKey) => setActiveKey(eventKey)}>
@@ -50,7 +48,10 @@ export function InstructorDashboard() {
 
                 <Tab.Content className="pe-3">
                     <Tab.Pane eventKey="first">
-                        <InstructedClasses />
+                        <InstructedClasses
+                            showCreateClassModal={showCreateClassModal}
+                            hideCreateClassModal={hideCreateClassModal}
+                        />
                     </Tab.Pane>
                     <Tab.Pane eventKey="second">
                         {Tab2Component
@@ -66,11 +67,7 @@ export function InstructorDashboard() {
 
             </Tab.Container>
 
-            <CreateClassModal
-                onSuccess={handleCreateClass}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-            />
+
 
         </>
     );
