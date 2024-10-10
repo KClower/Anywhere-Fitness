@@ -64,9 +64,10 @@ router.put('/signup/:classId', async (req, res) => {
 
         // Sign up the client
         await ClientClasses.signUpClientForClass(clientId, classId);
+        const updatedClass = await InstructorClasses.getInstructorClassById(classId)
 
         // Respond with success
-        res.status(200).json({ success: true, message: 'Client successfully signed up for the class' });
+        res.status(200).json({ success: true, message: 'Client successfully signed up for the class', updatedClass });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
