@@ -1,6 +1,6 @@
 import InstructedClasses from "../Components/Classes/InstructedClasses";
+import CreateClassModal from "../Components/Modals/CreateClassModal";
 import styled from 'styled-components';
-import { useNavigate } from "react-router-dom";
 import React, { useState, Suspense } from 'react';
 import { Tab, Nav, Row, Col } from 'react-bootstrap';
 
@@ -11,9 +11,10 @@ import { Tab, Nav, Row, Col } from 'react-bootstrap';
 
 export function InstructorDashboard() {
 
-    const navigate = useNavigate();
+
 
     const [activeKey, setActiveKey] = useState("first")
+    const [modalShow, setModalShow] = useState(false);
     const [Tab2Component, setTab2Component] = useState(null);
     if (activeKey === "second" && !Tab2Component) {
         import("../Components/Classes/InstructorJoinedClasses").then(module => {
@@ -21,15 +22,16 @@ export function InstructorDashboard() {
         })
     }
 
-    const handleCreateClass = () => {
-        navigate('/CreateClassForm');
+
+    const handleCreateClass = (classValues) => {
+        console.log(classValues)
     }
 
     return (
         <>
             <DashboardHeader>
                 <h2>Dashboard</h2>
-                <CreateClassButton onClick={handleCreateClass}>Create Class</CreateClassButton>
+                <CreateClassButton onClick={() => setModalShow(true)}>Create Class</CreateClassButton>
             </DashboardHeader>
 
             <Tab.Container activeKey={activeKey} onSelect={(eventKey) => setActiveKey(eventKey)}>
@@ -63,12 +65,18 @@ export function InstructorDashboard() {
                 </Tab.Content>
 
             </Tab.Container>
+
+            <CreateClassModal
+                onSuccess={handleCreateClass}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
+
         </>
-    )
-
-
-
+    );
 }
+
+
 
 
 const DashboardHeader = styled.div`

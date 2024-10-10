@@ -99,20 +99,22 @@ router.put('/class/:id', async (req, res, next) => {
 
     const id = req.params.id;
     const foundClass = await InstructorClasses.getInstructorClassById(id);
+
     const changes = { ...foundClass, ...updateValidationResult.value };
 
-    InstructorClasses.update(changes)
-        .then(updatedClass => {
-
-            return res.status(200).json(updatedClass);
-
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ message: "There was an error while updating the class." });
-        })
-
+    try {
+        const updatedClass = await InstructorClasses.update(changes)
+        console.log(updatedClass)
+        const foundClass = await InstructorClasses.getInstructorClassById(updatedClass.id)
+        console.log(foundClass)
+        return res.status(200).json(foundClass);
+    }
+    catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: "There was an error while updating the class." });
+    }
 })
+
 
 
 

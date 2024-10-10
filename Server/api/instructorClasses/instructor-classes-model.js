@@ -75,12 +75,16 @@ function getAllClassesByInstructorId(instructorId) {
 function getInstructorClassById(instructorClassId) {
     return db.from({ ic: 'instructor_classes' })
         .join({ i: 'instructors' }, 'ic.instructor_id', 'i.instructor_id')
+        .join({ ct: 'rf_class_type' }, 'ic.class_type_id', 'ct.id')
+        .join({ ci: 'rf_class_intensity' }, 'ic.intensity_id', 'ci.id')
         .select(
             'i.instructor_name',
             'ic.instructor_id',
             'ic.class_name',
-            'ic.id',
+            'ic.id as class_id',
+            'ct.class_type',
             'ic.class_type_id',
+            'ci.intensity',
             'ic.intensity_id',
             'ic.start_time',
             'ic.duration',
@@ -141,7 +145,7 @@ function create({
 // }
 
 async function update({
-    id,
+    class_id,
     instructorId,
     classType,
     intensity,
@@ -154,7 +158,7 @@ async function update({
     classCapacity
 }) {
     const result = await db('instructor_classes')
-        .where({ id })
+        .where({ id: class_id })
         .update({
             instructor_id: instructorId,
             class_type_id: classType,

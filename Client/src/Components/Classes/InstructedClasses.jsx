@@ -1,3 +1,4 @@
+import UpdateClassModal from "../Modals/UpdateClassModal";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -10,9 +11,12 @@ import { formatDate } from "../../utils";
 import { useAuthStore } from "../../stores/useAuthStore";
 
 
-const InstructorClasses = () => {
+
+const InstructedClasses = () => {
     const [createdClasses, setCreatedClasses] = useState([]);
-    const navigate = useNavigate();
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedClass, setSelectedClass] = useState(null);
+    // const navigate = useNavigate();
     const { user } = useAuthStore()
 
     useEffect(() => {
@@ -41,8 +45,37 @@ const InstructorClasses = () => {
         }
     }
 
-    const updateClass = (classData) => {
-        navigate("/UpdateClassForm", { state: { classData } });
+    // const updateClass = (classData) => {
+    //     navigate("/UpdateClassForm", { state: { classData } });
+    // }
+
+    const handleUpdateClick = (classData) => {
+        setSelectedClass(classData);
+        setModalShow(true);
+    };
+
+
+    const handleClassUpdate = (updatedWorkout) => {
+        console.log(updatedWorkout)
+        const updatedClasses = createdClasses.map(workout => {
+            if (workout.class_id !== updatedWorkout.class_id) {
+                return workout
+            }
+
+            return {
+                class_id: updatedWorkout.class_id,
+                class_type: updatedWorkout.class_type,
+                class_name: updatedWorkout.class_name,
+                intensity: updatedWorkout.intensity_id,
+                start_time: updatedWorkout.start_time,
+                duration: updatedWorkout.duration,
+                location: updatedWorkout.location,
+                price: updatedWorkout.price,
+                class_capacity: updatedWorkout.class_capacity,
+            }
+        })
+
+        setCreatedClasses(updatedClasses)
     }
 
     return (
@@ -64,7 +97,7 @@ const InstructorClasses = () => {
                             <Card.Subtitle className="mb-2 text-muted">Max # of attendies: {workout.class_capacity}</Card.Subtitle>
                             <Card.Subtitle className="mb-4 text-muted">Current # of attendies: {workout.class_size}</Card.Subtitle>
 
-                            <UpdateButton onClick={() => updateClass(workout)}>
+                            <UpdateButton onClick={() => handleUpdateClick(workout)}>
                                 Update Class
                             </UpdateButton>
 
@@ -76,7 +109,14 @@ const InstructorClasses = () => {
                 </Col>
             ))}
 
-
+            {modalShow && (
+                <UpdateClassModal
+                    onSuccess={handleClassUpdate}
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                    classData={selectedClass}
+                />
+            )}
 
         </WorkoutWrapper>
     )
@@ -114,7 +154,7 @@ const UpdateButton = styled.button`
   }
 `;
 
-export default InstructorClasses;
+export default InstructedClasses;
 
 
 

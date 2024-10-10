@@ -42,10 +42,6 @@ const sessionConfiguration = {
 
 server.use(session(sessionConfiguration)); // enables session support
 server.use(express.json());
-server.use((req, res, next) => {
-    console.log(req.session)
-    next()
-})
 server.use('/api/users', usersRouter);
 server.use('/api/auth', authRouter);
 server.use('/api/type', classTypeRouter);
