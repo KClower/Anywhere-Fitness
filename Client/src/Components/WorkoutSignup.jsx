@@ -31,17 +31,20 @@ export default function WorkoutSignup({ workout, onSuccess, onError }) {
 
     const joinClass = async () => {
         console.log("workout signup:: join class: ", userId)
+        let response = {}
         try {
-            const response = await axios
+            response = await axios
                 .put(`http://localhost:9000/api/client/signup/${workout.id}`, { userId })
-            onSuccess(response.data.updatedClass)
-            setShowThankYou(true)
+
+
         }
         catch (error) {
             onError(error.response.data.message)
-
+            console.log("WorkoutSignup::error: ", error)
             return
         }
+        onSuccess(response.data.updatedClass)
+        setShowThankYou(true)
     }
 
 
@@ -51,10 +54,12 @@ export default function WorkoutSignup({ workout, onSuccess, onError }) {
     return (
         <>
             {showThankYou
-                ? <ThankYou />
+                ? (
+                    <ThankYou />
+                )
                 : (
                     <SelectedCard className="animate__animated animate__backInLeft">
-                        <h1 className="animate__animated animate__bounce animate__slow animate__repeat-2">Join {workout.class_name} Class</h1>
+
                         <div>
 
                             <p>Instructor: {workout.instructor_name}</p>

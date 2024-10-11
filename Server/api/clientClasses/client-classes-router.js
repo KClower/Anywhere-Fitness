@@ -57,7 +57,7 @@ router.put('/signup/:classId', async (req, res) => {
         const instructorInfo = await InstructorClasses.getInstructorClassById(classId);
 
         if (instructorInfo.instructor_id === clientId) {
-            return res.status(400).json({ success: false, message: "Instructors cannot sign up for their own class." })
+            return res.status(400).json({ success: false, message: "Instructors can not sign up for their own class." })
         }
 
 

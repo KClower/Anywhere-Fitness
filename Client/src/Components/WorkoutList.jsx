@@ -23,7 +23,7 @@ const WorkoutList = () => {
         instructor: "",
         intensity: "",
     })
-
+    console.log("show modal: ", showJoinClassModal)
     const { isAuthenticated } = useAuthStore();
 
     useEffect(() => {
@@ -64,11 +64,12 @@ const WorkoutList = () => {
     const dataSource = noFilterApplied ? classes : filteredWorkouts
 
     const handleJoinClass = (updatedWorkout) => {
-        setSelectedWorkout(workout);
-        setShowJoinClassModal(true);
+
+
 
         const updatedWorkouts = classes.map(workout => {
-            if (workout.class_id !== updatedWorkout.class_id) {
+
+            if (workout.id !== updatedWorkout.class_id) {
                 return workout
             }
 
@@ -81,6 +82,7 @@ const WorkoutList = () => {
                 duration: updatedWorkout.duration,
                 location: updatedWorkout.location,
                 price: updatedWorkout.price,
+                class_size: updatedWorkout.class_size,
                 class_capacity: updatedWorkout.class_capacity,
             }
         })
@@ -151,7 +153,7 @@ const WorkoutList = () => {
 
             </WorkoutWrapper>
 
-            <ToastContainer position="sticky" className="p-3">
+            <ToastContainer position="top-end" className="p-3">
                 <Toast bg="danger" show={showToast} onClose={() => setShowToast(false)}>
                     <Toast.Header>
                         <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
