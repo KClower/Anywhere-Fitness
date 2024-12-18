@@ -5,4 +5,12 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: "/Anywhere-Fitness/",
   plugins: [react()],
+  server: {
+    proxy: {
+      '^/.*\.(jpg|jpeg|png|gif|svg)$': {
+        target: 'http://localhost:5173',
+        rewrite: (path) => path
+      }
+    }
+  }
 })

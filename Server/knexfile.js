@@ -8,7 +8,12 @@
 // const sharedConfig = {
 
 // }
-
+if (process.env.NODE_ENV === "production") {
+  require("dotenv").config()
+  console.log(process.env)
+}
+console.log("Running knex file")
+console.log("process.env.CONN_STRING:", process.env.CONN_STRING)
 module.exports = {
 
   development: {
