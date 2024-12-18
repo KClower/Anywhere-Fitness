@@ -30,6 +30,7 @@ export default function WorkoutSignup({ workout, onSuccess, onError }) {
     const { user: userId } = useAuthStore();
 
     const joinClass = async () => {
+
         console.log("workout signup:: join class: ", userId)
         let response = {}
         try {
