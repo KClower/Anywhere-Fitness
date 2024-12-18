@@ -116,7 +116,7 @@ margin: 75px auto;
   padding: 20px;
   border-radius: 10px;
 `,nj=Q.div`
-  background-image: url('/home-background-image.jpg'); 
+  background-image: url('/Anywhere-Fitness/home-background-image.jpg'); 
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -267,7 +267,7 @@ flex-wrap: wrap;
     color:white;
     background-color: #008B8B;
   }
-`;function NN(){const[e,t]=h.useState("first"),[n,r]=h.useState(!1),[o,i]=h.useState(null);e==="second"&&!o&&mN(()=>import("./InstructorJoinedClasses-CmBJQ8iX.js"),[]).then(a=>{i(()=>a.InstructorJoinedClasses)});const s=()=>r(!1);return p.jsxs(p.Fragment,{children:[p.jsxs(ON,{children:[p.jsx("h2",{children:"Dashboard"}),p.jsx(PN,{onClick:()=>r(!0),children:"Create Class"})]}),p.jsxs(na.Container,{activeKey:e,onSelect:a=>t(a),children:[p.jsx(Yx,{className:"mb-3",children:p.jsx(bs,{children:p.jsxs(Bt,{variant:"underline",className:"dashboard-tabs",children:[p.jsx(Bt.Item,{className:"ms-5",children:p.jsx(Bt.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),p.jsx(Bt.Item,{children:p.jsx(Bt.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),p.jsxs(na.Content,{className:"pe-3",children:[p.jsx(na.Pane,{eventKey:"first",children:p.jsx(bN,{showCreateClassModal:n,hideCreateClassModal:s})}),p.jsx(na.Pane,{eventKey:"second",children:o?p.jsx(h.Suspense,{children:p.jsx(o,{})}):null})]})]})]})}const ON=Q.div`
+`;function NN(){const[e,t]=h.useState("first"),[n,r]=h.useState(!1),[o,i]=h.useState(null);e==="second"&&!o&&mN(()=>import("./InstructorJoinedClasses-Ba0wLn0l.js"),[]).then(a=>{i(()=>a.InstructorJoinedClasses)});const s=()=>r(!1);return p.jsxs(p.Fragment,{children:[p.jsxs(ON,{children:[p.jsx("h2",{children:"Dashboard"}),p.jsx(PN,{onClick:()=>r(!0),children:"Create Class"})]}),p.jsxs(na.Container,{activeKey:e,onSelect:a=>t(a),children:[p.jsx(Yx,{className:"mb-3",children:p.jsx(bs,{children:p.jsxs(Bt,{variant:"underline",className:"dashboard-tabs",children:[p.jsx(Bt.Item,{className:"ms-5",children:p.jsx(Bt.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),p.jsx(Bt.Item,{children:p.jsx(Bt.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),p.jsxs(na.Content,{className:"pe-3",children:[p.jsx(na.Pane,{eventKey:"first",children:p.jsx(bN,{showCreateClassModal:n,hideCreateClassModal:s})}),p.jsx(na.Pane,{eventKey:"second",children:o?p.jsx(h.Suspense,{children:p.jsx(o,{})}):null})]})]})]})}const ON=Q.div`
 display: flex;
 justify-content: space-around;
 `,PN=Q.button`
