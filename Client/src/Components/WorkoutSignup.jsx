@@ -3,9 +3,9 @@ import { useState } from "react";
 import ThankYou from "../pages/ThankYouPage";
 import styled from "styled-components";
 import 'animate.css';
-import axios from "axios"
 import { formatDate } from "../utils";
 import { useAuthStore } from "../stores/useAuthStore";
+import { registerForWorkoutById } from "../Services/Anywhere-Fitness-Service";
 
 
 
@@ -34,8 +34,7 @@ export default function WorkoutSignup({ workout, onSuccess, onError }) {
         console.log("workout signup:: join class: ", userId)
         let response = {}
         try {
-            response = await axios
-                .put(`http://localhost:9000/api/client/signup/${workout.id}`, { userId })
+            response = await registerForWorkoutById(workout.id, userId)
 
 
         }

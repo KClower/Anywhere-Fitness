@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { formatDate } from "../../utils";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { getClassesByUserId, removeClassByUserId } from "../../Services/Anywhere-Fitness-Service";
 
 
 
@@ -17,8 +16,7 @@ export function InstructorJoinedClasses() {
     const { user } = useAuthStore()
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:9000/api/client/classes/${user}`)
+        getClassesByUserId(user)
             .then(res => {
                 console.log("joined up classes", res.data.classes)
                 setJoinedClasses(res.data.classes)
@@ -29,10 +27,7 @@ export function InstructorJoinedClasses() {
     }, [user])
 
     const removeClass = (classId) => {
-        axios
-            .delete('http://localhost:9000/api/client/class', {
-                data: { clientId: user, classId }
-            })
+        removeClassByUserId(user, classId)
             .then(() => {
                 setJoinedClasses(joinedClasses.filter(workout => workout.class_id !== classId));
             })

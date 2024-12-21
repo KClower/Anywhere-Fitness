@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from "axios";
 import styled from "styled-components";
 import { AccountFormContainer } from '../AccountFormContainer';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { handleInputChange, validateForm } from './utils';
+import { updateInstructorClassById } from '../../Services/Anywhere-Fitness-Service';
 
 const formatDateForInput = (isoDate) => {
     // Create a Date object from the ISO string
@@ -90,9 +90,7 @@ export default function UpdateClassForm({ onSuccess, classData, onHide }) {
             ...classValues, instructorId: user
         }
 
-        axios
-            .put(`http://localhost:9000/api/instructor/class/${classData.class_id}`, requestData)
-
+        updateInstructorClassById(classData.class_id, requestData)
             .then(res => {
                 console.log(res)
 

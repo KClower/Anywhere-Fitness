@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import * as yup from "yup";
-import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
@@ -8,6 +7,7 @@ import { AccountFormContainer } from "./AccountFormContainer";
 import { useAuthStore } from "../stores/useAuthStore";
 import Toast from 'react-bootstrap/Toast';
 import { ToastContainer } from "react-bootstrap";
+import { userLogIn } from "../Services/Anywhere-Fitness-Service";
 
 
 
@@ -89,8 +89,7 @@ function SignInForm() {
     const submitHandler = (e) => {
         e.preventDefault();
         console.log("sign in form submitted")
-        axios
-            .post('http://localhost:9000/api/auth/login', credentials, { withCredentials: true })
+        userLogIn(credentials)
             .then(res => {
                 console.log("login result", res.data)
                 logIn(res.data.userInfo.userId, res.data.userInfo.isInstructor)

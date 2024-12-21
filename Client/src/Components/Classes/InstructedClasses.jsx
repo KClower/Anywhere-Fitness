@@ -1,15 +1,12 @@
 import CreateClassModal from "../Modals/CreateClassModal";
 import UpdateClassModal from "../Modals/UpdateClassModal";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { LinkContainer } from 'react-router-bootstrap';
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { formatDate } from "../../utils";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { deleteInstructorClassByClassId, getInstructorClassesByInstructorId } from "../../Services/Anywhere-Fitness-Service";
 
 
 
@@ -22,8 +19,7 @@ const InstructedClasses = (props) => {
     const { user } = useAuthStore()
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:9000/api/instructor/classes/${user}`)
+        getInstructorClassesByInstructorId(user)
             .then(res => {
                 console.log("created classes", res.data)
                 setCreatedClasses(res.data)
@@ -35,7 +31,7 @@ const InstructedClasses = (props) => {
 
     const removeClass = async (classId) => {
         try {
-            const res = await axios.delete(`http://localhost:9000/api/instructor/class/${classId}`);
+            const res = await deleteInstructorClassByClassId(classId)
             if (res.data.Removed) {
 
                 const filteredClasses = createdClasses.filter(workout => workout.class_id !== classId)

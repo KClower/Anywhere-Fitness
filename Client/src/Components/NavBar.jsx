@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import BsNavbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
-import axios from 'axios';
 import { useAuthStore } from '../stores/useAuthStore';
+import { userLogOut } from '../Services/Anywhere-Fitness-Service';
 
 
 
@@ -32,8 +32,7 @@ export function NavBar() {
     function handleLogOut(e) {
         e.preventDefault()
         console.log("calling logout")
-        axios
-            .post('http://localhost:9000/api/auth/logout', {}, { withCredentials: true })
+        userLogOut()
             .then(res => {
                 console.log(res.data)
                 logOut()
