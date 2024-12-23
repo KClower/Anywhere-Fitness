@@ -161,8 +161,8 @@ position: absolute;
   border: none;
   cursor: pointer;
 `,Oj=()=>f.jsxs($j,{children:[f.jsx("div",{className:"text-center",children:f.jsx("h3",{className:"animate__animated animate__pulse animate__slow animate__infinite",children:"Sign in below to begin your experience"})}),f.jsx(Tj,{})]}),$j=I.div`
-  background-image: url('/Anywhere-Fitness/sign-in-page-image.jpg');
-   
+ 
+  background-image: url(${()=>"/Anywhere-Fitness/sign-in-page-image.jpg"});  
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -201,7 +201,8 @@ position: absolute;
 text-align: center;
 color: indianred;
 `,zj=I.div`
-  background-image: url('/register-image.jpg'); 
+  
+  background-image: url(${()=>"/Anywhere-Fitness/register-image.jpg"}); 
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -267,7 +268,7 @@ flex-wrap: wrap;
     color:white;
     background-color: #008B8B;
   }
-`;function nN(){const[e,t]=g.useState("first"),[n,r]=g.useState(!1),[s,i]=g.useState(null);e==="second"&&!s&&Hj(()=>import("./InstructorJoinedClasses-C-sWZmxo.js"),[]).then(l=>{i(()=>l.InstructorJoinedClasses)});const o=()=>r(!1);return f.jsxs(f.Fragment,{children:[f.jsxs(rN,{children:[f.jsx("h2",{children:"Dashboard"}),f.jsx(sN,{onClick:()=>r(!0),children:"Create Class"})]}),f.jsxs(Mi.Container,{activeKey:e,onSelect:l=>t(l),children:[f.jsx(d0,{className:"mb-3",children:f.jsx(mi,{children:f.jsxs(at,{variant:"underline",className:"dashboard-tabs",children:[f.jsx(at.Item,{className:"ms-5",children:f.jsx(at.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),f.jsx(at.Item,{children:f.jsx(at.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),f.jsxs(Mi.Content,{className:"pe-3",children:[f.jsx(Mi.Pane,{eventKey:"first",children:f.jsx(Xj,{showCreateClassModal:n,hideCreateClassModal:o})}),f.jsx(Mi.Pane,{eventKey:"second",children:s?f.jsx(g.Suspense,{children:f.jsx(s,{})}):null})]})]})]})}const rN=I.div`
+`;function nN(){const[e,t]=g.useState("first"),[n,r]=g.useState(!1),[s,i]=g.useState(null);e==="second"&&!s&&Hj(()=>import("./InstructorJoinedClasses-LHVl3cEH.js"),[]).then(l=>{i(()=>l.InstructorJoinedClasses)});const o=()=>r(!1);return f.jsxs(f.Fragment,{children:[f.jsxs(rN,{children:[f.jsx("h2",{children:"Dashboard"}),f.jsx(sN,{onClick:()=>r(!0),children:"Create Class"})]}),f.jsxs(Mi.Container,{activeKey:e,onSelect:l=>t(l),children:[f.jsx(d0,{className:"mb-3",children:f.jsx(mi,{children:f.jsxs(at,{variant:"underline",className:"dashboard-tabs",children:[f.jsx(at.Item,{className:"ms-5",children:f.jsx(at.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),f.jsx(at.Item,{children:f.jsx(at.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),f.jsxs(Mi.Content,{className:"pe-3",children:[f.jsx(Mi.Pane,{eventKey:"first",children:f.jsx(Xj,{showCreateClassModal:n,hideCreateClassModal:o})}),f.jsx(Mi.Pane,{eventKey:"second",children:s?f.jsx(g.Suspense,{children:f.jsx(s,{})}):null})]})]})]})}const rN=I.div`
 display: flex;
 justify-content: space-around;
 `,sN=I.button`
