@@ -9,7 +9,7 @@ export function Home() {
   return (
     <BackgroundContainer>
       <WelcomeCard>
-        <h1>Welcome To Anywhere Fitness</h1>
+        <h1>Welcome To  Fitness</h1>
         <p>These days, fitness can be achieved anywhere - a park,
           an unfinished basement or a garage - not just at a traditional
           gym. AnywhereFitness is the all-in-one solution to meet your
