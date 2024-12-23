@@ -13,13 +13,13 @@ export default defineConfig(({ mode }) => {
           target: "http://localhost:9000",
           changeOrigin: true
         },
-        '^/.*\.(jpg|jpeg|png|gif|svg)$': {
-          target: 'http://localhost:5173',  // Point to public directory
-          rewrite: (path) => {
-            // Remove any leading slash
-            return path.replace(/^\//, '')
-          }
-        }
+        // '^/.*\.(jpg|jpeg|png|gif|svg)$': {
+        //   target: 'http://localhost:5173',  // Point to public directory
+        //   rewrite: (path) => {
+        //     // Remove any leading slash
+        //     return path.replace(/^\//, '')
+        //   }
+        // }
       }
     }
   }

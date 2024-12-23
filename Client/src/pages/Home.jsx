@@ -33,7 +33,7 @@ margin: 75px auto;
 `
 
 const BackgroundContainer = styled.div`
-  background-image: url('/home-background-image.jpg'); 
+  background-image: url(${() => `${import.meta.env.BASE_URL}home-background-image.jpg`}); 
   background-size: cover;
   background-position: center;
   min-height: 100vh;
