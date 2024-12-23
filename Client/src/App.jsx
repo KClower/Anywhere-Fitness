@@ -24,8 +24,7 @@ function App() {
       <NavBar />
 
       <Routes>
-        <Route exact path="/" render={() => <Navigate to="/Anywhere-Fitness" />} />
-        <Route path="/Anywhere-Fitness" Component={Home} />
+        <Route exact path="/" Component={Home} />
         <Route path="/SignIn" Component={SignIn} />
         <Route path="/Register" Component={Register} />
         <Route path="/Instructor/dashboard" Component={InstructorDashboard} />

@@ -19,7 +19,8 @@ const SignIn = () => {
 
 
 const BackgroundContainer = styled.div`
-  background-image: url('/sign-in-page-image.jpg'); 
+ 
+  background-image: url(${() => `${import.meta.env.BASE_URL}sign-in-page-image.jpg`});  
   background-size: cover;
   background-position: center;
   min-height: 100vh;

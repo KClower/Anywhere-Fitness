@@ -50,7 +50,7 @@ export function NavBar() {
                 <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
                 <BsNavbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={NavLink} to='/'>Home</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/`}>Home</Nav.Link>
                         {
                             isAuthenticated
                                 ? <Nav.Link as={"a"} href="#" onClick={handleLogOut}>Log Out</Nav.Link>
@@ -64,7 +64,7 @@ export function NavBar() {
                         <Nav className="ms-auto">
                             <Nav.Link as={NavLink} to={dashboardLink}>
                                 <Image
-                                    src={'/avatar-image.png'}
+                                    src={`${import.meta.env.BASE_URL}avatar-image.png`}
                                     roundedCircle
                                     style={{ width: '50px', height: '50px', marginRight: '10px' }}
                                     alt="Profile"

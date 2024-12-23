@@ -71,7 +71,7 @@ export default function CreateClassForm({ onSuccess, onHide }) {
             ...classValues, instructorId: user
         }
 
-        createNewClass(requestedData)
+        createNewClass(requestData)
             .then(res => {
                 console.log("create class", res.data.createdClass)
 
