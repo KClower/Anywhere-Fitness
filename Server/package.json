@@ -11,8 +11,8 @@
     "test:migrate": "cross-env NODE_ENV=testing knex migrate:latest",
     "test:migrate-rollback": "cross-env NODE_ENV=testing knex migrate:rollback --all",
     "test:seed": "cross-env NODE_ENV=testing knex seed:run",
-    "prod:seed": "cross-env NODE_ENV=production knex seed:run",
-    "prod:migrate": "cross-env NODE_ENV=production knex migrate:latest"
+    "prod:seed": "cross-env NODE_ENV=knexProd knex seed:run",
+    "prod:migrate": "cross-env NODE_ENV=knexProd knex migrate:latest"
   },
   "keywords": [],
   "author": "",

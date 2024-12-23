@@ -5,10 +5,10 @@
  */
 
 
-// const sharedConfig = {
 
-// }
-if (process.env.NODE_ENV === "production") {
+// Used for applying migrations and seeds to production database
+// Using npm script prod:seed and prod:migrate
+if (process.env.NODE_ENV === "knexProd") {
   require("dotenv").config()
   console.log(process.env)
 }
