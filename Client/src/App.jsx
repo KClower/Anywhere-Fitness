@@ -1,11 +1,12 @@
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { NavBar } from './Components/NavBar';
 import { Home } from './pages/Home';
 import SignIn from './pages/SignIn';
 import Register from "./pages/Register";
 import { InstructorDashboard } from './pages/InstructorDashboard';
 import { ClientDashboard } from './pages/ClientDashboard';
+
 
 
 

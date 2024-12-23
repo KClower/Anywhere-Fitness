@@ -10,7 +10,9 @@
     "test": "cross-env NODE_ENV=testing jest --watch",
     "test:migrate": "cross-env NODE_ENV=testing knex migrate:latest",
     "test:migrate-rollback": "cross-env NODE_ENV=testing knex migrate:rollback --all",
-    "test:seed": "cross-env NODE_ENV=testing knex seed:run"
+    "test:seed": "cross-env NODE_ENV=testing knex seed:run",
+    "prod:seed": "cross-env NODE_ENV=knexProd knex seed:run",
+    "prod:migrate": "cross-env NODE_ENV=knexProd knex migrate:latest"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "dotenv": "^16.4.7",
     "jest": "^29.7.0",
     "nodemon": "^3.1.4",
     "supertest": "^7.0.0"

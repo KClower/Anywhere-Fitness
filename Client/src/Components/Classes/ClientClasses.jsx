@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { formatDate } from "../../utils";
 import { useAuthStore } from "../../stores/useAuthStore";
+import { getClassesByUserId, removeClassByUserId } from "../../Services/Anywhere-Fitness-Service";
 
 
 const ClientClasses = () => {
@@ -15,8 +15,7 @@ const ClientClasses = () => {
     const { user } = useAuthStore()
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:9000/api/client/classes/${user}`)
+        getClassesByUserId(user)
             .then(res => {
                 console.log("signed up classes", res.data.classes)
                 setSignedUpClasses(res.data.classes)
@@ -28,10 +27,7 @@ const ClientClasses = () => {
 
 
     const removeClass = (classId) => {
-        axios
-            .delete('http://localhost:9000/api/client/class', {
-                data: { clientId: user, classId }
-            })
+        removeClassByUserId(user, classId)
             .then(() => {
                 setSignedUpClasses(signedUpClasses.filter(workout => workout.class_id !== classId));
             })

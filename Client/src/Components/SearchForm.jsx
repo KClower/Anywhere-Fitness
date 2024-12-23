@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-
 import styled from "styled-components";
+import { getClassIntensityTypes, getClassTypes, getInstructorNames } from "../Services/Anywhere-Fitness-Service";
 
 const SearchLabel = styled.label`
 padding-left: 50px;
@@ -25,24 +24,21 @@ export default function SearchForm({ searchFilter }) {
 
 
     useEffect(() => {
-        axios
-            .get('http://localhost:9000/api/type/class')
+        getClassTypes()
             .then(res => {
 
                 setClassTypes(res.data)
             })
             .catch(err => console.log(err));
 
-        axios
-            .get('http://localhost:9000/api/instructors/names')
+        getInstructorNames()
             .then(res => {
 
                 setInstructors(res.data)
             })
             .catch(err => console.log(err));
 
-        axios
-            .get('http://localhost:9000/api/intensity/type')
+        getClassIntensityTypes()
             .then(res => {
 
                 setIntensities(res.data)

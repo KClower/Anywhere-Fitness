@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import JoinClassModal from "./Modals/JoinClassModal";
-import axios from "axios";
 import { NavLink } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import styled from "styled-components";
@@ -10,6 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import { formatDate } from "../utils";
 import { useAuthStore } from "../stores/useAuthStore";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { getInstructorClasses } from "../Services/Anywhere-Fitness-Service";
 
 
 const WorkoutList = () => {
@@ -27,8 +27,7 @@ const WorkoutList = () => {
     const { isAuthenticated } = useAuthStore();
 
     useEffect(() => {
-        axios
-            .get('http://localhost:9000/api/instructor/classes')
+        getInstructorClasses()
             .then(res => {
 
                 setClasses(res.data)

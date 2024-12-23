@@ -5,10 +5,15 @@
  */
 
 
-// const sharedConfig = {
 
-// }
-
+// Used for applying migrations and seeds to production database
+// Using npm script prod:seed and prod:migrate
+if (process.env.NODE_ENV === "knexProd") {
+  require("dotenv").config()
+  console.log(process.env)
+}
+console.log("Running knex file")
+console.log("process.env.CONN_STRING:", process.env.CONN_STRING)
 module.exports = {
 
   development: {
@@ -37,6 +42,27 @@ module.exports = {
       user: 'kclower',
       password: 'password'
     },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      directory: './data/migrations',
+      tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: './data/seeds'
+    }
+  },
+  production: {
+    client: 'postgresql',
+    connection: process.env.CONN_STRING,
+    // connection: {
+    //   host: process.env.PGHOST,
+    //   database: process.env.PGDATABASE,
+    //   user: process.env.PGUSER,
+    //   password: process.env.PGPASSWORD
+    // },
     pool: {
       min: 2,
       max: 10

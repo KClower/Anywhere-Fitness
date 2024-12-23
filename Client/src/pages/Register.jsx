@@ -20,7 +20,8 @@ text-align: center;
 color: indianred;
 `
 const BackgroundContainer = styled.div`
-  background-image: url('/register-image.jpg'); 
+  
+  background-image: url(${() => `${import.meta.env.BASE_URL}register-image.jpg`}); 
   background-size: cover;
   background-position: center;
   min-height: 100vh;

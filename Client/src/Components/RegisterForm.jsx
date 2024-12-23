@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import axios from "axios";
 import styled from "styled-components";
 import { AccountFormContainer } from "../Components/AccountFormContainer";
 import { useAuthStore } from "../stores/useAuthStore";
 import Toast from 'react-bootstrap/Toast';
 import { ToastContainer } from "react-bootstrap";
+import { registerUser } from "../Services/Anywhere-Fitness-Service";
 
 
 
@@ -127,8 +127,7 @@ const RegisterForm = () => {
             instructorName: newAccount.instructorName,
             isInstructor: newAccount.usertype === "instructor" ? true : false
         }
-        axios
-            .post('http://localhost:9000/api/auth/register', payload, { withCredentials: true })
+        registerUser(payload)
             .then(res => {
                 console.log("register return", res.data);
                 logIn(res.data.createdUser.userId, res.data.createdUser.isInstructor)

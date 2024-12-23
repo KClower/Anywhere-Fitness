@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 import styled from "styled-components";
 import { AccountFormContainer } from '../AccountFormContainer';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { handleInputChange, validateForm } from './utils';
+import { createNewClass } from '../../Services/Anywhere-Fitness-Service';
 
 
 
@@ -71,8 +71,7 @@ export default function CreateClassForm({ onSuccess, onHide }) {
             ...classValues, instructorId: user
         }
 
-        axios
-            .post('http://localhost:9000/api/instructor/class', requestData)
+        createNewClass(requestData)
             .then(res => {
                 console.log("create class", res.data.createdClass)
 

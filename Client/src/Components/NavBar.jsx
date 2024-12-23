@@ -3,8 +3,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import BsNavbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
-import axios from 'axios';
 import { useAuthStore } from '../stores/useAuthStore';
+import { userLogOut } from '../Services/Anywhere-Fitness-Service';
 
 
 
@@ -32,8 +32,7 @@ export function NavBar() {
     function handleLogOut(e) {
         e.preventDefault()
         console.log("calling logout")
-        axios
-            .post('http://localhost:9000/api/auth/logout', {}, { withCredentials: true })
+        userLogOut()
             .then(res => {
                 console.log(res.data)
                 logOut()
@@ -51,7 +50,7 @@ export function NavBar() {
                 <BsNavbar.Toggle aria-controls="basic-navbar-nav" />
                 <BsNavbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={NavLink} to='/'>Home</Nav.Link>
+                        <Nav.Link as={NavLink} to={`/`}>Home</Nav.Link>
                         {
                             isAuthenticated
                                 ? <Nav.Link as={"a"} href="#" onClick={handleLogOut}>Log Out</Nav.Link>
@@ -65,7 +64,7 @@ export function NavBar() {
                         <Nav className="ms-auto">
                             <Nav.Link as={NavLink} to={dashboardLink}>
                                 <Image
-                                    src={'/avatar-image.png'}
+                                    src={`${import.meta.env.BASE_URL}avatar-image.png`}
                                     roundedCircle
                                     style={{ width: '50px', height: '50px', marginRight: '10px' }}
                                     alt="Profile"
