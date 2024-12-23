@@ -18,10 +18,11 @@ const clientClasses = require('./clientClasses/client-classes-router.js');
 const { authenticate } = require('./auth/auth-middleware.js');
 
 const server = express();
-
+const productionOrigin = process.env.REACT_CLIENT || "";
 server.use(cors({
     origin: [
-        "http://localhost:5173"
+        "http://localhost:5173",
+        productionOrigin
     ],
     credentials: true
 }))
