@@ -114,6 +114,10 @@ margin: 75px auto;
   background-color: rgba(255, 255, 255, 0.8); 
   padding: 20px;
   border-radius: 10px;
+
+    @media (max-width: 768px) { /* Adjust breakpoint as needed */
+    width: 100%; /* Set width to 100% for mobile screens */
+  }
 `,OT=I.div`
   background-image: url(${()=>"/Anywhere-Fitness/home-background-image.jpg"}); 
   background-size: cover;
@@ -268,7 +272,7 @@ flex-wrap: wrap;
     color:white;
     background-color: #008B8B;
   }
-`;function nN(){const[e,t]=g.useState("first"),[n,r]=g.useState(!1),[s,i]=g.useState(null);e==="second"&&!s&&Hj(()=>import("./InstructorJoinedClasses-M67kUhF1.js"),[]).then(l=>{i(()=>l.InstructorJoinedClasses)});const o=()=>r(!1);return f.jsxs(f.Fragment,{children:[f.jsxs(rN,{children:[f.jsx("h2",{children:"Dashboard"}),f.jsx(sN,{onClick:()=>r(!0),children:"Create Class"})]}),f.jsxs(Mi.Container,{activeKey:e,onSelect:l=>t(l),children:[f.jsx(d0,{className:"mb-3",children:f.jsx(mi,{children:f.jsxs(at,{variant:"underline",className:"dashboard-tabs",children:[f.jsx(at.Item,{className:"ms-5",children:f.jsx(at.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),f.jsx(at.Item,{children:f.jsx(at.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),f.jsxs(Mi.Content,{className:"pe-3",children:[f.jsx(Mi.Pane,{eventKey:"first",children:f.jsx(Xj,{showCreateClassModal:n,hideCreateClassModal:o})}),f.jsx(Mi.Pane,{eventKey:"second",children:s?f.jsx(g.Suspense,{children:f.jsx(s,{})}):null})]})]})]})}const rN=I.div`
+`;function nN(){const[e,t]=g.useState("first"),[n,r]=g.useState(!1),[s,i]=g.useState(null);e==="second"&&!s&&Hj(()=>import("./InstructorJoinedClasses-Cdjdg05J.js"),[]).then(l=>{i(()=>l.InstructorJoinedClasses)});const o=()=>r(!1);return f.jsxs(f.Fragment,{children:[f.jsxs(rN,{children:[f.jsx("h2",{children:"Dashboard"}),f.jsx(sN,{onClick:()=>r(!0),children:"Create Class"})]}),f.jsxs(Mi.Container,{activeKey:e,onSelect:l=>t(l),children:[f.jsx(d0,{className:"mb-3",children:f.jsx(mi,{children:f.jsxs(at,{variant:"underline",className:"dashboard-tabs",children:[f.jsx(at.Item,{className:"ms-5",children:f.jsx(at.Link,{eventKey:"first",className:"custom-tab",children:"Manage Classes"})}),f.jsx(at.Item,{children:f.jsx(at.Link,{eventKey:"second",className:"custom-tab",children:"Joined Classes"})})]})})}),f.jsxs(Mi.Content,{className:"pe-3",children:[f.jsx(Mi.Pane,{eventKey:"first",children:f.jsx(Xj,{showCreateClassModal:n,hideCreateClassModal:o})}),f.jsx(Mi.Pane,{eventKey:"second",children:s?f.jsx(g.Suspense,{children:f.jsx(s,{})}):null})]})]})]})}const rN=I.div`
 display: flex;
 justify-content: space-around;
 `,sN=I.button`
